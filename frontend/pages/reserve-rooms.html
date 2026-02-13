@@ -85,15 +85,26 @@
             </div>
         </div>
         <script>
+            let bldgname = localStorage.getItem("bldg-name");
+            let bldg_text = document.querySelector(".reserve-bldg-text");
+            if(bldgname && bldg_text){
+                bldg_text.innerHTML = bldgname;
+            }
             let go_back = document.querySelector("#go-back-container .go-back-text");
             go_back.onclick = function (){
                 window.location.href = "DLSU-buildings.html";
             };
 
-            let room_container = document.querySelector(".room-container");
-            room_container.onclick = function (){
-                window.location.href = "reserve-seat.html";
-            };
+            let room_container = document.querySelectorAll(".room-container");
+
+            room_container.forEach((container)=>{
+                container.onclick = function (){
+                    let roomname = container.querySelector("div").innerText;
+                    localStorage.setItem('room-name',roomname);
+                    window.location.href = "reserve-seat.html";
+                };
+                
+            });
         </script>
         <script src="../../backend/main.js"> </script>
 	</body>
