@@ -110,7 +110,7 @@
                     Number of seats: <br>
                 </p>
                 <div class="dialog-buttons">
-                    <button class="confirm-btn" onclick="returnDashboard()">Confirm</button>
+                    <button class="confirm-btn" onclick="returnDashboard()" onclick="returnDashboard()">Confirm</button>
                     <button onclick="closeModal()" class="cancel-btn">Cancel</button>
                 </div>
             </div>
@@ -126,6 +126,7 @@
             go_back.onclick = function (){
                 window.location.href = "/rr";
             };
+            
             
             let container = document.getElementById("slots-container");
 
@@ -148,10 +149,6 @@
             function closeModal() {
                 modal.classList.remove('flex');
                 modal.classList.add('hidden');
-            }
-
-            function returnDashboard(){
-                window.location.href="/dashboard";
             }
         </script>
         <script type="application/javascript" src="../../backend/main.js"> </script>
