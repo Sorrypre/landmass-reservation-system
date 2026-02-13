@@ -38,7 +38,7 @@ body{
 .available-text-container{
     @apply flex flex-row items-center h-screen overflow-hidden
 }
-.reserve-seat-text{
+.reserve-room-text{
 	@apply pt-7 text-5xl md:text-6xl text-white font-bold justify-self-center;
 }
 .available-text{
@@ -74,9 +74,15 @@ body{
   transform:scale(1.05);
   @apply bg-[#5d5d81] cursor-pointer transition
 }
+
 .confirm-btn:hover{
     @apply w-xs bg-[#7070a1] text-white
 }
+
+.confirm-btn:hover{
+    @apply w-xs bg-[#7070a1] text-white
+}
+
 .cancel-btn:hover{
     @apply w-xs text-white
 }

@@ -30,7 +30,7 @@
                 <span class="go-back-text">Go Back</span>
             </div>
             <div id="available-text-container">
-                <p class="reserve-seat-text">G203</p>
+                <p class="reserve-room-text">G203</p>
                 <p class="available-text">Available Seats</p>
             </div>
             <div id="content-area">
@@ -116,6 +116,11 @@
             </div>
         </div>
         <script>
+            let roomname = localStorage.getItem("room-name");
+            let room_text = document.querySelector(".reserve-room-text");
+            if(roomname && room_text){
+                room_text.innerHTML = roomname;
+            }
 
             let go_back = document.querySelector("#go-back-container .go-back-text");
             go_back.onclick = function (){
