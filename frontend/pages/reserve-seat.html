@@ -17,20 +17,20 @@
 			</div>
 		</div>
         
+        <div id="in-side-nav" class="side-nav">
+            <a>Dashboard</a>
+            <a>Reserve Seats</a>
+            <a>See Reservations</a>
+            <a>Account Setting</a>
+            <a>Contact Us</a>
+            <a>Log Out</a>
+        </div>
 		<div id="content">
-            <div id="in-side-nav" class="side-nav">
-				<a>Dashboard</a>
-				<a>Reserve Seats</a>
-				<a>See Reservations</a>
-				<a>Account Setting</a>
-				<a>Contact Us</a>
-				<a>Log Out</a>
-			</div>
             <div id="go-back-container">
                 <span class="go-back-text">Go Back</span>
             </div>
             <div id="available-text-container">
-                <p class="reserve-seat-text"></p>
+                <p class="reserve-seat-text">G203</p>
                 <p class="available-text">Available Seats</p>
             </div>
             <div id="content-area">
@@ -110,7 +110,7 @@
                     Number of seats: <br>
                 </p>
                 <div class="dialog-buttons">
-                    <button class="confirm-btn">Confirm</button>
+                    <button class="confirm-btn" onclick="returnDashboard()">Confirm</button>
                     <button onclick="closeModal()" class="cancel-btn">Cancel</button>
                 </div>
             </div>
@@ -121,6 +121,7 @@
             go_back.onclick = function (){
                 window.location.href = "reserve-rooms.html";
             };
+            
             let container = document.getElementById("slots-container");
 
             container.addEventListener("click", (e) => {
@@ -142,6 +143,10 @@
             function closeModal() {
                 modal.classList.remove('flex');
                 modal.classList.add('hidden');
+            }
+
+            function returnDashboard(){
+                window.location.href="dashboard.html";
             }
         </script>
         <script src="../../backend/main.js"> </script>
