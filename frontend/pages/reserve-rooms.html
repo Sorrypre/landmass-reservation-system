@@ -96,10 +96,16 @@
                 window.location.href = "DLSU-buildings.html";
             };
 
-            let room_container = document.querySelector(".room-container");
-            room_container.onclick = function (){
-                window.location.href = "reserve-seat.html";
-            };
+            let room_container = document.querySelectorAll(".room-container");
+
+            room_container.forEach((container)=>{
+                container.onclick = function (){
+                    let roomname = container.querySelector("div").innerText;
+                    localStorage.setItem('room-name',roomname);
+                    window.location.href = "reserve-seat.html";
+                };
+                
+            });
         </script>
         <script type="application/javascript" src="../../backend/main.js"></script>
 		<script type="application/javascript" src="../../backend/sidebar.js"></script>
