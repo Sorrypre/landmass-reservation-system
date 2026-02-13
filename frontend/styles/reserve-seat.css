@@ -31,6 +31,9 @@ body{
     @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
     @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
     /* @apply hover */
+    @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
+    @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
+    /* @apply hover */
 }
 #submit-container{
     @apply flex justify-end mx-auto w-full;
@@ -38,8 +41,8 @@ body{
 .available-text-container{
     @apply flex flex-row items-center h-screen overflow-hidden
 }
-.reserve-room-text{
-	@apply pt-7 text-5xl md:text-6xl text-white font-bold justify-self-center;
+.reserve-seat-text{
+	@apply pt-7 text-5xl md:text-6xl text-white font-bold justify-self-center after:content-['BUILDING'];
 }
 .available-text{
     @apply pt-7 text-lg text-white font-bold justify-self-center;
@@ -74,15 +77,9 @@ body{
   transform:scale(1.05);
   @apply bg-[#5d5d81] cursor-pointer transition
 }
-
 .confirm-btn:hover{
     @apply w-xs bg-[#7070a1] text-white
 }
-
-.confirm-btn:hover{
-    @apply w-xs bg-[#7070a1] text-white
-}
-
 .cancel-btn:hover{
     @apply w-xs text-white
 }
