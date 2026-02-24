@@ -1,18 +1,6 @@
 @import "tailwindcss";
 
-#dialog-test-content {
-	@apply h-full flex flex-col justify-center items-center;
-}
-
-.theme-hover-cyan {
-	@apply hover:text-cyan-800 hover:shadow-cyan-200 hover:text-shadow-white;
-}
-
-.theme-hover-red {
-	@apply hover:text-red-600 hover:shadow-orange-900 hover:text-shadow-black;
-}
-
-.dialog-show-button {
+.dialog-test-show-button {
 	@apply p-6 bg-zinc-600 shadow-zinc-700 shadow-[0px_0px_0px_10px] rounded-3xl;
 	@apply select-none font-dmsans font-bold text-white text-5xl cursor-pointer;
 	@apply hover:bg-zinc-400;
@@ -30,23 +18,16 @@
 	@apply transition duration-200;
 }
 
-/*
-.page-dialog.pd-response > .page-dialog-content {
-	@apply grow-1;
-}
-
-
-.page-dialog.pd-response > .page-dialog-content > .page-dialog-message {
-	@apply grow-1;
-}
-*/
-
 .page-dialog.closed {
 	@apply scale-0;
 }
 
 .pd-size-xbig {
 	@apply max-h-7/8 max-w-7/8 h-7/8 w-7/8;
+}
+
+.pd-size-bigger {
+	@apply max-h-5/8 max-w-5/8 h-5/8 w-5/8;
 }
 
 .pd-size-big {
@@ -74,14 +55,18 @@
 	@apply text-3xl;
 }
 
+.pd-size-bigger .page-dialog-header-title {
+	@apply text-3xl;
+}
+
 .pd-size-xbig .page-dialog-header-title {
 	@apply text-4xl;
 }
 
 .page-dialog-header-close {
-	@apply p-1 pl-2 pr-2 select-none font-inter font-medium text-black rounded-xl cursor-pointer;
-	@apply transition duration-250;
-	@apply hover:text-white hover:bg-black ease-in;
+	@apply p-1 pl-2 pr-2 select-none font-inter font-medium text-black rounded-xl cursor-pointer after:content-['\2716'];
+	@apply transition duration-250 ease-in;
+	@apply hover:text-white hover:bg-black;
 	@apply active:scale-75;
 }
 
@@ -90,6 +75,10 @@
 }
 
 .page-dialog-big .page-dialog-header-close {
+	@apply text-2xl;
+}
+
+.page-dialog-bigger .page-dialog-header-close {
 	@apply text-2xl;
 }
 
@@ -102,11 +91,27 @@
 }
 
 .page-dialog-content {
-	@apply grow-1 flex flex-col;
+	@apply flex flex-col;
+}
+
+.page-dialog-content .pd-text-preset {
+	@apply font-dmsans font-thin text-justify text-white text-2xl;
 }
 
 .page-dialog-message {
 	@apply p-6 pb-0 grow-1 flex gap-x-4;
+}
+
+.page-dialog-message-nogap {
+	@apply p-6 pb-0 flex;
+}
+
+.page-dialog-message-vertical {
+	@apply p-6 pb-0 flex flex-col gap-y-4;
+}
+
+.page-dialog-message-vertical-nogap {
+	@apply p-6 pb-0 flex flex-col;
 }
 
 .page-dialog-responses {
@@ -115,7 +120,7 @@
 
 .page-dialog-message-button {
 	@apply pl-4 pr-4 pt-2 pb-2;
-	@apply font-inter bg-white rounded-xl cursor-pointer;
+	@apply select-none font-inter bg-white rounded-xl cursor-pointer;
 	@apply outline-2 outline-black;
 	@apply transition duration-400 ease-out;
 	@apply hover:bg-gray-200;

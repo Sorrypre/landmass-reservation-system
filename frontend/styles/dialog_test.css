@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+#dialog-test-content {
+	@apply h-full flex flex-col justify-center items-center;
+}
+
+.theme-hover-cyan {
+	@apply hover:text-cyan-800 hover:shadow-cyan-200 hover:text-shadow-white;
+}
+
+.theme-hover-red {
+	@apply hover:text-red-600 hover:shadow-orange-900 hover:text-shadow-black;
+}
+
+/*
+#sff-content .form-section-title {
+	@apply select-none tracking-[0.15em] font-dmsans font-thin text-xl text-white;
+}
+
+#sff-content .form-section-row {
+	@apply flex flex-wrap gap-x-4;
+}
+
+#sff-content label {
+	@apply tracking-widest font-dmsans font-thin text-base text-white;
+}
+
+#sff-content input {
+	@apply pl-1 bg-white font-dmsans font-thin text-base;
+}
+*/
+
+#\020D0Dsample-fillup .form-section-title {
+	@apply select-none tracking-[0.15em] font-dmsans font-thin text-xl text-white;
+}
+
+#\020D0Dsample-fillup .form-section-row {
+	@apply flex flex-wrap gap-x-4;
+}
+
+#\020D0Dsample-fillup label {
+	@apply tracking-widest font-dmsans font-thin text-base text-white;
+}
+
+#\020D0Dsample-fillup input {
+	@apply pl-1 bg-white font-dmsans font-thin text-base;
+}
+
+#\020D0Dsample-fillup input[disabled] {
+	@apply bg-gray-300 text-gray-500;
+}
+
+.form-section-row .form-section-item {
+	@apply flex-1 flex flex-col gap-y-1;
+}

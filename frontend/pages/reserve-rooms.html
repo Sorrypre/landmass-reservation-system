@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../styles/tailwind.css" />
+		<link rel="stylesheet" href="../../frontend/styles/tailwind.css" />
 	</head>
 	<body class="reservation-room dashboard-background">
 		<div id="top">
@@ -102,7 +102,7 @@
                 container.onclick = function (){
                     let roomname = container.querySelector("div").innerText;
                     localStorage.setItem('room-name',roomname);
-                    window.location.href = "reserve-seat.html";
+                    window.location.href = "/reserve_seat";
                 };
                 
             });

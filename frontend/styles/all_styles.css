@@ -44,9 +44,10 @@
 @import './reserve-rooms.css';
 @import './reserve-seat.css';
 @import './DLSU-buildings.css';
-@import './settings.css';
+@import './settings.css';	
 @import './collapse.css';
 @import './dialog.css';
+@import './dialog_test.css';
 
 /* BACKGROUNDS */
 

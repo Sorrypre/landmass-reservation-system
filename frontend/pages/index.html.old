@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="keywords" content="*yung keywords*">
 		<meta name="description" content="*yung description">
-		<link rel="stylesheet" href="../styles/tailwind.css" />
+		<link rel="stylesheet" href="../../frontend/styles/tailwind.css" />
 		<title>DLSU Computer Laboratory Seat Reservation</title>
 	</head>
 	<body>

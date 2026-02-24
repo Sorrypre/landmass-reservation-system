@@ -18,15 +18,17 @@
 }
 
 .collapsible-fold-icon {
-	@apply absolute right-5 z-0 text-5xl font-bold;
+	@apply absolute right-5 z-0 text-5xl font-bold text-center;
+	@apply transition-discrete duration-600 ease-[cubic-bezier(0,.8,.4,1.125)];
 }
 
 .collapsible-fold-icon.folded {
-	@apply after:content-['\5E83'];
+	@apply after:content-['\FF0B'];
 }
 
 .collapsible-fold-icon:not(.folded) {
-	@apply after:content-['\7573'];
+	@apply after:content-['\30FC'];
+	@apply rotate-1800;
 }
 
 .collapsible-button {

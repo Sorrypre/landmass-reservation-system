@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../styles/tailwind.css" />
+		<link rel="stylesheet" href="../../frontend/styles/tailwind.css" />
 	</head>
 	<body class="reservation-seat dashboard-background">
 		<div id="top">
@@ -124,7 +124,7 @@
 
             let go_back = document.querySelector("#go-back-container .go-back-text");
             go_back.onclick = function (){
-                window.location.href = "reserve-rooms.html";
+                window.location.href = "/reserve_room";
             };
             
             let container = document.getElementById("slots-container");
@@ -151,7 +151,7 @@
             }
 
             function returnDashboard(){
-                window.location.href="dashboard.html";
+                window.location.href="/dashboard";
             }
         </script>
         <script type="application/javascript" src="../../backend/main.js"> </script>

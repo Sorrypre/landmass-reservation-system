@@ -25,11 +25,7 @@ if (collapsibles) {
 			/* nsot to get the target, nsoi to get the icon if meron */
 			const nsot = nextSiblingOf(e.target.closest('.collapsible-header'), '.collapsible-target');
 			const nsoi = nextSiblingOf(e.target, '.collapsible-fold-icon');
-<<<<<<< HEAD
 			/* does nothing pag walang nahanap na sibling */
-=======
-			console.log(nsot);
->>>>>>> 8aff66ac27b191814788085d235fa1ef0fc202f5
 			if (!nsot)
 				return;
 			/* detects na ang purpose nung click is to fold back the collapsible */
@@ -38,24 +34,17 @@ if (collapsibles) {
 				nsot.style['height'] = nsot.scrollHeight + 'px';
 				/* give time to calculate kaya may thread suspension dito */
 				await sleep(150);
-				console.log('computed scroll height: ', nsot.scrollHeight);
 			}
 			/*	kung nakafold, sets it from 0 to scrollHeight
 				pero kung magfofold pa lang, sets from scrollHeight (handled ng if-block) to 0 */
 			nsot.style['height'] = nsot.matches('.folded') ? nsot.scrollHeight + 'px' : '0';
 			nsot.classList.toggle('folded');
 			nsot.addEventListener('transitionend', function() {
-<<<<<<< HEAD
 				/*	this happens after expanding
 					after nya ianimate ung expansion to scrollHeight,
 					set height to auto pagkatapos ng animation para scalable sya across screen sizes */
 				if (!nsot.matches('.folded'))
-=======
-				if (!nsot.matches('.folded')) {
->>>>>>> 8aff66ac27b191814788085d235fa1ef0fc202f5
 					nsot.style['height'] = 'auto';
-					console.log('set to auto');
-				}
 			}, { once: true });
 			/* toggle the icon if meron lang */
 			if (nsoi)
