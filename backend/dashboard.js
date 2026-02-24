@@ -16,21 +16,21 @@ async function isServer() {
 
 mopt_reserve.addEventListener('click', async function() {
 	if (await isServer())
-		window.location.href = '/reserve_seats';
+		window.location.href = '/b';
 	else
 		window.location.href = './DLSU-buildings.html';
 });
 
 mopt_reservation.addEventListener('click', async function() {
 	if (await isServer())
-		window.location.href = '/see_reservations';
+		window.location.href = '/reservations';
 	else
 		window.location.href = './reservation-list.html';
 });
 
 mopt_account.addEventListener('click', async function() {
 	if (await isServer())
-		window.location.href = '/account_settings';
+		window.location.href = '/account';
 	else
 		window.location.href = './settings.html';
 });

@@ -24,7 +24,7 @@ xj.use(cors());
 xj.use(login);
 
 xj.get('/', function(q, r) {
-	r.sendFile(page('dashboard.html'));
+	r.sendFile(page('index.html'));
 });
 
 xj.get('/dashboard', function(q, r) {
@@ -52,7 +52,7 @@ xj.get('/rs', function(q, r) {
 });
 
 xj.get('/rr', function(q, r) {
-	r.sendFile(page('reserve-room.html'));
+	r.sendFile(page('reserve-rooms.html'));
 });
 
 xj.get('/lou', function(q, r) {

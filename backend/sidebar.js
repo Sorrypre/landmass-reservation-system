@@ -26,28 +26,28 @@ redir_dashboard.addEventListener('click', async function(e) {
 
 redir_reserve_seats.addEventListener('click', async function(e) {
 	if (await isServer())
-		window.location.href = '/reserve_seats';
+		window.location.href = '/b';
 	else
 		window.location.href = './DLSU-buildings.html';
 });
 
 redir_see_reservations.addEventListener('click', async function(e) {
 	if (await isServer())
-		window.location.href = '/see_reservations';
+		window.location.href = '/reservations';
 	else
 		window.location.href = './reservation-list.html';
 });
 
 redir_account_settings.addEventListener('click', async function(e) {
 	if (await isServer())
-		window.location.href = '/account_settings';
+		window.location.href = '/account';
 	else
 		window.location.href = './settings.html';
 });
 
 redir_contact_us.addEventListener('click', async function(e) {
 	if (await isServer())
-		window.location.href = '/contact_us';
+		window.location.href = '/about';
 	else
 		window.location.href = './about.html';
 });
