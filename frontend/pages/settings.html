@@ -134,8 +134,10 @@
                     nextSiblingOfTarget.style['height'] = 'auto';
                   }
                 }
-                nextSiblingOfTarget.previousElementSibling.classList.toggle('collapsed');
                 collapseIcon.classList.toggle('collapsed');
+                if(nextSiblingOfTarget.matches('.collapsed'))
+                  await sleep(500);
+                nextSiblingOfTarget.previousElementSibling.classList.toggle('collapsed');
                 e.target.removeAttribute('disabled');
               });
             }

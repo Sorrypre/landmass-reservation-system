@@ -2896,6 +2896,11 @@ body {
   width: 100%;
   align-items: center;
   background-color: #7070a1;
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+  --tw-ease: var(--ease-in-out);
+  transition-timing-function: var(--ease-in-out);
   &:hover {
     @media (hover: hover) {
       background-color: #5d5d81;
@@ -2903,21 +2908,8 @@ body {
   }
   &:hover {
     @media (hover: hover) {
-      transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
-      transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-      transition-duration: var(--tw-duration, var(--default-transition-duration));
-    }
-  }
-  &:hover {
-    @media (hover: hover) {
       --tw-duration: 300ms;
       transition-duration: 300ms;
-    }
-  }
-  &:hover {
-    @media (hover: hover) {
-      --tw-ease: var(--ease-in-out);
-      transition-timing-function: var(--ease-in-out);
     }
   }
   border-top-left-radius: var(--radius-xl);
@@ -2931,7 +2923,6 @@ body {
 .collapsible-header-content:not(.collapsed) {
   border-bottom-right-radius: var(--radius-xl);
   border-bottom-left-radius: var(--radius-xl);
-  transition-delay: 500ms;
 }
 .collapsible-plus-icon {
   position: absolute;
