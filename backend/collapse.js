@@ -23,17 +23,21 @@ if (collapsibles) {
 			e.target.setAttribute('disabled', '');
 			const nsot = nextSiblingOf(e.target.closest('.collapsible-header'), '.collapsible-target');
 			const nsoi = nextSiblingOf(e.target, '.collapsible-fold-icon');
+			console.log(nsot);
 			if (!nsot)
 				return;
 			if (!nsot.matches('.folded')) {
 				nsot.style['height'] = nsot.scrollHeight + 'px';
 				await sleep(150);
+				console.log('computed scroll height: ', nsot.scrollHeight);
 			}
 			nsot.style['height'] = nsot.matches('.folded') ? nsot.scrollHeight + 'px' : '0';
 			nsot.classList.toggle('folded');
 			nsot.addEventListener('transitionend', function() {
-				if (!nsot.matches('.folded'))
+				if (!nsot.matches('.folded')) {
 					nsot.style['height'] = 'auto';
+					console.log('set to auto');
+				}
 			}, { once: true });
 			nsoi.classList.toggle('folded');
 			e.target.removeAttribute('disabled');

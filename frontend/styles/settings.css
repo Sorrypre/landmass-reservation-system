@@ -1,74 +1,89 @@
 @import "tailwindcss";
 
-.body {
-    @apply bg-no-repeat;
-}
-
 /* Main content container */
-.main-settings-content {
+#main-settings-content {
 	@apply text-white font-grotesk;
-	@apply p-4 gap-10 flex-col flex md:flex-row items-start w-full h-screen px-6 ;
-	@apply items-center;
+	@apply p-4 gap-10 flex-col flex md:flex-row w-full h-screen px-6 ;
+	@apply items-center-safe;
 }
 /* For the profile content */
-.profile-info-content {
+#profile-info-content {
 	@apply flex flex-col w-full md:w-1/4
 }
 
-.profile-card {
+#profile-card {
 	@apply bg-[#7070a1] mb-2 p-4 w-full;
 	@apply rounded-md;
 }
+#photo-holder{
+	@apply flex items-center justify-center pb-5
+}
+#profilepic{
+	@apply w-[200px] h-[200px] md:w-[150px] md:h-[150px];
+	@apply object-cover object-center rounded-full border-solid border-8 border-amber-50
+
+}
+#profile-content{
+	@apply bg-gray-800 rounded-md p-3
+}
+#profile-name{
+	@apply text-2xl text-center font-bold;
+	@apply pb-5 overflow-hidden;
+}
+#profile-info{
+	@apply p-2 overflow-x-auto
+}
+.text-info-title{
+	@apply text-lg font-bold
+}
+.text-info-content{
+	@apply whitespace-pre md:whitespace-normal
+}
 /* For the Collapsable Menu */
-.collapsable-menu-content {
-	@apply flex flex-col w-full gap-y-4 overflow-auto
+#collapsable-menu-content {
+	@apply flex flex-col w-full gap-y-4;
 }
 /* The container of the collapse button */
 .collapsible-area {
-	@apply font-bold;
-	@apply flex flex-row justify-between items-center w-full;
-	@apply bg-[#7070a1] hover:bg-[#5d5d81] mb-2 p-4;
-	@apply rounded-md;
-	@apply cursor-pointer;
-}
-/* Collapsable button */
-/* .collapsible {
-	@apply flex flex-row hover:cursor-pointer p-4 w-full text-left outline-0 justify-between items-center;
-	@apply bg-[#7070a1] hover:bg-[#5d5d81] mb-4
-	@apply rounded-md
-} */
-#profilepic{
-	@apply pb-5 md:w-[130px] md:h-[150px]
-}
-.profile-name{
-	@apply text-2xl text-center;
-	@apply pb-5 overflow-hidden;
-}
-.profile-info{
-	@apply pl-2 overflow-hidden
+	@apply flex flex-col font-bold;
 }
 
-.profile-content{
-	@apply bg-gray-800 rounded-md p-2
+.collapsible-header-content{
+	@apply flex relative items-center w-full;
+	@apply bg-[#7070a1] hover:transition hover:duration-300 hover:bg-[#5d5d81] hover:ease-in-out;
+	@apply rounded-t-xl;
+	@apply cursor-pointer;
 }
-.photo-holder{
-	@apply flex items-center justify-center
+.collapsible-header-content.collapsed{
+	@apply rounded-b-none;
+}
+.collapsible-header-content:not(.collapsed){
+	@apply rounded-b-xl delay-500;
+}
+.collapsible-plus-icon {
+	@apply  z-0 font-bold text-2xl absolute right-5;
+	@apply transition-discrete duration-600 ease-[cubic-bezier(0,.8,.4,1.125)];
+}
+.collapsible-plus-icon.collapsed{
+	@apply after:content-['\FF0B'];
+}
+.collapsible-plus-icon:not(.collapsed){
+	@apply after:content-['\30FC'];
+	@apply rotate-1440;
+}
+
+.collapsible-settings-button{
+	@apply z-1 w-full h-full text-left font-thin text-lg p-4
+}
+
+.collapsible-target-div{
+	@apply bg-white/70 w-full h-0 overflow-hidden;
+	@apply transition-discrete duration-500;
+	@apply rounded-b-xl;
+}
+.collapsible-target-div-content{
+	@apply p-4;
 }
 #settings-text {
 	@apply font-grotesk pb-2 text-3xl md:text-4xl text-white font-bold justify-self-center after:content-['ACCOUNT_SETTINGS'];
 }
-.collapsible-content {
-	padding: 0 18px;
-  	max-height: 0;
-  	overflow: hidden;
-  	transition: max-height 0.2s ease-out;
-  	background-color: #f1f1f1;
-}
-/* .main-settings-content {
-	@apply mt-10 flex flex-col justify-center items-center;
-} */
-
-
-/* #settings-content span{
-	@apply font-grotesk pt-7 text-8xl md:text-6xl text-white font-bold justify-self-center after:content-['ACCOUNT_SETTINGS'];
-} */
