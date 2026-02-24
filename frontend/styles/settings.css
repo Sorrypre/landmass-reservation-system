@@ -50,7 +50,7 @@
 
 .collapsible-header-content{
 	@apply flex relative items-center w-full;
-	@apply bg-[#7070a1] hover:transition hover:duration-300 hover:bg-[#5d5d81] hover:ease-in-out;
+	@apply bg-[#7070a1] transition hover:duration-300 hover:bg-[#5d5d81] ease-in-out;
 	@apply rounded-t-xl;
 	@apply cursor-pointer;
 }
@@ -58,7 +58,7 @@
 	@apply rounded-b-none;
 }
 .collapsible-header-content:not(.collapsed){
-	@apply rounded-b-xl delay-500;
+	@apply rounded-b-xl;
 }
 .collapsible-plus-icon {
 	@apply  z-0 font-bold text-2xl absolute right-5;
