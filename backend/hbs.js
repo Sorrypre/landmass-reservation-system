@@ -25,7 +25,6 @@ function getTemplate(id) {
 			scripts: ['reserve-seat.js'],
 			bg: 'dashboard',
 			page_classes: 'reservation-seat',
-			layout: 'main2',
 		},
 		/*	add more keys here with the corresponding Handlebars arguments as value
 			depende kung anong page ang irerender */
