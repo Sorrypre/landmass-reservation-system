@@ -8,7 +8,7 @@
                     .reserve-bldg-text, 
                     #available-text-container p, 
                     #date-time-selection input, 
-                    #date-time-selection select , 
+                    #date-time-selection select, 
                     .room-container div,
                     .room-container span{
     @apply font-grotesk;
@@ -28,7 +28,7 @@
     @apply justify-end; 
 }
 .available-text-container{
-    @apply flex flex-row items-center h-screen overflow-hidden
+    @apply flex flex-row items-center min-h-screen overflow-hidden
 }
 .reserve-bldg-text{
 	@apply pt-7 text-3xl md:text-7xl text-white font-bold justify-self-center;
@@ -39,6 +39,7 @@
 
 #content{
     @apply mt-10 flex flex-col items-center w-full;
+    padding-bottom: 200px;
     /* @apply overflow-hidden; */
 
 }
@@ -52,16 +53,17 @@
     @apply flex flex-col w-full;
 }
 
-#reserved-time{
+/* #reserved-room{
     @apply border-none outline-none appearance-none bg-transparent;
     @apply border-b border-solid border-white;
-}
-
-#reserved-date, #reserved-time{
+} */
+    
+#reserved-date, #reserved-time, #reserved-room{
     @apply border-none outline-none appearance-none bg-transparent;
     @apply border-b border-solid border-white;
     @apply placeholder:text-white text-white;
-    @apply md:text-2xl 
+    @apply rounded-none py-2 px-0 w-full;
+    @apply md:text-2xl;
 }
 
 #available-rooms-container{

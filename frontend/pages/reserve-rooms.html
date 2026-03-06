@@ -38,7 +38,7 @@
                 <div id="date-time-selection">
                     <input type="text" placeholder="Pick Date" onclick="{this.type='date'}; try{this.showPicker();} catch(e) {}" onblur="if(this.value==''){this.type='text'}" id="reserved-date" name="reserved-date">
                     <!-- 0730H to 1700H (2hrs reservation) -->
-                    <select id="reserved-time" name="reserved-time" >
+                    <select id="reserved-time" name="reserved-time">
                         <option selected hidden disabled>Pick Start Time</option>
                         <option>0730H</option>
                         <option>0800H</option>
@@ -59,6 +59,14 @@
                         <option>1600H</option>
                         <option>1630H</option>
                         <option>1700H</option>
+                    </select>
+                    <select id="reserved-room" name="reserved-room">
+                        <option selected hidden disabled>Pick Room</option>
+                        <option>G203</option>
+                        <option>G204</option>
+                        <option>G205</option>
+                        <option>G206</option>
+                        <option>G207</option>
                     </select>
                 </div>
                 <div id="available-rooms-container">
