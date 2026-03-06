@@ -17,19 +17,19 @@
 				<div class="user-profile"></div>
 			{{/if}}
 		</div>
+		<div id="in-side-nav" class="side-nav">
+			{{#if user.length}}
+				<button type="button" id="redir-dashboard" class="side-nav-button"></button>
+				<button type="button" id="redir-reserve-seats" class="side-nav-button"></button>
+				<button type="button" id="redir-see-reservations" class="side-nav-button"></button>
+				<button type="button" id="redir-account-settings" class="side-nav-button"></button>
+			{{/if}}
+			<button type="button" id="redir-contact-us" class="side-nav-button"></button>
+			{{#if user.length}}
+				<button type="button" id="redir-log-out" class="side-nav-button"></button>
+			{{/if}}
+		</div>
 		<div class="content-area">
-			<div id="in-side-nav" class="side-nav">
-				{{#if user.length}}
-					<button type="button" id="redir-dashboard" class="side-nav-button"></button>
-					<button type="button" id="redir-reserve-seats" class="side-nav-button"></button>
-					<button type="button" id="redir-see-reservations" class="side-nav-button"></button>
-					<button type="button" id="redir-account-settings" class="side-nav-button"></button>
-				{{/if}}
-				<button type="button" id="redir-contact-us" class="side-nav-button"></button>
-				{{#if user.length}}
-					<button type="button" id="redir-log-out" class="side-nav-button"></button>
-				{{/if}}
-			</div>
 			{{{body}}}
 		</div>
 		<script type="application/javascript" src="/backend/main.js"></script>

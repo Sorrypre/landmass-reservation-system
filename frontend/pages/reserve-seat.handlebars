@@ -1,0 +1,88 @@
+<div id="go-back-container">
+	<span class="go-back-text">Go Back</span>
+</div>
+<div id="available-text-container">
+	<p class="reserve-room-text">G203</p>
+	<p class="available-text">Available Seats</p>
+</div>
+<div id="content-area">
+	<div class="seat-legend">
+		<div class="seat"></div>
+		<span>Available</span>
+		<div class="seat taken"></div>
+		<span>Taken</span>
+		<div class="seat selected"></div>
+		<span>Selected</span>
+	</div>
+	<div id="slots-container">
+		<div class="whiteboard">Whiteboard</div>
+		<div class="row" id="row-1">
+			<div class="seat selected" data-pc="1"></div>
+			<div class="seat" data-pc="2"></div>
+			<div class="seat" data-pc="3"></div>
+			<div class="space"></div>
+			<div class="seat" data-pc="4"></div>
+			<div class="seat" data-pc="5"></div>
+			<div class="seat" data-pc="6"></div>
+		</div>
+
+		<div class="row" id="row-2">
+			<div class="seat taken" data-pc="7"></div>
+			<div class="seat" data-pc="8"></div>
+			<div class="seat" data-pc="9"></div>
+			<div class="space"></div>
+			<div class="seat" data-pc="10"></div>
+			<div class="seat" data-pc="11"></div>
+			<div class="seat" data-pc="12"></div>
+		</div>
+
+		<div class="row" id="row-3">
+			<div class="seat" data-pc="13"></div>
+			<div class="seat" data-pc="14"></div>
+			<div class="seat" data-pc="15"></div>
+			<div class="space"></div>
+			<div class="seat" data-pc="16"></div>
+			<div class="seat" data-pc="17"></div>
+			<div class="seat" data-pc="18"></div>
+		</div>
+
+		<div class="row" id="row-4">
+			<div class="seat" data-pc="19"></div>
+			<div class="seat" data-pc="20"></div>
+			<div class="seat" data-pc="21"></div>
+			<div class="space"></div>
+			<div class="seat" data-pc="22"></div>
+			<div class="seat" data-pc="23"></div>
+			<div class="seat" data-pc="24"></div>
+		</div>
+
+		<div class="row" id="row-5">
+			<div class="seat" data-pc="25"></div>
+			<div class="seat" data-pc="26"></div>
+			<div class="seat" data-pc="27"></div>
+			<div class="space"></div>
+			<div class="seat" data-pc="28"></div>
+			<div class="seat" data-pc="29"></div>
+			<div class="cis"></div>
+		</div>
+		<div id="submit-container">
+			<button onclick="openModal()" class="submit-btn">Submit</button>
+		</div>
+	</div>
+</div>
+<div id="confirm-modal" class="hidden">
+	<div id="confirm-modal-area">
+		<h2>Confimation</h2>
+		<p id="modal-details">
+			Date: <br>
+			Time: <br>
+			Building: <br>
+			Room: <br>
+			Number of seats: <br>
+		</p>
+		<div class="dialog-buttons">
+			<button class="confirm-btn" onclick="returnDashboard()">Confirm</button>
+			<button onclick="closeModal()" class="cancel-btn">Cancel</button>
+		</div>
+	</div>
+</div>

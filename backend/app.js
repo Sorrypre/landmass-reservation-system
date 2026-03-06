@@ -18,6 +18,12 @@ xj.get('/', function(q, r) {
 	r.render('login', hbs.getTemplate('login'));
 });
 
+/*
+xj.get('/testview', function(q,r) {
+	r.render('reserve-seat', hbs.getTemplate('reserve-seat'));
+});
+*/
+
 xj.listen(port, function() {
 	console.log('server is now on listen @ port ' + port);
 });
