@@ -1,62 +1,21 @@
 const express = require('express');
-const cors = require('cors');
+const handlebars = require('express-handlebars');
 const path = require('path');
-/*const fileURLToPath = require('url');*/
-
-const login = require('./login.js');
+const hbs = require('./hbs.js');
 
 const port = 2222;
-const xj = express();
 const stat_dir = path.join(__dirname, '..');
 
-function checkUser(q, r, s) {
-	s();
-}
-
-function page(file) {
-	return path.join(stat_dir, 'frontend', 'pages', file);
-}
-
+const xj = express();
 xj.use(express.urlencoded({ extended: true }));
 xj.use(express.json());
 xj.use(express.static(stat_dir));
-xj.use(cors());
-xj.use(login);
+xj.engine('handlebars', handlebars.engine());
+xj.set('view engine', 'handlebars');
+xj.set('views', './frontend/pages');
 
 xj.get('/', function(q, r) {
-	r.sendFile(page('index.html'));
-});
-
-xj.get('/dashboard', function(q, r) {
-	r.sendFile(page('dashboard.html'));
-});
-
-xj.get('/reservations', function(q, r) {
-	r.sendFile(page('reservation-list.html'));
-});
-
-xj.get('/account', function(q, r) {
-	r.sendFile(page('settings.html'));
-});
-
-xj.get('/about', function(q, r) {
-	r.sendFile(page('about.html'));
-});
-
-xj.get('/b', function(q, r) {
-	r.sendFile(page('DLSU-buildings.html'));
-});
-
-xj.get('/rs', function(q, r) {
-	r.sendFile(page('reserve-seat.html'));
-});
-
-xj.get('/rr', function(q, r) {
-	r.sendFile(page('reserve-rooms.html'));
-});
-
-xj.get('/lou', function(q, r) {
-	r.send('under construction');
+	r.render('login', hbs.getTemplate('login'));
 });
 
 xj.listen(port, function() {

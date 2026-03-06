@@ -17,44 +17,50 @@ async function isServer() {
 	}
 }
 
-redir_dashboard.addEventListener('click', async function(e) {
-	if (await isServer())
-		window.location.href = '/dashboard';
-	else
-		window.location.href = './dashboard.html';
-});
+if (redir_dashboard)
+	redir_dashboard.addEventListener('click', async function(e) {
+		if (await isServer())
+			window.location.href = '/dashboard';
+		else
+			window.location.href = './dashboard.html';
+	});
 
-redir_reserve_seats.addEventListener('click', async function(e) {
-	if (await isServer())
-		window.location.href = '/b';
-	else
-		window.location.href = './DLSU-buildings.html';
-});
+if (redir_reserve_seats)
+	redir_reserve_seats.addEventListener('click', async function(e) {
+		if (await isServer())
+			window.location.href = '/b';
+		else
+			window.location.href = './DLSU-buildings.html';
+	});
 
-redir_see_reservations.addEventListener('click', async function(e) {
-	if (await isServer())
-		window.location.href = '/reservations';
-	else
-		window.location.href = './reservation-list.html';
-});
+if (redir_see_reservations)
+	redir_see_reservations.addEventListener('click', async function(e) {
+		if (await isServer())
+			window.location.href = '/reservations';
+		else
+			window.location.href = './reservation-list.html';
+	});
 
-redir_account_settings.addEventListener('click', async function(e) {
-	if (await isServer())
-		window.location.href = '/account';
-	else
-		window.location.href = './settings.html';
-});
+if (redir_account_settings)
+	redir_account_settings.addEventListener('click', async function(e) {
+		if (await isServer())
+			window.location.href = '/account';
+		else
+			window.location.href = './settings.html';
+	});
 
-redir_contact_us.addEventListener('click', async function(e) {
-	if (await isServer())
-		window.location.href = '/about';
-	else
-		window.location.href = './about.html';
-});
+if (redir_contact_us)
+	redir_contact_us.addEventListener('click', async function(e) {
+		if (await isServer())
+			window.location.href = '/about';
+		else
+			window.location.href = './about.html';
+	});
 
-redir_log_out.addEventListener('click', async function(e) {
-	if (await isServer())
-		window.location.href = '/lou';
-	else
-		return;
-});
+if (redir_log_out)
+	redir_log_out.addEventListener('click', async function(e) {
+		if (await isServer())
+			window.location.href = '/lou';
+		else
+			return;
+	});
