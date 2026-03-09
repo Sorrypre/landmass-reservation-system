@@ -2,7 +2,7 @@ function getTemplate(id) {
 	return {
 		'login': {
 			user: {},
-			scripts: ['index.js'],
+			scripts: ['dialog.js', 'index.js'],
 			bg: 'dashboard',
 		},
 		'dashboard': {

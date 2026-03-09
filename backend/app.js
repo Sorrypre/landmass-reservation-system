@@ -22,6 +22,10 @@ xj.set('view engine', 'handlebars');
 xj.set('views', './frontend/pages');
 
 xj.get('/', async function(q, r) {
+	const rand = Math.floor(Math.random() * 10000);
+	const hash = await session.h512('password' + rand, undefined);
+	const email = 'example.user' + rand + '@gmail.com';
+	await db.register(email, hash.hashed, hash.salt);
 	r.render('login', hbs.getTemplate('login'));
 });
 

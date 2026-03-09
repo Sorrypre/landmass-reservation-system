@@ -4,7 +4,7 @@ require('dotenv').config({ quiet: true });
 const DEFAULT_SALT_BYTES = parseInt(process.env.DEFAULT_SALT_BYTES, 10);
 const DEFAULT_PBKDF2_ITERATIONS = parseInt(process.env.DEFAULT_PBKDF2_ITERATIONS, 10);
 const H512_KEYSIZE = parseInt(process.env.H512_KEYSIZE, 10);
-const REGEX_HEXADECIMAL = process.env.REGEX_HEXADECIMAL;
+const REGEX_HEXADECIMAL = new RegExp(process.env.REGEX_HEXADECIMAL);
 
 async function getip() {
 	const url = 'https://api.ipify.org/?format=json';

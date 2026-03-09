@@ -216,3 +216,19 @@ btn_ret_login.addEventListener('click', async function(e) {
 	form_login.style['display'] = 'flex';
 	form_login.style['opacity'] = '1.0';
 });
+
+// dialogs
+const make_welcome_dialog = function() {
+	const content_html = `
+		<p class="pd-text-preset">Hello World!</p>
+	`
+	const responses_html = `
+		<button type="button" target-dialog-command="close" target-dialog-id="start-page" class="page-dialog-message-button after:content-['OK']"></button>
+	`
+	return make_dialog('index-content', '', 'start-page', 'typical', 'Hello World!', false, false, content_html, responses_html);
+}
+const welcome_dialog = make_welcome_dialog();
+
+window.addEventListener('load', function() {
+	open_dialog('start-page');
+});
