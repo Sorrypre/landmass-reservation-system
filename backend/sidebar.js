@@ -17,6 +17,23 @@ async function isServer() {
 	}
 }
 
+const side_nav = document.getElementById("in-side-nav");
+const hamburger = document.getElementById("hamburger-btn");
+
+function toggleNav() {
+	if (nav_toggled) {
+		side_nav.style.width = "0px";
+		side_nav.style.padding = "0px";
+	} else {
+		side_nav.style.width = "300px";
+		side_nav.style.padding = "20px";
+	}
+	nav_toggled = !nav_toggled;
+}
+
+if (hamburger)
+	hamburger.addEventListener("click", toggleNav);
+
 if (redir_dashboard)
 	redir_dashboard.addEventListener('click', async function(e) {
 		if (await isServer())
