@@ -116,10 +116,15 @@
   @apply bg-[#2a4252]
 }
 
+.disabled{
+  @apply bg-gray-400;
+  pointer-events: none;
+}
+
 @media (hover:hover) and (pointer:fine){
-    #slots-container .seat:not(.taken):hover{
-    transform:scale(1.05);
-    @apply bg-[#5d5d81] cursor-pointer transition
+    #slots-container .seat:not(.taken, .disabled):hover{
+        transform:scale(1.05);
+        @apply bg-[#5d5d81] cursor-pointer transition
     }
 
     .confirm-btn:hover{
@@ -153,8 +158,6 @@
 }
 
 .submit-btn{
-    @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
-    @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
     @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
     @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
 }
