@@ -1,88 +1,159 @@
-<div id="go-back-container">
-	<span class="go-back-text">Go Back</span>
-</div>
-<div id="available-text-container">
-	<p class="reserve-room-text">G203</p>
-	<p class="available-text">Available Seats</p>
-</div>
-<div id="content-area">
-	<div class="seat-legend">
-		<div class="seat"></div>
-		<span>Available</span>
-		<div class="seat taken"></div>
-		<span>Taken</span>
-		<div class="seat selected"></div>
-		<span>Selected</span>
+<div id="content">
+	<div id="go-back-container">
+		<span class="go-back-text">Go Back</span>
 	</div>
-	<div id="slots-container">
-		<div class="whiteboard">Whiteboard</div>
-		<div class="row" id="row-1">
-			<div class="seat selected" data-pc="1"></div>
-			<div class="seat" data-pc="2"></div>
-			<div class="seat" data-pc="3"></div>
-			<div class="space"></div>
-			<div class="seat" data-pc="4"></div>
-			<div class="seat" data-pc="5"></div>
-			<div class="seat" data-pc="6"></div>
+	<div id="available-text-container">
+		<p class="reserve-bldg-text">Gokongwei Hall</p>
+		<p class="available-text">Available Rooms</p>
+	</div>
+	<div id="content-area-rooms">
+		<div id="date-time-selection">
+			<input type="text" placeholder="Pick Date" onclick="
+              {
+                this.type = 'date';
+              }
+              try {
+                this.showPicker();
+              } catch (e) {}
+            " onblur="
+              if (this.value == '') {
+                this.type = 'text';
+              }
+            " id="reserved-date" name="reserved-date" />
+			<!-- 0730H to 1700H (2hrs reservation) -->
+			<select id="reserved-time" name="reserved-time">
+				<option selected hidden disabled>Pick Start Time</option>
+				<option>0730H</option>
+				<option>0800H</option>
+				<option>0830H</option>
+				<option>0900H</option>
+				<option>0930H</option>
+				<option>1000H</option>
+				<option>1030H</option>
+				<option>1100H</option>
+				<option>1130H</option>
+				<option>1200H</option>
+				<option>1230H</option>
+				<option>1300H</option>
+				<option>1330H</option>
+				<option>1400H</option>
+				<option>1430H</option>
+				<option>1530H</option>
+				<option>1600H</option>
+				<option>1630H</option>
+				<option>1700H</option>
+			</select>
+			<select id="reserved-room" name="reserved-room">
+				<option selected hidden disabled>Pick Room</option>
+				<option>G203</option>
+				<option>G204</option>
+				<option>G205</option>
+				<option>G206</option>
+				<option>G207</option>
+			</select>
 		</div>
+		<!-- <div id="available-rooms-container">
+                    <div class="room-container" id="g203">
+                        <div>G203</div>
+                        <span>34/35</span>
+                    </div>
+                    <div class="room-container" id="g204">
+                        <div>G204</div>
+                        <span>20/35</span>
+                    </div>
+                    <div class="room-container" id="g205">
+                        <div>G205</div>
+                        <span>18/35</span>
+                    </div>
+                    <div class="room-container" id="g206">
+                        <div>G206</div>
+                        <span>25/35</span>
+                    </div>
+                    <div class="room-container" id="g207">
+                        <div>G207</div>
+                        <span>10/35</span>
+                    </div>
+                </div> -->
+		<div id="seat-selection">
+			<div class="seat-legend">
+				<div class="seat"></div>
+				<span>Available</span>
+				<div class="seat taken"></div>
+				<span>Taken</span>
+				<div class="seat selected"></div>
+				<span>Selected</span>
+			</div>
+			<div id="slots-container">
+				<div class="whiteboard">Whiteboard</div>
+				<div class="row" id="row-1">
+					<div class="seat disabled" data-pc="1"></div>
+					<div class="seat disabled" data-pc="2"></div>
+					<div class="seat disabled" data-pc="3"></div>
+					<div class="space"></div>
+					<div class="seat disabled" data-pc="4"></div>
+					<div class="seat disabled" data-pc="5"></div>
+					<div class="seat disabled" data-pc="6"></div>
+				</div>
 
-		<div class="row" id="row-2">
-			<div class="seat taken" data-pc="7"></div>
-			<div class="seat" data-pc="8"></div>
-			<div class="seat" data-pc="9"></div>
-			<div class="space"></div>
-			<div class="seat" data-pc="10"></div>
-			<div class="seat" data-pc="11"></div>
-			<div class="seat" data-pc="12"></div>
-		</div>
+				<div class="row" id="row-2">
+					<div class="seat disabled" data-pc="7"></div>
+					<div class="seat disabled" data-pc="8"></div>
+					<div class="seat disabled" data-pc="9"></div>
+					<div class="space"></div>
+					<div class="seat disabled" data-pc="10"></div>
+					<div class="seat disabled" data-pc="11"></div>
+					<div class="seat disabled" data-pc="12"></div>
+				</div>
 
-		<div class="row" id="row-3">
-			<div class="seat" data-pc="13"></div>
-			<div class="seat" data-pc="14"></div>
-			<div class="seat" data-pc="15"></div>
-			<div class="space"></div>
-			<div class="seat" data-pc="16"></div>
-			<div class="seat" data-pc="17"></div>
-			<div class="seat" data-pc="18"></div>
-		</div>
+				<div class="row" id="row-3">
+					<div class="seat disabled" data-pc="13"></div>
+					<div class="seat disabled" data-pc="14"></div>
+					<div class="seat disabled" data-pc="15"></div>
+					<div class="space"></div>
+					<div class="seat disabled" data-pc="16"></div>
+					<div class="seat disabled" data-pc="17"></div>
+					<div class="seat disabled" data-pc="18"></div>
+				</div>
 
-		<div class="row" id="row-4">
-			<div class="seat" data-pc="19"></div>
-			<div class="seat" data-pc="20"></div>
-			<div class="seat" data-pc="21"></div>
-			<div class="space"></div>
-			<div class="seat" data-pc="22"></div>
-			<div class="seat" data-pc="23"></div>
-			<div class="seat" data-pc="24"></div>
-		</div>
+				<div class="row" id="row-4">
+					<div class="seat disabled" data-pc="19"></div>
+					<div class="seat disabled" data-pc="20"></div>
+					<div class="seat disabled" data-pc="21"></div>
+					<div class="space"></div>
+					<div class="seat disabled" data-pc="22"></div>
+					<div class="seat disabled" data-pc="23"></div>
+					<div class="seat disabled" data-pc="24"></div>
+				</div>
 
-		<div class="row" id="row-5">
-			<div class="seat" data-pc="25"></div>
-			<div class="seat" data-pc="26"></div>
-			<div class="seat" data-pc="27"></div>
-			<div class="space"></div>
-			<div class="seat" data-pc="28"></div>
-			<div class="seat" data-pc="29"></div>
-			<div class="cis"></div>
-		</div>
-		<div id="submit-container">
-			<button onclick="openModal()" class="submit-btn">Submit</button>
+				<div class="row" id="row-5">
+					<div class="seat disabled" data-pc="25"></div>
+					<div class="seat disabled" data-pc="26"></div>
+					<div class="seat disabled" data-pc="27"></div>
+					<div class="space"></div>
+					<div class="seat disabled" data-pc="28"></div>
+					<div class="seat disabled" data-pc="29"></div>
+					<div class="cis"></div>
+				</div>
+				<div id="submit-container">
+					<button onclick="openModal()" class="submit-btn">Submit</button>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
-<div id="confirm-modal" class="hidden">
-	<div id="confirm-modal-area">
-		<h2>Confimation</h2>
-		<p id="modal-details">
-			Date: <br>
-			Time: <br>
-			Building: <br>
-			Room: <br>
-			Number of seats: <br>
-		</p>
-		<div class="dialog-buttons">
-			<button class="confirm-btn" onclick="returnDashboard()">Confirm</button>
-			<button onclick="closeModal()" class="cancel-btn">Cancel</button>
+	<div id="confirm-modal-container" class="hidden">
+		<div id="confirm-modal-area">
+			<h2>Confimation</h2>
+			<p id="modal-details">
+				Date: <br>
+				Time: <br>
+				Building: <br>
+				Room: <br>
+				Number of seats: <br>
+			</p>
+			<div class="dialog-buttons">
+				<button class="confirm-btn" onclick="returnDashboard()">Confirm</button>
+				<button onclick="closeModal()" class="cancel-btn">Cancel</button>
+			</div>
 		</div>
 	</div>
 </div>
