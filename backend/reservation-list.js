@@ -1,4 +1,3 @@
-let nav_toggled = false;
 let filter_toggled = false;
 
 const reservations = [];
