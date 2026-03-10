@@ -3,21 +3,23 @@
 .body{
     @apply overflow-hidden;
 }
-.reservation-room .reserve-bldg-text, 
-                    .go-back-text, 
-                    .reserve-bldg-text, 
-                    #available-text-container p, 
-                    #date-time-selection input, 
-                    #date-time-selection select, 
-                    .room-container div,
-                    .room-container span{
+/*dropdown related*/
+    .reservation-room .reserve-bldg-text, 
+    .go-back-text, 
+    .reserve-bldg-text, 
+    #available-text-container p, 
+    #date-time-selection input, 
+    #date-time-selection select, 
+    .room-container div,
+    .room-container span,
+/*seat related*/
+    .seat-legend span,
+    .whiteboard,
+    .submit.btn {
     @apply font-grotesk;
     @apply text-white;
 }
 
-#date-time-selection option{
-    @apply text-black;
-}
 
 .go-back-text{
     @apply block text-right;
@@ -39,9 +41,6 @@
 
 #content{
     @apply mt-10 flex flex-col items-center w-full;
-    padding-bottom: 200px;
-    /* @apply overflow-hidden; */
-
 }
 
 #content-area-rooms{
@@ -49,14 +48,14 @@
     @apply items-start;
 }
 
+/*dropdown related*/
 #date-time-selection{
     @apply flex flex-col w-full;
 }
 
-/* #reserved-room{
-    @apply border-none outline-none appearance-none bg-transparent;
-    @apply border-b border-solid border-white;
-} */
+#date-time-selection option{
+    @apply text-black;
+}
     
 #reserved-date, #reserved-time, #reserved-room{
     @apply border-none outline-none appearance-none bg-transparent;
@@ -66,7 +65,7 @@
     @apply md:text-2xl;
 }
 
-#available-rooms-container{
+/* #available-rooms-container{
     @apply flex flex-col w-full gap-y-4 overflow-auto scroll-smooth max-h-[350px];
 }
 
@@ -84,5 +83,117 @@
 
 /* .room-container:hover div, .room-container:hover span{
     @apply text-gray-800
+} 
 } */
+
+/* SEATS RELATED*/
+
+#seat-selection{
+    @apply p-4 gap-2 flex flex-col items-center w-full px-6;
+}
+
+#slots-container{
+  @apply flex flex-col items-center overflow-y-auto max-h-[400px];
+}
+
+.seat, .cis{
+    @apply h-6 w-6 rounded-t-sm m-[8px] bg-gray-400;
+    @apply md:h-10 md:w-10 rounded-t-lg md:m-[10px] bg-gray-400;
+}
+
+.cis{
+    @apply bg-transparent;
+}
+.space{
+    @apply h-[12px] w-[12px]
+}
+
+.seat.selected{
+    @apply bg-[#E55B2E]
+}
+
+.seat.taken{
+  @apply bg-[#2a4252]
+}
+
+@media (hover:hover) and (pointer:fine){
+    #slots-container .seat:not(.taken):hover{
+    transform:scale(1.05);
+    @apply bg-[#5d5d81] cursor-pointer transition
+    }
+
+    .confirm-btn:hover{
+        @apply w-xs bg-[#7070a1] text-white
+    }
+
+    .confirm-btn:hover{
+        @apply w-xs bg-[#7070a1] text-white
+    }
+
+    .cancel-btn:hover{
+        @apply w-xs text-white
+    }
+}
+
+.seat-legend{
+    @apply border-solid flex flex-row items-center p-0 m-0 bg-transparent;
+}
+
+.whiteboard{
+    @apply bg-white h-4 w-2xs m-2 items-center justify-center flex flex-row;
+    @apply text-black;
+}
+
+.row{
+  @apply flex flex-row items-center; 
+}
+
+#submit-container{
+    @apply flex justify-end mx-auto w-full;
+}
+
+.submit-btn{
+    @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
+    @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
+    @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
+    @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
+}
+
+/* modal related */
+#confirm-modal-area{
+    @apply bg-gray-800 rounded-xl w-lg h-auto ;
+}
+#confirm-modal-container{
+    @apply p-10 fixed inset-0 z-[100] h-full w-full hidden items-center justify-center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.flex {
+    display: flex !important;
+}
+#confirm-modal-area{
+    @apply bg-gray-800 rounded-xl w-lg h-auto ;
+}
+
+#confirm-modal-container h2{
+    @apply p-3 text-white text-2xl font-bold text-center
+}
+
+#modal-details{
+    @apply text-gray-200 text-sm mb-8 p-4
+}
+
+.dialog-buttons{
+    @apply flex flex-col gap-2 m-2 items-center
+}
+
+.confirm-btn{
+    @apply w-xs bg-[#5d5d81] text-white rounded-full
+}
+
+.cancel-btn{
+    @apply w-xs text-gray-400 
 }
