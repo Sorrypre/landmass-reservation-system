@@ -19,7 +19,7 @@ container.addEventListener("click", (e) => {
 
 });
 
-const modal = document.getElementById('confirm-modal');
+const modal = document.getElementById('confirm-modal-container');
 
 function openModal() {
 	console.log('open')
@@ -33,5 +33,5 @@ function closeModal() {
 }
 
 function returnDashboard(){
-	window.location.href="/dashboard";
+	window.location.href = '/dashboard';
 }
