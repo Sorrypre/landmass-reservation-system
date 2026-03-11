@@ -76,6 +76,45 @@ xj.get('/dashboard', async function(q, r) {
 	r.render('dashboard', template);
 });
 
+xj.get('/query-get-user', async function(q, r) {
+	const result = await db.getUser(q.body.email);
+	r.status(200).json({
+		success: true,
+		user: JSON.stringify(result);
+	});
+});
+
+xj.get('/query-get-users', async function(q, r) {
+	const result = await db.getUsers(q.body.email, q.body.matchjson).toArray(
+		function(e, f) {
+			if (e) {
+				r.status(500).json({
+					success: false,
+					message: e.message,
+				});
+			} else {
+				r.status(200).json({
+					success: true,
+					users: f,
+				});
+			}
+		}
+	);
+});
+
+xj.get('/query-modify-user', async function(q, r) {
+	const result = await db.modifyUser(
+		q.body.email,
+		q.body.matchjson,
+		q.body.setjson,
+		q.body.deljson
+	);
+	r.status(200).json({
+		success: true,
+		modifiedCount: result,
+	});
+});
+
 /*
 xj.get('/testview', function(q,r) {
 	r.render('reserve-seat', hbs.getTemplate('reserve-seat'));
