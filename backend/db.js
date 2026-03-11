@@ -29,7 +29,8 @@ const schUser = new mongoose.Schema({
 			requestor: String,
 			building: String,
 			room: String,
-			schedule: Date,
+			startTime: Date,
+			endTime: Date,
 			seats: [ Number ],
 		},
 	}],
@@ -121,9 +122,26 @@ async function login(email, password) {
 	return access ? 1 : 0;
 }
 
+async function getReservations(email) {
+	const u = await getUser(email, {});
+	if (!u)
+		return [];
+
+	return u.reservations.map (r => ({
+		dt_request: r.dt_request,
+		requestor: r.details.requestor,
+		building: r.details.building,
+		room: r.details.room,
+		startTime: r.details.startTime,
+		endTime: r.details.endTime,
+		seats: r.details.seats,
+	}));
+}
+
 module.exports.connect = connect;
 module.exports.getUsers = getUsers;
 module.exports.getUser = getUser;
 module.exports.setUser = modifyUser;
 module.exports.register = register;
 module.exports.login = login;
+module.exports.getReservations = getReservations;

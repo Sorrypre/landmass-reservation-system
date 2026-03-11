@@ -76,11 +76,16 @@ xj.get('/dashboard', async function(q, r) {
 	r.render('dashboard', template);
 });
 
+xj.get('/reservation-list', async function(q, r) {
+	const template = await hbs.getTemplate('reservation-list', q.session.email);
+	r.render('reservation-list', template);
+});
+
 xj.get('/query-get-user', async function(q, r) {
 	const result = await db.getUser(q.body.email);
 	r.status(200).json({
 		success: true,
-		user: JSON.stringify(result);
+		user: JSON.stringify(result),
 	});
 });
 
@@ -113,6 +118,21 @@ xj.get('/query-modify-user', async function(q, r) {
 		success: true,
 		modifiedCount: result,
 	});
+});
+
+xj.get('/query-get-reservations', async function(q, r) {
+	try {
+		const reservations = await db.getReservations(q.session.email);
+		r.status(200).json({
+			success: true,
+			reservations: reservations
+		});
+	} catch (e) {
+		r.status(500).json({
+			success: false,
+			error: e.message
+		});
+	}
 });
 
 /*
