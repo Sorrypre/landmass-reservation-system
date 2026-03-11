@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 
 body{
     @apply overflow-visible;
@@ -30,7 +30,8 @@ body{
 .submit-btn{
     @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
     @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
-    /* @apply hover */
+    @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
+    @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
 }
 #submit-container{
     @apply flex justify-end mx-auto w-full;
@@ -88,8 +89,6 @@ body{
 }
 }
 .cis{
-    /* @apply h-6 w-6 rounded-t-sm m-[8px] bg-transparent; */
-    /* @apply md:h-10 md:w-10 rounded-t-lg md:m-[10px] bg-transparent; */
     @apply bg-transparent;
 }
 .space{
@@ -108,13 +107,6 @@ body{
     @apply border-solid flex flex-row items-center p-0 m-0 bg-transparent;
 }
 
-/* 
-.seat-legend.seat, .seat-legend.seat.selected, .seat-legend.seat.taken{
-    @apply h-5 w-5 rounded-t-sm m-[5px] ;
-    @apply md:h-5 md:w-5 rounded-t-lg md:m-[10px] ;
-} */
-
-
 #confirm-modal{
     @apply p-10 fixed inset-0 z-[100] h-full w-full hidden items-center justify-center;
 }
@@ -127,7 +119,6 @@ body{
 }
 #confirm-modal-area{
     @apply bg-gray-800 rounded-xl w-lg h-auto ;
-    /* @apply max-w-d */
 }
 
 #confirm-modal h2{
@@ -148,4 +139,4 @@ body{
 
 .cancel-btn{
     @apply w-xs text-gray-400 
-}
+} */
