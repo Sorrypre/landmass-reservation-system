@@ -1,7 +1,9 @@
+const { MongoClient } = require('mongodb');
 const mongoose = require('mongoose');
 const session = require('./session');
 require('dotenv').config({ quiet: true });
 
+let instance;
 const uri = process.env.MDB_URI_SRV;
 
 const schUser = new mongoose.Schema({
@@ -63,6 +65,7 @@ const User = mongoose.model('User', schUser);
 
 async function connect() {
 	await mongoose.connect(uri);
+	instance = new MongoClient(uri).db('main');
 	return true;
 }
 
