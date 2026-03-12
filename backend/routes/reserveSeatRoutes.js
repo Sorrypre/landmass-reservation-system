@@ -14,6 +14,7 @@ router.get('/gokongwei', (req,res) => {
             "1500", "1530", "1600", "1630", "1700"
         ];
         res.render('reserve-seat', {
+            bldg: "Gokongwei Hall",
             rooms: roomsList,
             time: timesList
         });
@@ -31,6 +32,7 @@ router.get('/henrysy', (req,res) => {
             "1500", "1530", "1600", "1630", "1700"
         ];
         res.render('reserve-seat', {
+            bldg: "Henry Sy Hall",
             rooms: roomsList,
             time: timesList
         });
@@ -48,6 +50,7 @@ router.get('/stlasalle', (req,res) => {
             "1500", "1530", "1600", "1630", "1700"
         ];
         res.render('reserve-seat', {
+            bldg: "St. Lasalle Hall",
             rooms: roomsList,
             time: timesList
         });

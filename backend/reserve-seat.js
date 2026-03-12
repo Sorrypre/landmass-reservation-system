@@ -1,9 +1,3 @@
-let bldgname = localStorage.getItem("bldg-name");
-let bldg_text = document.querySelector(".reserve-bldg-text");
-if (bldgname && bldg_text) {
-	bldg_text.innerHTML = bldgname;
-}
-
 let roomname = localStorage.getItem("room-name");
 let room_text = document.querySelector(".reserve-room-text");
 if (roomname && room_text) {
