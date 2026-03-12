@@ -139,6 +139,7 @@ async function getReservations(email) {
 }
 
 module.exports.connect = connect;
+module.exports.instance = instance;
 module.exports.getUsers = getUsers;
 module.exports.getUser = getUser;
 module.exports.setUser = modifyUser;
