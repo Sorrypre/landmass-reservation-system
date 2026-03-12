@@ -83,15 +83,53 @@ xj.get('/reservation-list', async function(q, r) {
 	r.render('reservation-list', template);
 });
 
-xj.get('/query-get-user', async function(q, r) {
-	const result = await db.getUser(q.body.email);
+/* QUERY POST/GET */
+
+xj.get('/query-current-user', async function(q, r) {
+	if (!q.session.email) {
+		return r.status(400).json({
+			success: false,
+			error: 'No user existing on session right now.',
+		});
+	}
+	const result = await db.getUser(q.session.email, {});
 	r.status(200).json({
 		success: true,
 		user: JSON.stringify(result),
 	});
 });
 
-xj.get('/query-get-users', async function(q, r) {
+xj.get('/query-get-reservations', async function(q, r) {
+	try {
+		const reservations = await db.getReservations(q.session.email);
+		r.status(200).json({
+			success: true,
+			reservations: reservations,
+		});
+	} catch (e) {
+		r.status(500).json({
+			success: false,
+			error: e.message,
+		});
+	}
+});
+
+xj.post('/query-get-user', async function(q, r) {
+	const result = await db.getUser(q.body.email, {});
+	if (result !== null) {
+		r.status(200).json({
+			success: true,
+			user: JSON.stringify(result),
+		});
+	} else {
+		r.status(404).json({
+			success: false,
+			message: 'User not found.',
+		});
+	}
+});
+
+xj.post('/query-get-users', async function(q, r) {
 	const result = await db.getUsers(q.body.email, q.body.matchjson).toArray(
 		function(e, f) {
 			if (e) {
@@ -109,7 +147,14 @@ xj.get('/query-get-users', async function(q, r) {
 	);
 });
 
-xj.get('/query-modify-user', async function(q, r) {
+xj.post('/query-modify-user', async function(q, r) {
+	const try_user = await db.getUser(q.body.email, {});
+	if (try_user === null) {
+		return r.status(404).json({
+			success: false,
+			error: 'Trying to modify a non-existent user.',
+		});
+	}
 	const result = await db.modifyUser(
 		q.body.email,
 		q.body.matchjson,
@@ -122,114 +167,24 @@ xj.get('/query-modify-user', async function(q, r) {
 	});
 });
 
-xj.get('/query-get-reservations', async function(q, r) {
-	try {
-		//Filtering Match Parameters
-		const email = q.session.email;
-		const building = q.query.building;
-		const room = q.query.room;
-		const startTime = q.query.startTime;
-		const date = q.query.date;
-		const requestor = q.query.requestor;
-		const username = q.query.username;
-
-		const user = await db.getUser(email, {});
-		const isLabTech = user && user.admin;
-
-		let filterMatch = { };
-
-		if (building) filterMatch['details.building'] = building;
-		if (room) filterMatch['details.room'] = room;
-		if (startTime) filterMatch['details.startTime'] = { $gte: new Date(startTime) };
-		if (date) {
-			const targetDate = new Date(date);
-			const nextDate = new Date(targetDate);
-			nextDate.setDate(nextDate.getDate() + 1);
-			filterMatch['details.startTime'] = { $gte: targetDate, $lt: nextDate };
-		}
-
-		let reservations = await db.getReservations(q.session.email);
-
-		if (isLabTech) {
-			//Fetch All Users
-			const allUsers = await db.getUsers({});
-			allUsers.forEach(u => {
-				//If Search Input matches a Username
-				const matchesUsername = !username || u.settings.username === username;
-				if (matchesUsername) {
-					//Loop Through Reservations and Check if matches Requestor and Filters
-					u.reservations.forEach(res => {
-						const matchesRequestor = !requestor || res.details.requestor === requestor;
-						const matchesFilters = Object.keys(filterMatch).length === 0 ||
-							Object.entries(filterMatch).every(([key, value]) => {
-								const keys = key.split('.');
-								const nestedValue = keys.reduce((obj, k) => obj?.[k], res);
-								if (value.$gte && value.$lt) {
-									return nestedValue >= value.$gte && nestedValue < value.$lt;
-								}
-								return nestedValue === value;
-							});
-						if (matchesRequestor && matchesFilters) {
-							reservations.push({
-								dt_request: res.dt_request,
-								requestor: res.details.requestor,
-								building: res.details.building,
-								room: res.details.room,
-								startTime: res.details.startTime,
-								endTime: res.details.endTime,
-								seats: res.details.seats,
-								userEmail: u.settings.email,
-								username: u.settings.username,
-							});
-						}
-					});
-				}
-			});
-		}
-		else {
-			//User ONLY Reservation
-			const userReservations = await db.getReservations(email);
-			reservations = userReservations.filter(res => {
-				//If filter name and condition matches for all key value pair, then return true and reservation is passed
-				return Object.keys(filterMatch).length === 0 ||
-					Object.entries(filterMatch).every(([key, value]) => {
-						if (value.$gte && value.$lt) {
-							return res[key] >= value.$gte && res[key] < value.$lt;
-						}
-						return res[key] === value;
-					});
-			});
-		}
-
-
-		r.status(200).json({
-			success: true,
-			reservations: reservations
-		});
-	} catch (e) {
-		r.status(500).json({
-			success: false,
-			error: e.message
-		});
-	}
-});
-
-
+/*
 xj.get('/testview', async function(q,r) {
 	const template = await hbs.getTemplate('reservation-list', q.session.email);
 	r.render('reservation-list', template);
 });
+*/
 
+/* LOGIN/REGISTER POST */
 
-/* POST */
 xj.post('/lu', async function(q, r) {
 	const eml = q.body.email;
 	const pwd = q.body.password;
-	if (!eml || !pwd)
-		r.status(400).json({
+	if (!eml || !pwd) {
+		return r.status(400).json({
 			success: false,
-			error: 'Invalid request.'
+			error: 'Invalid request.',
 		});
+	}
 	const login = await db.login(eml, pwd);
 	if (login === 1) {
 		q.session.email = eml;
@@ -261,6 +216,37 @@ xj.post('/lou', function(q, r, s) {
 			});
 		}
 	});
+});
+
+xj.post('/ru', async function(q, r) {
+	const eml = q.body.email;
+	const pwd = q.body.password;
+	if (!eml || !pwd) {
+		return r.status(400).json({
+			success: false,
+			error: 'Invalid request.',
+		});
+	}
+	const try_user = await db.getUser(q.body.email, {});
+	if (try_user !== null) {
+		return r.status(409).json({
+			success: false,
+			error: 'User already exists.',
+		});
+	}
+	const hash = await sess.h512(pwd, undefined);
+	const register = await db.register(q.body.email, hash.hashed, hash.salt);
+	if (register) {
+		r.status(200).json({
+			success: true,
+			message: 'Registration successful.',
+		});
+	} else {
+		r.status(500).json({
+			success: false,
+			error: 'Unexpected error upon registering user.',
+		});
+	}
 });
 
 db.connect().then(function(msg) {
