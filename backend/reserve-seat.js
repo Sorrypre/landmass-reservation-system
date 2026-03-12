@@ -1,3 +1,5 @@
+console.log("test");
+
 let roomname = localStorage.getItem("room-name");
 let room_text = document.querySelector(".reserve-room-text");
 if (roomname && room_text) {
