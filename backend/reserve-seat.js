@@ -48,18 +48,20 @@ const room_dropdown = document.querySelector("#reserved-room");
 function reserveSummary(){
     let endTime = (Number(time_dropdown.value) + 200).toString().padStart(4,'0');
 
-    const selected_seats = document.querySelector("#slots-container .seat.selected");
+    const selected_seats = document.querySelectorAll("#slots-container .seat.selected");
     if(selected_seats === null){
         alert("Choose >1 seat");
         return false;
     }
+    console.log(selected_seats);
     let seatList = Array.from(selected_seats).map(s => s.dataset.pc).join(", ");
+    
 
     const string = `Date: ${date_dropdown.value}
     Start Time: ${time_dropdown.value}
     End Time: ${endTime}
     Room: ${room_dropdown.value}
-    Seat list: ${seatList || "None Selected"}`;
+    Seat list: ${seatList}`;
 
     let modalDetails = document.querySelector("#modal-details")
     if(modalDetails) {
