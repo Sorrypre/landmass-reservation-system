@@ -28,6 +28,11 @@
     @apply p-4 ml-auto mb-2 mr-2 flex gap-x-4 justify-center items-center;
 }
 
+#filter-user-search {
+    @apply p-3 bg-white mr-auto text-[16px] w-1/2 hidden text-[#364156] font-bold font-dmsans rounded-xl;
+    @apply hover:bg-[#212D40] hover:text-white;
+}
+
 #seat-name {
     @apply ml-4 mr-auto;
 }
@@ -37,7 +42,11 @@
     @apply hover:bg-[#212D40] hover:text-white;
 }
 
-.reserve-list-main div p {
+#no-reservation {
+    @apply bg-[#364156] p-4 w-full min-h-[400px] h-2/3 flex flex-col gap-x-4 text-[48px] items-start text-white font-grotesk rounded-2xl;
+}
+
+.reserve-list-main {
     @apply text-white text-2xl font-bold font-grotesk;
 }
 .reserve-list-card {

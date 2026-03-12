@@ -77,8 +77,18 @@ if (redir_contact_us)
 
 if (redir_log_out)
 	redir_log_out.addEventListener('click', async function(e) {
+		/*
 		if (await isServer())
 			window.location.href = '/lou';
 		else
 			return;
+		*/
+		const logout = await fetch('/lou', {
+			method: 'POST',
+			headers: { 'Content-Length': 0 },
+		});
+		if (logout.ok)
+			window.location.href = '/';
+		else
+			console.error('Error upon logout (' + logout.status + '): ' + e);
 	});
