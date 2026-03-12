@@ -1081,15 +1081,15 @@
   font-family: var(--font-inter);
   color: var(--color-red-500);
 }
-.register-invalid.username-empty, .login-invalid.username-empty {
+.register-invalid.email-empty, .login-invalid.email-empty {
   &::after {
-    --tw-content: '\26A0  Please enter a username.';
+    --tw-content: '\26A0  Please enter a valid email.';
     content: var(--tw-content);
   }
 }
-.register-invalid.username-invalid, .login-invalid.username-invalid {
+.register-invalid.email-invalid, .login-invalid.email-invalid {
   &::after {
-    --tw-content: '\26A0  Username is invalid.';
+    --tw-content: '\26A0  Email is invalid.';
     content: var(--tw-content);
   }
 }

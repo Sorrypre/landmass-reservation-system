@@ -4,7 +4,7 @@ const hbs = require('../hbs');
 
 
 // Load Page
-router.get('/gokongwei', (req,res) => {
+router.get('/gokongwei', async (req,res) => {
     try {
         let roomsList = ["G302", "G303", "G304", "G305", "G306"];
         const timesList  = [
@@ -13,16 +13,21 @@ router.get('/gokongwei', (req,res) => {
             "1230", "1300", "1330", "1400", "1430", 
             "1500", "1530", "1600", "1630", "1700"
         ];
-        res.render('reserve-seat', {
+		const template = await hbs.getTemplate('reserve-seat', req.session.email);
+		const argjson = {
             bldg: "Gokongwei Hall",
             rooms: roomsList,
             time: timesList
-        });
+        };
+        res.render('reserve-seat', {
+			...template,
+			...argjson,
+		});
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
-router.get('/henrysy', (req,res) => {
+router.get('/henrysy', async (req,res) => {
     try {
         let roomsList = ["H802", "H803", "H901", "H1001", "H1002"];
         const timesList  = [
@@ -31,16 +36,21 @@ router.get('/henrysy', (req,res) => {
             "1230", "1300", "1330", "1400", "1430", 
             "1500", "1530", "1600", "1630", "1700"
         ];
-        res.render('reserve-seat', {
+		const template = await hbs.getTemplate('reserve-seat', req.session.email);
+		const argjson = {
             bldg: "Henry Sy Hall",
             rooms: roomsList,
             time: timesList
-        });
+        };
+        res.render('reserve-seat', {
+			...template,
+			...argjson,
+		});
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
-router.get('/stlasalle', (req,res) => {
+router.get('/stlasalle', async (req,res) => {
     try {
         let roomsList = ["L220", "L229", "L230", "L319", "L320"];
         const timesList  = [
@@ -61,11 +71,11 @@ router.get('/stlasalle', (req,res) => {
 
 
 // Get Available Seats
-router.get('/api/get-seats', (req,res)=>{
+router.get('/api/get-seats', async (req,res) => {
     // query in reserve-seat.js with "/api/get-seats"
     const {schedule, room} = req.query;
     
-    const booked = db.instance.collection("Users").find({
+    const booked = await db.instance.collection("Users").find({
         "reservation.details.schedule": schedule, 
         "reservation.details.room": room})
         .toArray();
