@@ -9,6 +9,9 @@ const path = require('path');
 const dns = require('dns');
 const hbs = require('./hbs');
 const db = require('./db');
+
+const reserveSeatRouter = require('./routes/reserveSeatRoutes');
+
 const sess = require('./session');
 require('dotenv').config({ quiet: true });
 setServers(['8.8.8.8', '8.8.4.4']);
@@ -251,6 +254,7 @@ xj.get('/testview', async function(q,r) {
 });
 */
 
+xj.use('/reserve-seat', reserveSeatRouter);
 /* LOGIN/REGISTER POST */
 
 xj.post('/lu', async function(q, r) {
