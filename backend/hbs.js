@@ -20,7 +20,7 @@ async function getTemplate(id, email) {
 		},
 		'reservation-list': {
 			user: JSON.stringify(user),
-			scripts: ['reservation-list.js'],
+			scripts: ['main.js', 'reservation-list.js'],
 			bg: 'reservation-list',
 		},
 		'reserve-seat': {
