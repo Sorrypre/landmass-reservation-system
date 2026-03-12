@@ -45,6 +45,8 @@ xj.set('view engine', 'handlebars');
 xj.set('views', './frontend/pages');
 
 xj.use(function(q, r, s) {
+	if (q.url === '/testview')
+		return s();
 	/* lahat ng pages babalik sa login page pag walang session */
 	if (q.method === 'GET' && q.url !== '/' && !q.session.email)
 		return r.redirect('/');
@@ -135,11 +137,12 @@ xj.get('/query-get-reservations', async function(q, r) {
 	}
 });
 
-/*
-xj.get('/testview', function(q,r) {
-	r.render('reserve-seat', hbs.getTemplate('reserve-seat'));
+
+xj.get('/testview', async function(q,r) {
+	const template = await hbs.getTemplate('reservation-list', q.session.email);
+	r.render('reservation-list', template);
 });
-*/
+
 
 /* POST */
 xj.post('/lu', async function(q, r) {
