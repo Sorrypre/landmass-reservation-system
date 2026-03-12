@@ -1,7 +1,8 @@
+console.log("router loaded");
 const express = require('express');
 const router = express.Router();
 const hbs = require('../hbs');
-
+const db = require('../db');
 
 // Load Page
 router.get('/gokongwei', async (req,res) => {
@@ -59,11 +60,16 @@ router.get('/stlasalle', async (req,res) => {
             "1230", "1300", "1330", "1400", "1430", 
             "1500", "1530", "1600", "1630", "1700"
         ];
-        res.render('reserve-seat', {
+        const template = await hbs.getTemplate('reserve-seat');
+		const argjson = {
             bldg: "St. Lasalle Hall",
             rooms: roomsList,
             time: timesList
-        });
+        };
+        res.render('reserve-seat', {
+			...template,
+			...argjson,
+		});
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -71,47 +77,63 @@ router.get('/stlasalle', async (req,res) => {
 
 
 // Get Available Seats
-router.get('/api/get-seats', async (req,res) => {
-    // query in reserve-seat.js with "/api/get-seats"
-    const {schedule, room} = req.query;
-    
-    const booked = await db.instance.collection("Users").find({
-        "reservation.details.schedule": schedule, 
-        "reservation.details.room": room})
-        .toArray();
-        
+router.get('/api/get-seats', async (req, res) => {
+    console.log("POST request received!");
+    try {
+        const { start, room } = req.query;
+        const startTime = new Date(start);
+
+        const booked = await db.getUsers({
+            "reservations.details.startTime": startTime, 
+            "reservations.details.room": room
+        });
+        console.log(booked);
         let takenSeats = [];
         
-        booked.forEach(user =>{
-            user.reservation.forEach(rsv => {
-            if(rsv.details.room === room && rsv.details.schedule === schedule){
-                takenSeats.concat(rsv.details.seats);
-            }
-        })
-    })
-    console.log(takenSeats);
-    res.json(takenSeats);
+        if (booked && Array.isArray(booked)) {
+            booked.forEach(user => {
+                if (user.reservations) {
+                    user.reservations.forEach(rsv => {
+                        if (rsv.details.room === room && new Date(rsv.details.startTime).getTime() === startTime.getTime()) {
+                            takenSeats.push(...rsv.details.seats);
+                        }   
+                    });
+                }
+            });
+        }
+        
+        res.status(200).json({ seats: takenSeats });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ seats: [], error: "Server error" });
+    }
 });
 
-module.exports = router;
+router.get('/ping', (req, res) => {
+    res.send("Router is ALIVE!");
+});
+
 
 // Reserve the seats
 // - Handle conflicts
-router.post('/api/reserve', async (req,res)=>{
-    let {email, schedule, bldg, room, seats, requestor} = req.body;
-    reservation.dt_request = new Date();
+// router.post('/api/reserve', async (req,res)=>{
+//     let {email, schedule, bldg, room, seats, requestor} = req.body;
+//     reservation.dt_request = new Date();
 
-    const conflict = db.instance.collection("Users").find({
-        "reservation.details.schedule": new Date(schedule),
-        "reservation.details.room": room,
-        "reservation.details.seats": {$in: [seats]}
-    });
+//     const conflict = db.instance.collection("Users").find({
+//         "reservation.details.schedule": new Date(schedule),
+//         "reservation.details.room": room,
+//         "reservation.details.seats": {$in: [seats]}
+//     });
 
-    if(conflict){
-        return res.status(409).json({message: "Seat/s already taken by another user. Please refresh"});
-    }
+//     if(conflict){
+//         return res.status(409).json({message: "Seat/s already taken by another user. Please refresh"});
+//     }
 
-    let result = db.instance.collection("Users").insertOne(reservation);
-    result.save();
-    res.status(201).json({message: "Success"});
-});
+//     let result = db.instance.collection("Users").insertOne(reservation);
+//     result.save();
+//     res.status(201).json({message: "Success"});
+// });
+
+module.exports = router;
