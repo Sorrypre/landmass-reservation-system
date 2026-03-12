@@ -7,6 +7,9 @@ const dns = require('dns');
 const hbs = require('./hbs');
 const session = require('./session');
 const db = require('./db');
+
+const reserveSeatRouter = require('./routes/reserveSeatRoutes');
+
 require('dotenv').config({ quiet: true });
 setServers(['8.8.8.8', '8.8.4.4']);
 
@@ -34,6 +37,8 @@ xj.get('/testview', function(q,r) {
 	r.render('reserve-seat', hbs.getTemplate('reserve-seat'));
 });
 */
+
+xj.use('/reserve-seat', reserveSeatRouter);
 
 db.connect().then(function(msg) {
 	console.log(msg);
