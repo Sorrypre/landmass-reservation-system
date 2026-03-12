@@ -61,27 +61,28 @@ router.get('/stlasalle', (req,res) => {
 
 module.exports = router;
 
-// // Get Available Seats
-// router.get('/api/get-seats', (req,res)=>{
-//     // query in reserve-seat.js with "/api/get-seats"
-//     const {schedule, room} = req.query;
+// Get Available Seats
+router.get('/api/get-seats', (req,res)=>{
+    // query in reserve-seat.js with "/api/get-seats"
+    const {schedule, room} = req.query;
 
-//     const booked = db.instance.collection("Users").find({
-//         "reservation.details.schedule": schedule, 
-//         "reservation.details.room": room})
-//         .toArray();
+    const booked = db.instance.collection("Users").find({
+        "reservation.details.schedule": schedule, 
+        "reservation.details.room": room})
+        .toArray();
 
-//     let takenSeats = [];
+    let takenSeats = [];
     
-//     booked.forEach(user =>{
-//         user.reservation.forEach(rsv => {
-//             if(rsv.details.room === room && rsv.details.schedule === schedule){
-//                 takenSeats.concat(resv.details.seats);
-//             }
-//         })
-//     })
-//     res.json(takenSeats);
-// });
+    booked.forEach(user =>{
+        user.reservation.forEach(rsv => {
+            if(rsv.details.room === room && rsv.details.schedule === schedule){
+                takenSeats.concat(rsv.details.seats);
+            }
+        })
+    })
+    console.log(takenSeats);
+    res.json(takenSeats);
+});
 
 
 // // Reserve the seats
