@@ -1659,6 +1659,29 @@
   column-gap: calc(var(--spacing) * 4);
   padding: calc(var(--spacing) * 4);
 }
+#filter-user-search {
+  margin-right: auto;
+  display: none;
+  width: calc(1/2 * 100%);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-white);
+  padding: calc(var(--spacing) * 3);
+  font-family: var(--font-dmsans);
+  font-size: 16px;
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+  color: #364156;
+  &:hover {
+    @media (hover: hover) {
+      background-color: #212D40;
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-white);
+    }
+  }
+}
 #seat-name {
   margin-right: auto;
   margin-left: calc(var(--spacing) * 4);
@@ -1683,7 +1706,22 @@
     }
   }
 }
-.reserve-list-main div p {
+#no-reservation {
+  display: flex;
+  height: calc(2/3 * 100%);
+  min-height: 400px;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  column-gap: calc(var(--spacing) * 4);
+  border-radius: var(--radius-2xl);
+  background-color: #364156;
+  padding: calc(var(--spacing) * 4);
+  font-family: var(--font-grotesk);
+  font-size: 48px;
+  color: var(--color-white);
+}
+.reserve-list-main {
   font-family: var(--font-grotesk);
   font-size: var(--text-2xl);
   line-height: var(--tw-leading, var(--text-2xl--line-height));
