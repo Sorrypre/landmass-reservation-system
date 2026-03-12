@@ -83,15 +83,53 @@ xj.get('/reservation-list', async function(q, r) {
 	r.render('reservation-list', template);
 });
 
-xj.get('/query-get-user', async function(q, r) {
-	const result = await db.getUser(q.body.email);
+/* QUERY POST/GET */
+
+xj.get('/query-current-user', async function(q, r) {
+	if (!q.session.email) {
+		return r.status(400).json({
+			success: false,
+			error: 'No user existing on session right now.',
+		});
+	}
+	const result = await db.getUser(q.session.email, {});
 	r.status(200).json({
 		success: true,
 		user: JSON.stringify(result),
 	});
 });
 
-xj.get('/query-get-users', async function(q, r) {
+xj.get('/query-get-reservations', async function(q, r) {
+	try {
+		const reservations = await db.getReservations(q.session.email);
+		r.status(200).json({
+			success: true,
+			reservations: reservations,
+		});
+	} catch (e) {
+		r.status(500).json({
+			success: false,
+			error: e.message,
+		});
+	}
+});
+
+xj.post('/query-get-user', async function(q, r) {
+	const result = await db.getUser(q.body.email, {});
+	if (result !== null) {
+		r.status(200).json({
+			success: true,
+			user: JSON.stringify(result),
+		});
+	} else {
+		r.status(404).json({
+			success: false,
+			message: 'User not found.',
+		});
+	}
+});
+
+xj.post('/query-get-users', async function(q, r) {
 	const result = await db.getUsers(q.body.email, q.body.matchjson).toArray(
 		function(e, f) {
 			if (e) {
@@ -109,7 +147,14 @@ xj.get('/query-get-users', async function(q, r) {
 	);
 });
 
-xj.get('/query-modify-user', async function(q, r) {
+xj.post('/query-modify-user', async function(q, r) {
+	const try_user = await db.getUser(q.body.email, {});
+	if (try_user === null) {
+		return r.status(404).json({
+			success: false,
+			error: 'Trying to modify a non-existent user.',
+		});
+	}
 	const result = await db.modifyUser(
 		q.body.email,
 		q.body.matchjson,
@@ -122,37 +167,24 @@ xj.get('/query-modify-user', async function(q, r) {
 	});
 });
 
-xj.get('/query-get-reservations', async function(q, r) {
-	try {
-		const reservations = await db.getReservations(q.session.email);
-		r.status(200).json({
-			success: true,
-			reservations: reservations
-		});
-	} catch (e) {
-		r.status(500).json({
-			success: false,
-			error: e.message
-		});
-	}
-});
-
-
+/*
 xj.get('/testview', async function(q,r) {
 	const template = await hbs.getTemplate('reservation-list', q.session.email);
 	r.render('reservation-list', template);
 });
+*/
 
+/* LOGIN/REGISTER POST */
 
-/* POST */
 xj.post('/lu', async function(q, r) {
 	const eml = q.body.email;
 	const pwd = q.body.password;
-	if (!eml || !pwd)
-		r.status(400).json({
+	if (!eml || !pwd) {
+		return r.status(400).json({
 			success: false,
-			error: 'Invalid request.'
+			error: 'Invalid request.',
 		});
+	}
 	const login = await db.login(eml, pwd);
 	if (login === 1) {
 		q.session.email = eml;
@@ -184,6 +216,37 @@ xj.post('/lou', function(q, r, s) {
 			});
 		}
 	});
+});
+
+xj.post('/ru', async function(q, r) {
+	const eml = q.body.email;
+	const pwd = q.body.password;
+	if (!eml || !pwd) {
+		return r.status(400).json({
+			success: false,
+			error: 'Invalid request.',
+		});
+	}
+	const try_user = await db.getUser(q.body.email, {});
+	if (try_user !== null) {
+		return r.status(409).json({
+			success: false,
+			error: 'User already exists.',
+		});
+	}
+	const hash = await sess.h512(pwd, undefined);
+	const register = await db.register(q.body.email, hash.hashed, hash.salt);
+	if (register) {
+		r.status(200).json({
+			success: true,
+			message: 'Registration successful.',
+		});
+	} else {
+		r.status(500).json({
+			success: false,
+			error: 'Unexpected error upon registering user.',
+		});
+	}
 });
 
 db.connect().then(function(msg) {

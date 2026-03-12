@@ -155,7 +155,7 @@ btn_create.addEventListener('click', function(e) {
 	if (!form_inp_rpwd || !form_inp_rcfm)
 		return;
 	if (form_inp_rusr.value.length > 0 && rxe.test(form_inp_rusr.value) && form_inp_rpwd.value.length >= pwd_min && form_inp_rpwd.value === form_inp_rcfm.value) {
-		form_reg.submit();
+		form_reg.requestSubmit();
 		return true;
 	} else {
 		if (form_inp_rusr.value.length === 0)
@@ -238,6 +238,36 @@ form_login.addEventListener('submit', async function(e) {
 	btn_login.disabled = false;
 });
 
+// Fetch register
+form_reg.addEventListener('submit', async function(e) {
+	e.preventDefault();
+	btn_create.disabled = true;
+	const email = form_inp_rusr.value;
+	const password = form_inp_rpwd.value;
+	try {
+		const register = await fetch('/ru', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json', },
+			body: JSON.stringify({ email, password }),
+		});
+		const result = await register.json();
+		if (register.ok) {
+			/* registration success */
+			/* registration dialog, pero for now reload muna */
+			window.location.reload();
+		} else {
+			/* registration failed */
+			const failure_dialog_id = 'error-' + register.status + '-' + Date.now();
+			make_failure_dialog(failure_dialog_id, 'Error ' + register.status, result.error);
+			await sleep(150);
+			open_dialog(failure_dialog_id);
+		}
+	} catch (e) {
+		console.error('An error occurred while registering.' + e);
+	}
+	btn_create.disabled = false;
+});
+
 // handle register / back to login
 // must be strictly greater than duration for <form> transitions, see login.css
 const delay = 300;
@@ -281,5 +311,6 @@ const make_welcome_dialog = function() {
 const welcome_dialog = make_welcome_dialog();
 
 window.addEventListener('load', function() {
+	console.log(window.testvalue);
 	open_dialog('start-page');
 });
