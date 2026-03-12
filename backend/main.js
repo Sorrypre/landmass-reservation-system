@@ -2,7 +2,7 @@ const filter_user_search = document.getElementById("filter-user-search");
 
 async function checkLabTechStatus() {
     try {
-        const query = await fetch('/query-get-user', {
+        const query = await fetch('/query-current-user', {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json'
