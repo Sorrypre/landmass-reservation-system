@@ -23,33 +23,42 @@
 			<!-- 0730H to 1700H (2hrs reservation) -->
 			<select id="reserved-time" name="reserved-time">
 				<option selected hidden disabled>Pick Start Time</option>
-				<option>0730H</option>
-				<option>0800H</option>
-				<option>0830H</option>
-				<option>0900H</option>
-				<option>0930H</option>
-				<option>1000H</option>
-				<option>1030H</option>
-				<option>1100H</option>
-				<option>1130H</option>
-				<option>1200H</option>
-				<option>1230H</option>
-				<option>1300H</option>
-				<option>1330H</option>
-				<option>1400H</option>
-				<option>1430H</option>
-				<option>1530H</option>
-				<option>1600H</option>
-				<option>1630H</option>
-				<option>1700H</option>
+				{{#each time}}
+					<option value="{{this}}">{{this}}H</option>
+				{{/each}}
+				{{!-- 
+					<option value="0730">0730H</option>
+					<option value="0800">0800H</option>
+					<option value="0830">0830H</option>
+					<option value="0900">0900H</option>
+					<option value="0930">0930H</option>
+					<option value="1000">1000H</option>
+					<option value="1030">1030H</option>
+					<option value="1100">1100H</option>
+					<option value="1130">1130H</option>
+					<option value="1200">1200H</option>
+					<option value="1230">1230H</option>
+					<option value="1300">1300H</option>
+					<option value="1330">1330H</option>
+					<option value="1400">1400H</option>
+					<option value="1430">1430H</option>
+					<option value="1500">1500H</option>
+					<option value="1530">1530H</option>
+					<option value="1600">1600H</option>
+					<option value="1630">1630H</option>
+					<option value="1700">1700H</option> 
+				--}}
 			</select>
 			<select id="reserved-room" name="reserved-room">
 				<option selected hidden disabled>Pick Room</option>
-				<option>G203</option>
+				{{#each rooms}}
+					<option value="{{this}}">{{this}}</option>
+				{{/each}}
+				{{!-- <option>G203</option>
 				<option>G204</option>
 				<option>G205</option>
 				<option>G206</option>
-				<option>G207</option>
+				<option>G207</option> --}}
 			</select>
 		</div>
 		<!-- <div id="available-rooms-container">
