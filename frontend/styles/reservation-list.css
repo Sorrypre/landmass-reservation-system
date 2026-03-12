@@ -28,6 +28,11 @@
     @apply p-4 ml-auto mb-2 mr-2 flex gap-x-4 justify-center items-center;
 }
 
+#filter-user-search {
+    @apply p-3 bg-white mr-auto text-[16px] w-1/2 hidden text-[#364156] font-bold font-dmsans rounded-xl;
+    @apply hover:bg-[#212D40] hover:text-white;
+}
+
 #seat-name {
     @apply ml-4 mr-auto;
 }
