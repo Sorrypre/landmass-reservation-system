@@ -1,21 +1,4 @@
 console.log("test");
-document.addEventListener("DOMContentLoaded", async () => {
-    let checkboxLbl= document.getElementById("anon-checkbox-label");
-    try {
-        const response = await fetch(`/query-current-user`);
-        const userJson = await response.json();
-        const email = JSON.parse(userJson.user).settings.email;    
-        console.log(email);
-        if(email === "admin@admin.com"){
-            checkboxLbl.classList.add("hidden");
-        } else{
-            checkboxLbl.classList.remove("hidden");
-        }
-        
-    } catch (e) {
-        console.error("Failed to verify user role:", e);
-    }
-});
 
 let roomname = localStorage.getItem("room-name");
 let room_text = document.querySelector(".reserve-room-text");
@@ -25,7 +8,7 @@ if (roomname && room_text) {
 
 let go_back = document.querySelector("#go-back-container .go-back-text");
 go_back.onclick = function () {
-    window.location.href = "/rr";
+    window.location.href = "/buildings";
 };
 
 let container = document.getElementById("slots-container");
@@ -51,29 +34,15 @@ function handleSeatClick(e){
     currSeat.classList.toggle("selected");
 }
 const modal = document.getElementById('confirm-modal-container');
-const adminInputField = document.getElementById('admin-only-requestor');
 
-async function openModal() {
+function openModal() {
     console.log('open')
-    const response = await fetch(`/query-current-user`);
-    const userJson = await response.json();
-    const username = JSON.parse(userJson.user).settings.email;    
-    console.log(username);
-
     let success = reserveSummary();
     // const selected_seats = document.querySelectorAll("#slots-container .seat.selected");
     // if(selected_seats.length===0){
     //     alert("Choose a seat");
     //     return;
     // }
-
-    if(username === "admin@admin.com"){
-        adminInputField.classList.remove('hidden');
-        adminInputField.classList.add('flex');
-    } else {
-        adminInputField.classList.add('hidden');
-        adminInputField.classList.remove('flex');
-    }
     if(success) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -111,15 +80,6 @@ async function reserveSeatForm(){
     console.log(selected_seat.dataset.pc);
     let seatList = selected_seat.dataset.pc;
     
-    const response = await fetch(`/query-current-user`);
-    const userJson = await response.json();
-    const email = JSON.parse(userJson.user).settings.email;    
-    let name = "";
-    console.log(email);
-    if(email === "admin@admin.com"){
-        name = document.getElementById("admin-walk-in-input").value;
-    }
-    
     try {
         console.log("entered reserveSeatForm")
 
@@ -133,8 +93,7 @@ async function reserveSeatForm(){
                 seats: seatList,
                 room: room_dropdown.value,
                 bldg: bldgName,
-                anon: isAnon,
-                name: name
+                anon: isAnon
             })
         });
         const data = await response.json();
@@ -248,5 +207,3 @@ function updateSeatUI(data) {
         }
     });
 }
-
-

@@ -2095,7 +2095,7 @@
 #date-time-selection option {
   color: var(--color-black);
 }
-#reserved-date, #reserved-time, #reserved-room {
+#reserved-date, #reserved-time, #reserved-room, #admin-walk-in-input {
   appearance: none;
   --tw-border-style: none;
   border-style: none;
@@ -2328,6 +2328,14 @@
 }
 #anon-checkbox-label {
   margin: calc(var(--spacing) * 5);
+}
+#admin-walk-in-input {
+  font-size: var(--text-base);
+  line-height: var(--tw-leading, var(--text-base--line-height));
+  @media (width >= 48rem) {
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+  }
 }
 @layer theme, base, components, utilities;
 @layer theme;
