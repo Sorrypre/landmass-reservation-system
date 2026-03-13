@@ -9,18 +9,6 @@ const hamburger = document.getElementById("hamburger-btn");
 
 let nav_toggled = false;
 
-async function isServer() {
-	try {
-		const r = await fetch('http://127.0.0.1:2222', {
-			method: 'HEAD',
-			mode: 'no-cors'
-		});
-		return true;
-	} catch (e) {
-		return false;
-	}
-}
-
 function toggleNav() {
 	if (nav_toggled) {
 		side_nav.style.width = "0px";
