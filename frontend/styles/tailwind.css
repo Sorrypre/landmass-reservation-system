@@ -403,6 +403,9 @@
   .justify-self-center {
     justify-self: center;
   }
+  .rounded {
+    border-radius: 0.25rem;
+  }
   .rounded-2xl {
     border-radius: var(--radius-2xl);
   }
@@ -415,6 +418,9 @@
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
+  }
+  .bg-\[\#212D40\] {
+    background-color: #212D40;
   }
   .bg-black {
     background-color: var(--color-black);
@@ -442,6 +448,9 @@
   }
   .object-cover {
     object-fit: cover;
+  }
+  .p-1 {
+    padding: calc(var(--spacing) * 1);
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
@@ -1665,7 +1674,6 @@
 }
 #filter-user-search {
   margin-right: auto;
-  display: none;
   width: calc(1/2 * 100%);
   border-radius: var(--radius-xl);
   background-color: var(--color-white);
@@ -1690,34 +1698,13 @@
   margin-right: auto;
   margin-left: calc(var(--spacing) * 4);
 }
-#save-edit-btn {
-  display: none;
-  border-radius: var(--radius-2xl);
-  background-color: var(--color-white);
-  padding: calc(var(--spacing) * 2);
-  font-family: var(--font-dmsans);
-  --tw-font-weight: var(--font-weight-bold);
-  font-weight: var(--font-weight-bold);
-  color: #212D40;
-  &:hover {
-    @media (hover: hover) {
-      background-color: #212D40;
-    }
-  }
-  &:hover {
-    @media (hover: hover) {
-      color: var(--color-white);
-    }
-  }
-}
 #no-reservation {
   display: flex;
   height: calc(2/3 * 100%);
   min-height: 400px;
   width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  column-gap: calc(var(--spacing) * 4);
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius-2xl);
   background-color: #364156;
   padding: calc(var(--spacing) * 4);
@@ -1860,6 +1847,25 @@
   &:hover {
     @media (hover: hover) {
       color: #364156;
+    }
+  }
+}
+.edit-btn {
+  border-radius: var(--radius-2xl);
+  background-color: var(--color-white);
+  padding: calc(var(--spacing) * 2);
+  font-family: var(--font-dmsans);
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+  color: #212D40;
+  &:hover {
+    @media (hover: hover) {
+      background-color: #212D40;
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-white);
     }
   }
 }
@@ -2017,7 +2023,7 @@
 .body {
   overflow: hidden;
 }
-.reservation-room .reserve-bldg-text, .go-back-text, .reserve-bldg-text, #available-text-container p, #date-time-selection input, #date-time-selection select, .room-container div, .room-container span,  .seat-legend span, .whiteboard, .submit.btn {
+.reservation-room #reserve-bldg-text, .go-back-text, #reserve-bldg-text, #available-text-container p, #date-time-selection input, #date-time-selection select, .room-container div, .room-container span,  .seat-legend span, .whiteboard, .submit.btn, #anon-checkbox-label span {
   font-family: var(--font-grotesk);
   color: var(--color-white);
 }
@@ -2039,7 +2045,7 @@
   align-items: center;
   overflow: hidden;
 }
-.reserve-bldg-text {
+#reserve-bldg-text {
   justify-self: center;
   padding-top: calc(var(--spacing) * 7);
   font-size: var(--text-3xl);
@@ -2298,6 +2304,30 @@
 .cancel-btn {
   width: var(--container-xs);
   color: var(--color-gray-400);
+}
+#anon-checkbox {
+  height: calc(var(--spacing) * 5);
+  width: calc(var(--spacing) * 5);
+  appearance: none;
+  border-radius: var(--radius-sm);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  border-color: var(--color-white);
+  background-color: transparent;
+  transition-property: all;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+  &:checked {
+    border-color: #E55B2E;
+  }
+  &:checked {
+    background-color: #E55B2E;
+  }
+  position: relative;
+  cursor: pointer;
+}
+#anon-checkbox-label {
+  margin: calc(var(--spacing) * 5);
 }
 @layer theme, base, components, utilities;
 @layer theme;
