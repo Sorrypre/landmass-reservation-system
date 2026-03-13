@@ -47,7 +47,7 @@ function playAlert(){
                     res(e.target.result);
                 }
             });
-            const user = await fetch('/query-current-user', {
+            let user = await fetch('/query-current-user', {
                 method: 'GET',
                 headers: { 'Content-Length': 0 },
             });
@@ -66,11 +66,13 @@ function playAlert(){
                 headers: { 'Content-Type': 0 },
             })
             const new_pfp_json = await user.json();
-            const new_pfp_user = JSON.parse(new_pfp_json);
+            const new_pfp_user = JSON.parse(new_pfp_json.user);
             const new_photo = new_pfp_user.settings.photo;
+            console.log(new_photo);
             profilePic.src = new_photo;
         });
 
+    
      
 // const submit_btn = document.getElementById('change-profile-submit-btn');
 // const profile_desc = document.getElementById('profile-description');
