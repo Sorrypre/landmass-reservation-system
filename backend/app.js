@@ -22,8 +22,8 @@ const root_dir = path.join(__dirname, '..');
 let db_instance;
 
 const xj = express();
-xj.use(express.urlencoded({ extended: true }));
-xj.use(express.json());
+xj.use(express.json({limit: '2mb'}));
+xj.use(express.urlencoded({ limit: '2mb', extended: true }));
 xj.use(express.static(root_dir));
 /* https://expressjs.com/en/resources/middleware/session.html */
 xj.use(session({
@@ -247,11 +247,14 @@ xj.post('/query-modify-user', async function(q, r) {
 });
 
 
-xj.get('/testview', async function(q,r) {
+xj.get('/settings', async function(q,r) {
 	const template = await hbs.getTemplate('settings', q.session.email);
 	r.render('settings', template);
 });
-
+// xj.get('/testview', async function(q,r) {
+// 	const template = await hbs.getTemplate('settings', q.session.email);
+// 	r.render('settings', template);
+// });
 
 xj.use('/reserve-seat', reserveSeatRouter);
 /* LOGIN/REGISTER POST */
