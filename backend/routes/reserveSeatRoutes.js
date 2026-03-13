@@ -150,14 +150,17 @@ router.post('/api/reserve', async (req,res)=>{
     console.log("Session Data:", req.session.email);
     console.log("ENTERED API RESERVE");
     try {
-        let {bldg, room, startT, endT, seats, anon} = req.body;
+        let {bldg, room, startT, endT, seats, anon, name} = req.body;
         let email = req.session.email;
         let u = await db.getUser(email, {})
+        let sessionUsername = "";
         if(anon){
             sessionUsername = "";
+        } else if(email === "admin@admin.com"){
+            sessionUsername = name;
         }
         else{
-            let sessionUsername = u.settings.username;
+            sessionUsername = u.settings.username;
         }
     
         const reservation = {

@@ -92,6 +92,11 @@ xj.get('/reservation-list', async function(q, r) {
 	r.render('reservation-list', template);
 });
 
+xj.get('/buildings', async function(q, r) {
+	const template = await hbs.getTemplate('buildings', q.session.email);
+	r.render('buildings', template);
+});
+
 /* QUERY POST/GET */
 
 xj.get('/query-current-user', async function(q, r) {

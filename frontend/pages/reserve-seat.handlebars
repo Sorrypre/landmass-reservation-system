@@ -60,7 +60,7 @@
 				<option>G206</option>
 				<option>G207</option> --}}
 			</select>
-			<label id="anon-checkbox-label">
+			<label id="anon-checkbox-label" class="">
 				<input type="checkbox" id="anon-checkbox">
 				<span>Reserve as Anonymous</span>
 			</label>
@@ -163,6 +163,9 @@
 				Room: <br>
 				Seat List: <br>
 			</p>
+			<div id="admin-only-requestor" class="hidden">
+				<input type="text" id="admin-walk-in-input" placeholder="Requestor Username">
+			</div>
 			<div class="dialog-buttons">
 				<button class="confirm-btn" onclick="returnDashboard()">Confirm</button>
 				<button onclick="closeModal()" class="cancel-btn">Cancel</button>

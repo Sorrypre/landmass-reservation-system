@@ -58,7 +58,7 @@
     @apply text-black;
 }
     
-#reserved-date, #reserved-time, #reserved-room{
+#reserved-date, #reserved-time, #reserved-room,  #admin-walk-in-input{
     @apply border-none outline-none appearance-none bg-transparent;
     @apply border-b border-solid border-white;
     @apply placeholder:text-white text-white;
@@ -210,4 +210,7 @@
 
 #anon-checkbox-label{
     @apply m-5;
+}
+#admin-walk-in-input {
+    @apply text-base md:text-xl; 
 }

@@ -30,7 +30,10 @@ if (redir_dashboard)
 
 if (redir_reserve_seats)
 	redir_reserve_seats.addEventListener('click', async function(e) {
-		window.location.href = '/reserve-seats';
+		if (await isServer())
+			window.location.href = '/buildings';
+		else
+			window.location.href = './DLSU-buildings.html';
 	});
 
 if (redir_see_reservations)
