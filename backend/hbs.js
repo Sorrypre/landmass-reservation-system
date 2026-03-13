@@ -5,6 +5,7 @@ async function getTemplate(id, email) {
 	const result = user !== null;
 	const username = result ? user.settings.username : 'Username';
     const description = result ? user.settings.bio : '';
+	const pfp_photo = result ? user.settings.photo : '../frontend/assets/images/pexels-cottonbro-7166828.jpg'
 	return {
 		'login': {
 			user: false,
@@ -39,6 +40,7 @@ async function getTemplate(id, email) {
 			username: username,
 			description: description,
 			email: email,
+			photo: pfp_photo,
 		}
 		/*	add more keys here with the corresponding Handlebars arguments as value
 			depende kung anong page ang irerender */
