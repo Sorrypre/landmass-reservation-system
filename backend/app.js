@@ -247,12 +247,12 @@ xj.post('/query-modify-user', async function(q, r) {
 	});
 });
 
-/*
-xj.get('/testview', async function(q,r) {
-	const template = await hbs.getTemplate('reservation-list', q.session.email);
-	r.render('reservation-list', template);
-});
-*/
+
+// xj.get('/testview', async function(q,r) {
+// 	const template = await hbs.getTemplate('reserve-seat', q.session.email);
+// 	r.render('reserve-seat', template);
+// });
+
 
 xj.use('/reserve-seat', reserveSeatRouter);
 /* LOGIN/REGISTER POST */
