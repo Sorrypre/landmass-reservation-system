@@ -1,4 +1,3 @@
-
 const generate_dialog_profile_info_reset_warning = function() {
 const msg = `
     <!-- https://uxwing.com/warning-icon/ -->

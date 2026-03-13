@@ -2,6 +2,7 @@
     <div id="profile-info-content">
         <div id="profile-card">
             <div id="photo-holder"> 
+                <!---->
                 <img id="profilepic" class="profile-img" src="../../frontend/assets/images/pexels-cottonbro-7166828.jpg">
             </div>
             <div id="profile-content">
@@ -9,8 +10,8 @@
                 <p id="profile-name">{{username}}</p>
                 </div>
                 <div id="profile-info">
-                    <p class="text-info-title">Description: {{description}} <p>
-                    <p id="profile-description" class="text-info-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, error. Quos eligendi voluptates facilis consequatur assumenda optio delectus, officiis aliquam </p>
+                    <p class="text-info-title">Description: <p>
+                    <p id="profile-description" class="text-info-content">{{description}}</p>
                 <br>
                     <p class="text-info-title">Email: </p>
                     <p id="profile-email" class="text-info-content">{{email}}</p>
@@ -41,7 +42,7 @@
             </div>
             <div id="settings-buttons-container">
                 <button id="change-profilepic-cancel-btn" class="settings-menu-options" onclick="cancelProfilePicChange()" type="button">Cancel</button>
-                <button id="change-profilepic-confirm-btn" class="settings-menu-options" onclick="confirmProfilePicChange()" type="button">Confirm</button>
+                <button id="change-profilepic-confirm-btn" class="settings-menu-options" type="button">Confirm</button>
             </div>
             </div>
         </div>
