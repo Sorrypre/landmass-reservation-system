@@ -199,6 +199,25 @@ xj.post('/query-modify-user', async function(q, r) {
 	});
 });
 
+xj.post('/query-change-password', async function(q, r) {
+	const try_user = await db.getUser(q.body.email, {});
+	if (try_user === null) {
+		return r.status(404).json({
+			success: false,
+			error: 'Trying to modify a non-existent user.',
+		});
+	}
+	const new_hashing = await session.h512(q.body.password, try_user.salt);
+	const result = await db.setUser(
+		q.body.email,
+		{},
+		{ 'hash': new_hashing.hashed },
+	);
+	r.status(200).json({
+		success: true,
+		modifiedCount: result,
+	});
+});
 
 xj.get('/settings', async function(q,r) {
 	const template = await hbs.getTemplate('settings', q.session.email);
