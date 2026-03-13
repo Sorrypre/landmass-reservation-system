@@ -22,55 +22,58 @@ function playAlert(){
     alertAudio.play();
 }
 
-        const profilePic = document.getElementById('profilepic');
-        const initialProfilePic = document.getElementById('profilepic-initial');
-        const inputFile = document.getElementById("input-file-pfp");
-        const pfp_submit_btn = document.getElementById('change-profilepic-confirm-btn');
-        // let profileCancelBtn = document.getElementById('change-profilepic-cancel-btn');
+const profilePic = document.getElementById('profilepic');
+const initialProfilePic = document.getElementById('profilepic-initial');
+const inputFile = document.getElementById("input-file-pfp");
+const pfp_submit_btn = document.getElementById('change-profilepic-confirm-btn');
+// let profileCancelBtn = document.getElementById('change-profilepic-cancel-btn');
 
-        inputFile.onclick = function(){
-        this.value = null;
+inputFile.onclick = function(){
+this.value = null;
+}
+inputFile.onchange = function(){
+    initialProfilePic.src = URL.createObjectURL(inputFile.files[0]);
+}
+function cancelProfilePicChange(){
+initialProfilePic.src = profilePic.src;
+}
+
+pfp_submit_btn.addEventListener('click', async function confirmProfilePicChange() {
+    const reader = new FileReader();
+    reader.readAsDataURL(inputFile.files[0]);
+    /* https://stackoverflow.com/a/74390975 */
+    const base64photo = await new Promise(function (res, rej) {
+        reader.onload = function(e) {
+            res(e.target.result);
         }
-        inputFile.onchange = function(){
-            initialProfilePic.src = URL.createObjectURL(inputFile.files[0]);
-        }
-        function cancelProfilePicChange(){
-        initialProfilePic.src = profilePic.src;
-        }
-    
-        pfp_submit_btn.addEventListener('click', async function confirmProfilePicChange() {
-            const reader = new FileReader();
-            reader.readAsDataURL(inputFile.files[0]);
-            /* https://stackoverflow.com/a/74390975 */
-            const base64photo = await new Promise(function (res, rej) {
-                reader.onload = function(e) {
-                    res(e.target.result);
-                }
-            });
-            let user = await fetch('/query-current-user', {
-                method: 'GET',
-                headers: { 'Content-Length': 0 },
-            });
-            const user_json = await user.json();
-            const profile_change = await fetch('/query-modify-user', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', },
-                body: JSON.stringify({
-                    email: JSON.parse(user_json.user).settings.email,
-                    matchjson: JSON.stringify({}),
-                    updjson: JSON.stringify({ 'settings.photo': base64photo }),
-                }),
-            });
-            user = await fetch('/query-current-user', {
-                method: 'GET',
-                headers: { 'Content-Type': 0 },
-            })
-            const new_pfp_json = await user.json();
-            const new_pfp_user = JSON.parse(new_pfp_json.user);
-            const new_photo = new_pfp_user.settings.photo;
-            console.log(new_photo);
-            profilePic.src = new_photo;
-        });
+    });
+    let user = await fetch('/query-current-user', {
+        method: 'GET',
+        headers: { 'Content-Length': 0 },
+    });
+    const user_json = await user.json();
+    const profile_change = await fetch('/query-modify-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({
+            email: JSON.parse(user_json.user).settings.email,
+            matchjson: JSON.stringify({}),
+            updjson: JSON.stringify({ 'settings.photo': base64photo }),
+        }),
+    });
+    user = await fetch('/query-current-user', {
+        method: 'GET',
+        headers: { 'Content-Type': 0 },
+    })
+    const new_pfp_json = await user.json();
+    const new_pfp_user = JSON.parse(new_pfp_json.user);
+    const new_photo = new_pfp_user.settings.photo;
+    console.log(new_photo);
+    profilePic.src = new_photo;
+});
+
+
+
 
     
      
