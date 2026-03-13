@@ -22,8 +22,8 @@ const root_dir = path.join(__dirname, '..');
 let db_instance;
 
 const xj = express();
-xj.use(express.json({limit: '2mb'}));
-xj.use(express.urlencoded({ limit: '2mb', extended: true }));
+xj.use(express.json({limit: '5mb'}));
+xj.use(express.urlencoded({ limit: '5mb', extended: true }));
 xj.use(express.static(root_dir));
 /* https://expressjs.com/en/resources/middleware/session.html */
 xj.use(session({
@@ -182,10 +182,10 @@ xj.post('/query-modify-user', async function(q, r) {
 			error: 'Trying to modify a non-existent user.',
 		});
 	}
-	const result = await db.modifyUser(
+	const result = await db.setUser(
 		q.body.email,
-		q.body.matchjson,
-		q.body.updjson,
+		JSON.parse(q.body.matchjson),
+		JSON.parse(q.body.updjson),
 	);
 	r.status(200).json({
 		success: true,
