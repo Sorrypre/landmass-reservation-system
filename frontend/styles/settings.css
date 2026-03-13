@@ -8,7 +8,7 @@
 }
 /* For the profile content */
 #profile-info-content {
-	@apply flex flex-col w-full md:w-1/4
+	@apply flex flex-col w-full md:w-1/3
 }
 
 #profile-card {
@@ -19,25 +19,25 @@
 	@apply flex items-center justify-center pb-5
 }
 #profilepic{
-	@apply w-[200px] h-[200px] md:w-[150px] md:h-[150px];
-	@apply object-cover object-center rounded-full border-solid border-8 border-amber-50
+	@apply md:w-[150px] md:h-[150px];
+	@apply rounded-full border-solid border-8 border-amber-50
 
 }
 #profile-content{
 	@apply bg-gray-800 rounded-md p-3
 }
-#profile-name{
+#profile-name-container{
 	@apply text-2xl text-center font-bold;
 	@apply pb-5 overflow-hidden;
 }
 #profile-info{
-	@apply p-2 overflow-x-auto
+	@apply p-2 overflow-x-auto;
 }
 .text-info-title{
 	@apply text-lg font-bold
 }
 .text-info-content{
-	@apply whitespace-pre md:whitespace-normal
+	@apply text-wrap md:whitespace-normal text-justify;
 }
 /* For the Collapsable Menu */
 #collapsable-menu-content {
@@ -52,7 +52,6 @@
 	@apply flex relative items-center w-full;
 	@apply bg-[#7070a1] transition hover:duration-300 hover:bg-[#5d5d81] ease-in-out;
 	@apply rounded-t-xl;
-	@apply cursor-pointer;
 }
 .collapsible-header-content.collapsed{
 	@apply rounded-b-none;
@@ -82,8 +81,173 @@
 	@apply rounded-b-xl;
 }
 .collapsible-target-div-content{
-	@apply p-4;
+	@apply flex flex-col p-4 items-center; 
 }
+.collapsible-target-div-content > h3 {
+	@apply text-3xl text-center w-full;
+}
+
 #settings-text {
 	@apply font-grotesk pb-2 text-3xl md:text-4xl text-white font-bold justify-self-center after:content-['ACCOUNT_SETTINGS'];
+}
+#change-profile-content{
+	@apply bg-gray-800 rounded-md p-6 mt-4 gap-6 md:w-1/4 overflow-hidden;
+	@apply flex md:flex-row flex-col justify-center items-center flex-wrap;
+}
+#overlay{
+	@apply relative w-[200px] h-[200px] overflow-hidden;
+}
+#overlay::after{
+	@apply content-[''] flex items-center ml-[100px] mt-[-100px] justify-center;
+	@apply transform-flat -translate-x-1/2 -translate-y-1/2;
+	@apply rounded-full w-[400px] h-[400px] border-100 border-gray-500 opacity-70;
+}
+.profile-img{
+	@apply object-cover w-[200px] h-[200px];
+}
+#change-profile-content label{
+	@apply w-[200px] border-4 p-3 rounded-xl cursor-pointer text-gray-800 bg-white text-center;
+	@apply  border-white hover:bg-gray-900 hover:text-white;
+	@apply active:bg-amber-50;
+}
+#change-profile-content input{
+	@apply hidden;
+}
+#settings-buttons-container{
+	@apply flex flex-row gap-x-10 p-4;
+}
+.settings-menu-options{
+	@apply p-2 cursor-pointer rounded-xl;
+}
+#change-profilepic-cancel-btn {
+	@apply border-5 border-gray-800 text-gray-800;
+	@apply hover:bg-gray-900 hover:text-white hover:border-gray-900;
+	@apply focus:outline-4 focus:outline-offset-2 focus:outline-gray-900;
+	@apply active:bg-amber-50;
+}
+#change-profilepic-confirm-btn {
+	@apply bg-gray-900;
+	@apply hover:bg-white hover:text-gray-900;
+	@apply focus:outline-4 focus:outline-offset-2 focus:outline-gray-900;
+	@apply active:bg-amber-50 active:text-white;
+}
+#change-information-content{
+	@apply flex items-start w-3/4 bg-gray-800 rounded-md p-6 mt-4;
+}
+#change-information-content > form {
+	@apply w-full;
+}
+.change-info-area {
+	@apply flex flex-col md:flex-row;
+}
+#change-info {
+	@apply flex flex-col gap-4 justify-center;
+}
+#change-info label {
+	@apply w-1/4 whitespace-normal text-xl wrap-break-word;
+}
+#change-info input, textarea {
+	@apply bg-white text-black p-2 rounded-2xl w-full;
+}
+
+#reset-button-container{
+	@apply flex w-full items-center justify-center;
+}
+#change-profile-reset-btn{
+	@apply text-gray-800 bg-white text-center w-[100px];
+	@apply  border-white hover:bg-gray-900 hover:text-white;
+}
+#change-profile-submit-btn {
+	@apply bg-gray-900 w-[100px];
+	@apply hover:bg-white hover:text-gray-900;
+	@apply focus:outline-4 focus:outline-offset-2 focus:outline-gray-900;
+	@apply active:bg-amber-50 active:text-white;
+}
+#submit-button-container{
+	@apply flex w-full items-center justify-center mt-4;
+}
+#dialog-test-content {
+	@apply h-full flex flex-col justify-center items-center;
+}
+
+#change-password-content{
+	@apply flex items-start w-2/3 bg-gray-800 rounded-md p-6 mt-4;
+}
+#change-password-content > form {
+	@apply w-full;
+}
+
+.change-password-area{
+	@apply flex flex-col md:flex-row;
+}
+#change-password {
+	@apply flex flex-col gap-4 justify-center;
+}
+#change-password label {
+	@apply w-1/4 whitespace-normal text-xl wrap-break-word;
+}
+
+#change-password input {
+	@apply  text-black w-full bg-transparent border-0;
+}
+
+.input-box-with-eye{
+	@apply flex bg-white p-3 items-center rounded-xl w-full;
+}
+
+.input-box-with-eye i{
+	@apply text-gray-900 cursor-pointer;
+}
+
+.hide {
+	@apply hidden;
+}
+
+#change-password-submit-btn {
+	@apply bg-gray-900 w-[100px];
+	@apply hover:bg-white hover:text-gray-900;
+	@apply focus:outline-4 focus:outline-offset-2 focus:outline-gray-900;
+	@apply active:bg-amber-50 active:text-white;
+}
+#delete-account-button-content{
+	@apply flex items-center justify-center w-full p-6 mt-3;
+}
+#delete-account-btn{
+	@apply bg-gray-900 w-[300px];
+	@apply hover:bg-white hover:text-gray-900 text-3xl;
+	@apply focus:outline-4 focus:outline-offset-2 focus:outline-gray-900;
+	@apply active:bg-amber-50 active:text-white;
+}
+#delete-account-button-container{
+	@apply flex w-full items-center justify-center;
+}
+.input-label-alert-area{
+	@apply flex flex-col w-3/4;
+}
+#upload-image-area{
+	@apply items-center;
+}
+.change-invalid{
+	@apply font-inter text-red-500 hidden;
+}
+#change-pfp-status.pfp-invalid-type{
+	@apply after:content-['\26A0__Invalid_file_type.'];
+}
+#change-username-status.username-length-invalid{
+	@apply after:content-['\26A0__Username_must_be_at_most_45_characters.'];
+}
+#change-desc-status.desc-length-invalid{
+	@apply after:content-['\26A0__Description_must_be_at_most_160_characters.'];
+}
+#old-password-status.old-password-empty, #change-new-password-status.new-password-empty, #confirm-password-status.confirm-password-empty{
+	@apply after:content-['\26A0__Please_input_a_password.'];
+}
+#old-password-status.old-password-mismatch {
+	@apply after:content-['\26A0__Old_password_do_not_match.'];
+}
+#change-new-password-status.new-password-short{
+	@apply after:content-['\26A0__Password_must_be_at_least_8_characters.'];
+}
+#confirm-password-status.confirm-password-mismatch {
+	@apply after:content-['\26A0__Passwords_do_not_match.'];
 }

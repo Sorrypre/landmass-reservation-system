@@ -25,6 +25,7 @@
     --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-gray-700: oklch(37.3% 0.034 259.733);
     --color-gray-800: oklch(27.8% 0.033 256.848);
+    --color-gray-900: oklch(21% 0.034 264.665);
     --color-zinc-200: oklch(92% 0.004 286.32);
     --color-zinc-400: oklch(70.5% 0.015 286.067);
     --color-zinc-600: oklch(44.2% 0.017 285.786);
@@ -519,6 +520,9 @@
   .tracking-\[0\.2em\] {
     --tw-tracking: 0.2em;
     letter-spacing: 0.2em;
+  }
+  .text-black {
+    color: var(--color-black);
   }
   .text-white {
     color: var(--color-white);
@@ -2716,7 +2720,7 @@
   width: 100%;
   flex-direction: column;
   @media (width >= 48rem) {
-    width: calc(1/4 * 100%);
+    width: calc(1/3 * 100%);
   }
 }
 #profile-card {
@@ -2733,8 +2737,6 @@
   padding-bottom: calc(var(--spacing) * 5);
 }
 #profilepic {
-  height: 200px;
-  width: 200px;
   @media (width >= 48rem) {
     height: 150px;
   }
@@ -2747,15 +2749,13 @@
   --tw-border-style: solid;
   border-style: solid;
   border-color: var(--color-amber-50);
-  object-fit: cover;
-  object-position: center;
 }
 #profile-content {
   border-radius: var(--radius-md);
   background-color: var(--color-gray-800);
   padding: calc(var(--spacing) * 3);
 }
-#profile-name {
+#profile-name-container {
   text-align: center;
   font-size: var(--text-2xl);
   line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -2775,7 +2775,8 @@
   font-weight: var(--font-weight-bold);
 }
 .text-info-content {
-  white-space: pre;
+  text-align: justify;
+  text-wrap: wrap;
   @media (width >= 48rem) {
     white-space: normal;
   }
@@ -2816,7 +2817,6 @@
   }
   border-top-left-radius: var(--radius-xl);
   border-top-right-radius: var(--radius-xl);
-  cursor: pointer;
 }
 .collapsible-header-content.collapsed {
   border-bottom-right-radius: 0;
@@ -2879,7 +2879,16 @@
   border-bottom-left-radius: var(--radius-xl);
 }
 .collapsible-target-div-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: calc(var(--spacing) * 4);
+}
+.collapsible-target-div-content > h3 {
+  width: 100%;
+  text-align: center;
+  font-size: var(--text-3xl);
+  line-height: var(--tw-leading, var(--text-3xl--line-height));
 }
 #settings-text {
   justify-self: center;
@@ -2897,6 +2906,449 @@
   @media (width >= 48rem) {
     font-size: var(--text-4xl);
     line-height: var(--tw-leading, var(--text-4xl--line-height));
+  }
+}
+#change-profile-content {
+  margin-top: calc(var(--spacing) * 4);
+  gap: calc(var(--spacing) * 6);
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background-color: var(--color-gray-800);
+  padding: calc(var(--spacing) * 6);
+  @media (width >= 48rem) {
+    width: calc(1/4 * 100%);
+  }
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  @media (width >= 48rem) {
+    flex-direction: row;
+  }
+}
+#overlay {
+  position: relative;
+  height: 200px;
+  width: 200px;
+  overflow: hidden;
+}
+#overlay::after {
+  margin-top: -100px;
+  margin-left: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --tw-content: '';
+  content: var(--tw-content);
+  --tw-translate-x: calc(calc(1/2 * 100%) * -1);
+  --tw-translate-y: calc(calc(1/2 * 100%) * -1);
+  translate: var(--tw-translate-x) var(--tw-translate-y);
+  transform-style: flat;
+  height: 400px;
+  width: 400px;
+  border-radius: calc(infinity * 1px);
+  border-style: var(--tw-border-style);
+  border-width: 100px;
+  border-color: var(--color-gray-500);
+  opacity: 70%;
+}
+.profile-img {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
+#change-profile-content label {
+  width: 200px;
+  cursor: pointer;
+  border-radius: var(--radius-xl);
+  border-style: var(--tw-border-style);
+  border-width: 4px;
+  background-color: var(--color-white);
+  padding: calc(var(--spacing) * 3);
+  text-align: center;
+  color: var(--color-gray-800);
+  border-color: var(--color-white);
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-gray-900);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-white);
+    }
+  }
+  &:active {
+    background-color: var(--color-amber-50);
+  }
+}
+#change-profile-content input {
+  display: none;
+}
+#settings-buttons-container {
+  display: flex;
+  flex-direction: row;
+  column-gap: calc(var(--spacing) * 10);
+  padding: calc(var(--spacing) * 4);
+}
+.settings-menu-options {
+  cursor: pointer;
+  border-radius: var(--radius-xl);
+  padding: calc(var(--spacing) * 2);
+}
+#change-profilepic-cancel-btn {
+  border-style: var(--tw-border-style);
+  border-width: 5px;
+  border-color: var(--color-gray-800);
+  color: var(--color-gray-800);
+  &:hover {
+    @media (hover: hover) {
+      border-color: var(--color-gray-900);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-gray-900);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-white);
+    }
+  }
+  &:focus {
+    outline-style: var(--tw-outline-style);
+    outline-width: 4px;
+  }
+  &:focus {
+    outline-offset: 2px;
+  }
+  &:focus {
+    outline-color: var(--color-gray-900);
+  }
+  &:active {
+    background-color: var(--color-amber-50);
+  }
+}
+#change-profilepic-confirm-btn {
+  background-color: var(--color-gray-900);
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-white);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-gray-900);
+    }
+  }
+  &:focus {
+    outline-style: var(--tw-outline-style);
+    outline-width: 4px;
+  }
+  &:focus {
+    outline-offset: 2px;
+  }
+  &:focus {
+    outline-color: var(--color-gray-900);
+  }
+  &:active {
+    background-color: var(--color-amber-50);
+  }
+  &:active {
+    color: var(--color-white);
+  }
+}
+#change-information-content {
+  margin-top: calc(var(--spacing) * 4);
+  display: flex;
+  width: calc(3/4 * 100%);
+  align-items: flex-start;
+  border-radius: var(--radius-md);
+  background-color: var(--color-gray-800);
+  padding: calc(var(--spacing) * 6);
+}
+#change-information-content > form {
+  width: 100%;
+}
+.change-info-area {
+  display: flex;
+  flex-direction: column;
+  @media (width >= 48rem) {
+    flex-direction: row;
+  }
+}
+#change-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(var(--spacing) * 4);
+}
+#change-info label {
+  width: calc(1/4 * 100%);
+  font-size: var(--text-xl);
+  line-height: var(--tw-leading, var(--text-xl--line-height));
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+#change-info input, textarea {
+  width: 100%;
+  border-radius: var(--radius-2xl);
+  background-color: var(--color-white);
+  padding: calc(var(--spacing) * 2);
+  color: var(--color-black);
+}
+#reset-button-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+#change-profile-reset-btn {
+  width: 100px;
+  background-color: var(--color-white);
+  text-align: center;
+  color: var(--color-gray-800);
+  border-color: var(--color-white);
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-gray-900);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-white);
+    }
+  }
+}
+#change-profile-submit-btn {
+  width: 100px;
+  background-color: var(--color-gray-900);
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-white);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-gray-900);
+    }
+  }
+  &:focus {
+    outline-style: var(--tw-outline-style);
+    outline-width: 4px;
+  }
+  &:focus {
+    outline-offset: 2px;
+  }
+  &:focus {
+    outline-color: var(--color-gray-900);
+  }
+  &:active {
+    background-color: var(--color-amber-50);
+  }
+  &:active {
+    color: var(--color-white);
+  }
+}
+#submit-button-container {
+  margin-top: calc(var(--spacing) * 4);
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+#dialog-test-content {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#change-password-content {
+  margin-top: calc(var(--spacing) * 4);
+  display: flex;
+  width: calc(2/3 * 100%);
+  align-items: flex-start;
+  border-radius: var(--radius-md);
+  background-color: var(--color-gray-800);
+  padding: calc(var(--spacing) * 6);
+}
+#change-password-content > form {
+  width: 100%;
+}
+.change-password-area {
+  display: flex;
+  flex-direction: column;
+  @media (width >= 48rem) {
+    flex-direction: row;
+  }
+}
+#change-password {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(var(--spacing) * 4);
+}
+#change-password label {
+  width: calc(1/4 * 100%);
+  font-size: var(--text-xl);
+  line-height: var(--tw-leading, var(--text-xl--line-height));
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+#change-password input {
+  width: 100%;
+  border-style: var(--tw-border-style);
+  border-width: 0px;
+  background-color: transparent;
+  color: var(--color-black);
+}
+.input-box-with-eye {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-white);
+  padding: calc(var(--spacing) * 3);
+}
+.input-box-with-eye i {
+  cursor: pointer;
+  color: var(--color-gray-900);
+}
+.hide {
+  display: none;
+}
+#change-password-submit-btn {
+  width: 100px;
+  background-color: var(--color-gray-900);
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-white);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-gray-900);
+    }
+  }
+  &:focus {
+    outline-style: var(--tw-outline-style);
+    outline-width: 4px;
+  }
+  &:focus {
+    outline-offset: 2px;
+  }
+  &:focus {
+    outline-color: var(--color-gray-900);
+  }
+  &:active {
+    background-color: var(--color-amber-50);
+  }
+  &:active {
+    color: var(--color-white);
+  }
+}
+#delete-account-button-content {
+  margin-top: calc(var(--spacing) * 3);
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--spacing) * 6);
+}
+#delete-account-btn {
+  width: 300px;
+  background-color: var(--color-gray-900);
+  font-size: var(--text-3xl);
+  line-height: var(--tw-leading, var(--text-3xl--line-height));
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-white);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-gray-900);
+    }
+  }
+  &:focus {
+    outline-style: var(--tw-outline-style);
+    outline-width: 4px;
+  }
+  &:focus {
+    outline-offset: 2px;
+  }
+  &:focus {
+    outline-color: var(--color-gray-900);
+  }
+  &:active {
+    background-color: var(--color-amber-50);
+  }
+  &:active {
+    color: var(--color-white);
+  }
+}
+#delete-account-button-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.input-label-alert-area {
+  display: flex;
+  width: calc(3/4 * 100%);
+  flex-direction: column;
+}
+#upload-image-area {
+  align-items: center;
+}
+.change-invalid {
+  display: none;
+  font-family: var(--font-inter);
+  color: var(--color-red-500);
+}
+#change-pfp-status.pfp-invalid-type {
+  &::after {
+    --tw-content: '\26A0  Invalid file type.';
+    content: var(--tw-content);
+  }
+}
+#change-username-status.username-length-invalid {
+  &::after {
+    --tw-content: '\26A0  Username must be at most 45 characters.';
+    content: var(--tw-content);
+  }
+}
+#change-desc-status.desc-length-invalid {
+  &::after {
+    --tw-content: '\26A0  Description must be at most 160 characters.';
+    content: var(--tw-content);
+  }
+}
+#old-password-status.old-password-empty, #change-new-password-status.new-password-empty, #confirm-password-status.confirm-password-empty {
+  &::after {
+    --tw-content: '\26A0  Please input a password.';
+    content: var(--tw-content);
+  }
+}
+#old-password-status.old-password-mismatch {
+  &::after {
+    --tw-content: '\26A0  Old password do not match.';
+    content: var(--tw-content);
+  }
+}
+#change-new-password-status.new-password-short {
+  &::after {
+    --tw-content: '\26A0  Password must be at least 8 characters.';
+    content: var(--tw-content);
+  }
+}
+#confirm-password-status.confirm-password-mismatch {
+  &::after {
+    --tw-content: '\26A0  Passwords do not match.';
+    content: var(--tw-content);
   }
 }
 @layer theme, base, components, utilities;
