@@ -29,7 +29,7 @@
 }
 
 #filter-user-search {
-    @apply p-3 bg-white mr-auto text-[16px] w-1/2 hidden text-[#364156] font-bold font-dmsans rounded-xl;
+    @apply p-3 bg-white mr-auto text-[16px] w-1/2 text-[#364156] font-bold font-dmsans rounded-xl;
     @apply hover:bg-[#212D40] hover:text-white;
 }
 
@@ -37,13 +37,8 @@
     @apply ml-4 mr-auto;
 }
 
-#save-edit-btn {
-    @apply p-2 hidden bg-white text-[#212D40] font-bold font-dmsans rounded-2xl;
-    @apply hover:bg-[#212D40] hover:text-white;
-}
-
 #no-reservation {
-    @apply bg-[#364156] p-4 w-full min-h-[400px] h-2/3 flex flex-col gap-x-4 text-[48px] items-start text-white font-grotesk rounded-2xl;
+    @apply bg-[#364156] p-4 w-full min-h-[400px] h-2/3 text-[48px] flex items-center justify-center text-white font-grotesk rounded-2xl;
 }
 
 .reserve-list-main {
@@ -91,4 +86,9 @@
     @apply p-2 bg-[#212D40] w-full flex flex-row gap-x-4 rounded-2xl;
     @apply text-white font-grotesk;
     @apply hover:bg-white hover:text-[#364156];
+}
+
+.edit-btn {
+    @apply p-2 bg-white text-[#212D40] font-bold font-dmsans rounded-2xl;
+    @apply hover:bg-[#212D40] hover:text-white;
 }

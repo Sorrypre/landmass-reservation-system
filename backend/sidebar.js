@@ -37,10 +37,7 @@ if (hamburger)
 
 if (redir_dashboard)
 	redir_dashboard.addEventListener('click', async function(e) {
-		if (await isServer())
-			window.location.href = '/dashboard';
-		else
-			window.location.href = './dashboard.html';
+		window.location.href = '/dashboard';
 	});
 
 if (redir_reserve_seats)
@@ -53,36 +50,21 @@ if (redir_reserve_seats)
 
 if (redir_see_reservations)
 	redir_see_reservations.addEventListener('click', async function(e) {
-		if (await isServer())
-			window.location.href = '/reservations';
-		else
-			window.location.href = './reservation-list.html';
+		window.location.href = '/reservation-list';
 	});
 
 if (redir_account_settings)
 	redir_account_settings.addEventListener('click', async function(e) {
-		if (await isServer())
-			window.location.href = '/account';
-		else
-			window.location.href = './settings.html';
+		window.location.href = '/settings';
 	});
 
 if (redir_contact_us)
-	redir_contact_us.addEventListener('click', async function(e) {
-		if (await isServer())
-			window.location.href = '/about';
-		else
-			window.location.href = './about.html';
+	redir_contact_us.addEventListener('click', async function(e) {		
+		window.location.href = '/about';
 	});
 
 if (redir_log_out)
 	redir_log_out.addEventListener('click', async function(e) {
-		/*
-		if (await isServer())
-			window.location.href = '/lou';
-		else
-			return;
-		*/
 		const logout = await fetch('/lou', {
 			method: 'POST',
 			headers: { 'Content-Length': 0 },
