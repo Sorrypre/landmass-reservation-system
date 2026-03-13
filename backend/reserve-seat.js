@@ -16,13 +16,23 @@ let container = document.getElementById("slots-container");
 container.addEventListener("click", (e) => {
     if (e.target.classList.contains('seat')) {
         console.log("Seat clicked:", e.target.dataset.pc);
-        e.target.classList.toggle("selected");
+        // e.target.classList.toggle("selected");
+        handleSeatClick(e);
     }
 
 });
 
+function handleSeatClick(e){
+    const currSeat = e.currentTarget;
 
-
+    if(currSeat.classList.contains("taken")){ return }
+    document.querySelectorAll(".seat.selected").forEach(s => {
+        if(s!==currSeat){
+            s.classList.remove("selected");
+        }
+    });
+    currSeat.classList.toggle("selected");
+}
 const modal = document.getElementById('confirm-modal-container');
 
 function openModal() {
@@ -63,17 +73,6 @@ async function reserveSeatForm(){
     console.log(selected_seats);
     let seatList = Array.from(selected_seats).map(s => s.dataset.pc).join(", ");
     
-    const reservation = {
-            dt_request: Date,
-            details: {
-                requestor: sessionUsername,
-                building: bldg,
-                room: room,
-                startTime: startDateTime,
-                endTime: endDateTime,
-                seats: seats,
-            }
-        }
     try {
         console.log("entered reserveSeatForm")
         let {bldg, room, startT, endT, seats, email} = req.body;
