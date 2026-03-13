@@ -118,22 +118,42 @@ router.get('/ping', (req, res) => {
 // Reserve the seats
 // - Handle conflicts
 router.post('/api/reserve', async (req,res)=>{
-    let {email, schedule, bldg, room, seats, requestor} = req.body;
-    reservation.dt_request = new Date();
-
-    const conflict = await db.getUsers.findOne({
-        "reservation.details.schedule": new Date(schedule),
-        "reservation.details.room": room,
-        "reservation.details.seats": {$in: [seats]}
-    });
-
-    if(conflict){
-        return res.status(409).json({message: "Seat/s already taken by another user. Please refresh"});
+    try {
+        let {bldg, room, startT, endT, seats, email} = req.body;
+        let sessionUsername = db.getUser(email, {});
+    
+        const reservation = {
+            dt_request: Date,
+            details: {
+                requestor: sessionUsername,
+                building: bldg,
+                room: room,
+                startTime: startT,
+                endTime: endT,
+                seats: seats,
+            }
+        }
+    
+        const conflict = await db.getUsers({
+            "reservation.details.startTime": new Date(startT).getTime(),
+            "reservation.details.room": room,
+            "reservation.details.seats": {$in: [seats]}
+        });
+        
+        if(conflict && conflict.length>0){
+            return res.status(409).json({message: "Seat already taken by another user. Please refresh"});
+        }
+        
+        let success = await addReservations(email, reservation)
+        if(success){
+            res.status(201).json({message: "Success"});
+        } else {
+            res.status(500).json({ message: "Failed to save reservation" });
+        }
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({ message: "Server Error" });
     }
-
-    let result = db.instance.collection("Users").insertOne(reservation);
-    result.save();
-    res.status(201).json({message: "Success"});
 });
 
 module.exports = router;

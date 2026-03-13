@@ -138,6 +138,25 @@ async function getReservations(email) {
 	}));
 }
 
+async function addReservations(email, reservation){
+	const u = await getUser(email, {});
+	const reservation = u.reservations.insertOne(reservation);
+	if(!u)
+		return;
+	try {
+		await reservation.save();
+		return true;
+	} catch (e) {
+		/*	MongoDB E11000: incoming duplicate on property with unique: true,
+			as for the email, ibig sabihin meron na sa database pero sinusubukan pa rin ipasok
+			https://www.mongodb.com/docs/manual/reference/error-codes/ */
+		if (e.code === 11000)
+			return false;
+		throw new Error('db.register: unexpected error on registration');
+	}
+
+}
+
 module.exports.connect = connect;
 module.exports.instance = instance;
 module.exports.getUsers = getUsers;
