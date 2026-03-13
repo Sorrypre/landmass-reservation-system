@@ -25,7 +25,7 @@ if (roomname && room_text) {
 
 let go_back = document.querySelector("#go-back-container .go-back-text");
 go_back.onclick = function () {
-    window.location.href = "/rr";
+    window.location.href = "/buildings";
 };
 
 let container = document.getElementById("slots-container");
