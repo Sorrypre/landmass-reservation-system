@@ -140,11 +140,13 @@ async function getReservations(email) {
 
 async function addReservations(email, reservation){
 	const u = await getUser(email, {});
-	const reservation = u.reservations.insertOne(reservation);
-	if(!u)
-		return;
+	if(!u){
+		console.error("User not found");
+		return false;
+	}
 	try {
-		await reservation.save();
+		const reservation = u.reservations.push(reservation);
+		await u.save();
 		return true;
 	} catch (e) {
 		/*	MongoDB E11000: incoming duplicate on property with unique: true,
@@ -165,3 +167,4 @@ module.exports.setUser = modifyUser;
 module.exports.register = register;
 module.exports.login = login;
 module.exports.getReservations = getReservations;
+module.exports.addReservations = addReservations;
