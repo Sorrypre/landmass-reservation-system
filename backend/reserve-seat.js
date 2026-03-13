@@ -38,6 +38,11 @@ const modal = document.getElementById('confirm-modal-container');
 function openModal() {
     console.log('open')
     let success = reserveSummary();
+    // const selected_seats = document.querySelectorAll("#slots-container .seat.selected");
+    // if(selected_seats.length===0){
+    //     alert("Choose a seat");
+    //     return;
+    // }
     if(success) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -67,13 +72,13 @@ async function reserveSeatForm(){
     let endDateTime = `${date_dropdown.value}T${endTime.slice(0, 2)}:${endTime.slice(2)}:00Z`;
 
 
-    const selected_seats = document.querySelectorAll("#slots-container .seat.selected");
-    if(selected_seats === null){
-        alert("Choose >1 seat");
-        return false;
+    const selected_seat = document.querySelector("#slots-container .seat.selected");
+    if(selected_seat.length===0){
+        alert("Choose a seat");
+        return;
     }
-    console.log(selected_seats);
-    let seatList = Array.from(selected_seats).map(s => s.dataset.pc).join(", ");
+    console.log(selected_seat);
+    let seatList = selected_seat;
     
     try {
         console.log("entered reserveSeatForm")
@@ -107,13 +112,13 @@ async function reserveSeatForm(){
 function reserveSummary(){
     let endTime = (Number(time_dropdown.value) + 200).toString().padStart(4,'0');
 
-    const selected_seats = document.querySelectorAll("#slots-container .seat.selected");
-    if(selected_seats === null){
+    const selected_seat = document.querySelector("#slots-container .seat.selected");
+    if(selected_seat === null){
         alert("Choose >1 seat");
         return false;
     }
     console.log(selected_seats);
-    let seatList = Array.from(selected_seats).map(s => s.dataset.pc).join(", ");
+    let seatList = selected_seat
     
 
     const string = `Date: ${date_dropdown.value}
