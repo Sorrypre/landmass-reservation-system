@@ -246,18 +246,22 @@ function applyFilters(res, building, room, startTime, date) {
 		const filter_hour = parseInt(startTime.substring(0, 2));
 		const filter_min = parseInt(startTime.substring(2, 4));
 		const res_time = new Date(res.startTime);
-		const res_hour = resTime.getHours();
-		const res_min = resTime.getMinutes();
+		const res_hour = res_time.getHours();
+		const res_min = res_time.getMinutes();
 
+		//if reservation time, is less than the selected fiter time, then return false
 		if (res_hour < filter_hour || (res_hour === filter_hour && res_min < filter_min))
 			return false;
 	}
 
 	if (date) {
 		const target_date = new Date(date);
-		const next_date = new Date(targetDate);
+		const next_date = new Date(target_date);
 		next_date.setDate(next_date.getDate() + 1);
 		const res_date = new Date(res.startTime);
+		res_date.setHours(0, 0, 0, 0);
+		target_date.setHours(0, 0, 0, 0);
+		next_date.setHours(0, 0, 0, 0);
 		if (res_date < target_date || res_date >= next_date) return false;
 	}
 
