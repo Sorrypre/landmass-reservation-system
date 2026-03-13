@@ -34,7 +34,7 @@ async function getTemplate(id, email) {
 		},
 		'settings': {
 			user: result,
-			scripts: ['settings_collapse.js','eyeTool.js','dialog.js','settings_reset_warning.js', 'settingsDataValidation.js'],
+			scripts: ['settings_collapse.js', 'eyeTool.js','dialog.js','settings_reset_warning.js', 'settingsDataValidation.js'],
 			bg: 'dlsuBuildings',
 			username: username,
 			description: description,

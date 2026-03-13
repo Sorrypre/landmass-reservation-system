@@ -238,8 +238,7 @@ xj.post('/query-modify-user', async function(q, r) {
 	const result = await db.modifyUser(
 		q.body.email,
 		q.body.matchjson,
-		q.body.setjson,
-		q.body.deljson
+		q.body.updjson,
 	);
 	r.status(200).json({
 		success: true,
