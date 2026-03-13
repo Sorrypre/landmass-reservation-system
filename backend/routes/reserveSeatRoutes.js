@@ -1,8 +1,29 @@
 console.log("router loaded");
 const express = require('express');
 const router = express.Router();
+const session = require('express-session');
+const { MongoStore } = require('connect-mongo');
 const hbs = require('../hbs');
 const db = require('../db');
+
+// xj.use(session({
+//     secret: process.env.SESSION_SIGNATURE,
+//     resave: false,
+//     saveUninitialized: false,
+//     store: MongoStore.create({
+//         mongoUrl: process.env.MDB_URI_SRV,
+//         collectionName: 'session-store',
+//         ttl: 60 * 60 * 24 * 30,
+//         autoRemove: 'interval',
+//         autoRemoveInterval: 5,
+//     }),
+//     cookie: {
+//         sameSite: true,
+//         httpOnly: true,
+//         maxAge: 1000 * 60 * 60 * 24 * 30,
+//     },
+// }));
+
 
 // Load Page
 router.get('/gokongwei', async (req,res) => {
@@ -52,6 +73,7 @@ router.get('/henrysy', async (req,res) => {
     }
 });
 router.get('/stlasalle', async (req,res) => {
+    console.log(req.session.email);
     try {
         let roomsList = ["L220", "L229", "L230", "L319", "L320"];
         const timesList  = [
@@ -60,7 +82,7 @@ router.get('/stlasalle', async (req,res) => {
             "1230", "1300", "1330", "1400", "1430", 
             "1500", "1530", "1600", "1630", "1700"
         ];
-        const template = await hbs.getTemplate('reserve-seat');
+        const template = await hbs.getTemplate('reserve-seat', req.session.email);
 		const argjson = {
             bldg: "St. Lasalle Ship",
             rooms: roomsList,
@@ -82,9 +104,11 @@ router.get('/api/get-seats', async (req, res) => {
     try {
         const { start, room } = req.query;
         const startTime = new Date(start);
-
+        const endTime = (Number(startTime.getTime()) + 200).toString().padStart(4,'0');
+        let endDateTime = `${startTime.getDate()}T${endTime.slice(0, 2)}:${endTime.slice(2)}:00Z`;
         const booked = await db.getUsers({
-            "reservations.details.startTime": startTime, 
+            "reservations.details.startTime": {$lt: new Date(endDateTime)}, 
+            "reservations.details.endTime": {$gt: startTime}, 
             "reservations.details.room": room
         });
         console.log(booked);
@@ -94,7 +118,12 @@ router.get('/api/get-seats', async (req, res) => {
             booked.forEach(user => {
                 if (user.reservations) {
                     user.reservations.forEach(rsv => {
-                        if (rsv.details.room === room && new Date(rsv.details.startTime).getTime() === startTime.getTime()) {
+                        const rsvStart = new Date(rsv.details.startTime);
+                        const rsvEnd = new Date(rsv.details.endTime);
+                        
+                        if (rsv.details.room === room && 
+                        new Date(rsv.details.startTime).getTime() === startTime.getTime() &&
+                        rsvStart < endDateTime && rsvEnd > startTime) {
                             takenSeats.push(...rsv.details.seats);
                         }   
                     });
@@ -118,35 +147,37 @@ router.get('/ping', (req, res) => {
 // Reserve the seats
 // - Handle conflicts
 router.post('/api/reserve', async (req,res)=>{
+    console.log("Session Data:", req.session.email);
     console.log("ENTERED API RESERVE");
     try {
         let {bldg, room, startT, endT, seats} = req.body;
         let email = req.session.email;
-        let sessionUsername = db.getUser(email, {});
+        let u = await db.getUser(email, {})
+        let sessionUsername = u.settings.username;
     
         const reservation = {
-            dt_request: Date,
+            dt_request: new Date(),
             details: {
                 requestor: sessionUsername,
                 building: bldg,
                 room: room,
-                startTime: startT,
-                endTime: endT,
+                startTime: new Date(startT),
+                endTime: new Date(endT),
                 seats: seats,
             }
         }
     
         const seatConflict = await db.getUsers({
-            "reservation.details.startTime": new Date(startT).getTime(),
-            "reservation.details.room": room,
-            "reservation.details.seats": {$in: [seats]}
+            "reservations.details.startTime": new Date(startT),
+            "reservations.details.room": room,
+            "reservations.details.seats": {$in: seats}
         });
         
         if(seatConflict && seatConflict.length>0){
             return res.status(409).json({message: "Seat already taken by another user. Please refresh"});
         }
         
-        let success = await addReservations(email, reservation)
+        let success = await db.addReservations(email, reservation)
         if(success){
             res.status(201).json({message: "Success"});
         } else {
