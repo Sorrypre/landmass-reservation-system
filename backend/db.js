@@ -31,7 +31,7 @@ const schUser = new mongoose.Schema({
 			room: String,
 			startTime: Date,
 			endTime: Date,
-			seats: [ Number ],
+			seat: Number,
 		},
 	}],
 	settings: {
@@ -128,14 +128,106 @@ async function getReservations(email) {
 		return [];
 
 	return u.reservations.map (r => ({
+		_id: r._id.toString(),
 		dt_request: r.dt_request,
-		requestor: r.details.requestor,
+		requestor: r.details.requestor || 'Anonymous',
 		building: r.details.building,
 		room: r.details.room,
 		startTime: r.details.startTime,
 		endTime: r.details.endTime,
-		seats: r.details.seats,
+		seat: r.details.seat,
 	}));
+}
+
+async function getAllReservations() {
+	const allUsers = await getUsers({});
+	const reservations = [];
+
+	allUsers.forEach(u => {
+		u.reservations.forEach(r => {
+			reservations.push({
+				_id: r._id.toString(),
+				dt_request: r.dt_request,
+				requestor: r.details.requestor || 'Anonymous',
+				building: r.details.building,
+				room: r.details.room,
+				startTime: r.details.startTime,
+				endTime: r.details.endTime,
+				seat: r.details.seat,
+				user_email: u.settings.email,
+				username: u.settings.username,
+			});
+		});
+	});
+
+	return reservations;
+}
+
+async function getUserReservations(username) {
+	const targetUser = await User.findOne({ 'settings.username': username });
+	if (!targetUser) return [];
+
+	return targetUser.reservations.map(r => ({
+		_id: r._id.toString(),
+		dt_request: r.dt_request,
+		requestor: r.details.requestor || 'Anonymous',
+		building: r.details.building,
+		room: r.details.room,
+		startTime: r.details.startTime,
+		endTime: r.details.endTime,
+		seat: r.details.seat,
+		user_email: targetUser.settings.email,
+		username: targetUser.settings.username,
+	}));
+}
+
+function applyFilters(res, building, room, startTime, date) {
+	if (building && res.building !== building) return false;
+	if (room && res.room !== room) return false;
+
+	if (startTime) {
+		const filter_hour = parseInt(startTime.substring(0, 2));
+		const filter_min = parseInt(startTime.substring(2, 4));
+		const res_time = new Date(res.startTime);
+		const res_hour = resTime.getHours();
+		const res_min = resTime.getMinutes();
+
+		if (res_hour < filter_hour || (res_hour === filter_hour && res_min < filter_min))
+			return false;
+	}
+
+	if (date) {
+		const target_date = new Date(date);
+		const next_date = new Date(targetDate);
+		next_date.setDate(next_date.getDate() + 1);
+		const res_date = new Date(res.startTime);
+		if (res_date < target_date || res_date >= next_date) return false;
+	}
+
+	return true;
+}
+
+async function removeReservation(email, reservation_id) {
+	try {
+		console.log('Removing reservation:', { email, reservation_id });
+		const id = new mongoose.Types.ObjectId(reservation_id);
+		const result = await User.updateOne({
+			'settings.email': email,
+			'reservations._id': id
+		}, {
+			$pull: {
+				reservations: {
+					_id: id
+				}
+			}
+		});
+		console.log('Update result:', result);
+		return result;
+	}
+	catch (e) {
+		console.error('Error in removeReservation:', e);
+		throw new Error('Invalid reservation ID format');
+	}
 }
 
 module.exports.connect = connect;
@@ -145,3 +237,7 @@ module.exports.setUser = modifyUser;
 module.exports.register = register;
 module.exports.login = login;
 module.exports.getReservations = getReservations;
+module.exports.getAllReservations = getAllReservations;
+module.exports.getUserReservations = getUserReservations;
+module.exports.removeReservation = removeReservation;
+module.exports.applyFilters = applyFilters;

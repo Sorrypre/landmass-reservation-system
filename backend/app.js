@@ -107,77 +107,24 @@ xj.get('/query-get-reservations', async function(q, r) {
 		const room = q.query.room;
 		const startTime = q.query.startTime;
 		const date = q.query.date;
-		const requestor = q.query.requestor;
 		const username = q.query.username;
 
 		const user = await db.getUser(email, {});
 		const isLabTech = user && user.admin;
 
-		let filterMatch = { };
+		let reservations = [];
 
-		if (building) filterMatch['details.building'] = building;
-		if (room) filterMatch['details.room'] = room;
-		if (startTime) filterMatch['details.startTime'] = { $gte: new Date(startTime) };
-		if (date) {
-			const targetDate = new Date(date);
-			const nextDate = new Date(targetDate);
-			nextDate.setDate(nextDate.getDate() + 1);
-			filterMatch['details.startTime'] = { $gte: targetDate, $lt: nextDate };
+		if (isLabTech && username) {
+			reservations = await db.getUserReservations(username);
+		} else if (isLabTech) {
+			reservations = await db.getAllReservations();
+		} else {
+			reservations = await db.getReservations(email);
 		}
 
-		let reservations = await db.getReservations(q.session.email);
-
-		if (isLabTech) {
-			//Fetch All Users
-			const allUsers = await db.getUsers({});
-			allUsers.forEach(u => {
-				//If Search Input matches a Username
-				const matchesUsername = !username || u.settings.username === username;
-				if (matchesUsername) {
-					//Loop Through Reservations and Check if matches Requestor and Filters
-					u.reservations.forEach(res => {
-						const matchesRequestor = !requestor || res.details.requestor === requestor;
-						const matchesFilters = Object.keys(filterMatch).length === 0 ||
-							Object.entries(filterMatch).every(([key, value]) => {
-								const keys = key.split('.');
-								const nestedValue = keys.reduce((obj, k) => obj?.[k], res);
-								if (value.$gte && value.$lt) {
-									return nestedValue >= value.$gte && nestedValue < value.$lt;
-								}
-								return nestedValue === value;
-							});
-						if (matchesRequestor && matchesFilters) {
-							reservations.push({
-								dt_request: res.dt_request,
-								requestor: res.details.requestor,
-								building: res.details.building,
-								room: res.details.room,
-								startTime: res.details.startTime,
-								endTime: res.details.endTime,
-								seats: res.details.seats,
-								userEmail: u.settings.email,
-								username: u.settings.username,
-							});
-						}
-					});
-				}
-			});
-		}
-		else {
-			//User ONLY Reservation
-			const userReservations = await db.getReservations(email);
-			reservations = userReservations.filter(res => {
-				//If filter name and condition matches for all key value pair, then return true and reservation is passed
-				return Object.keys(filterMatch).length === 0 ||
-					Object.entries(filterMatch).every(([key, value]) => {
-						if (value.$gte && value.$lt) {
-							return res[key] >= value.$gte && res[key] < value.$lt;
-						}
-						return res[key] === value;
-					});
-			});
-		}
-
+		reservations = reservations.filter(res =>
+			db.applyFilters(res, building, room, startTime, date)
+		);
 
 		r.status(200).json({
 			success: true,
@@ -322,6 +269,34 @@ xj.post('/ru', async function(q, r) {
 		r.status(500).json({
 			success: false,
 			error: 'Unexpected error upon registering user.',
+		});
+	}
+});
+
+xj.post('/query-remove-reservation', async function(q, r) {
+	try {
+		const session_email = q.session.email;
+		const { reservation_id, user_email } = q.body;
+		const email_query = user_email || session_email;
+
+		const result = await db.removeReservation(email_query, reservation_id);
+
+		if (result.modifiedCount > 0) {
+			r.status(200).json({
+				success: true,
+				message: 'Reservation removed successfully.',
+			});
+		} else {
+			r.status(404).json({
+				success: false,
+				error: 'Reservation not found.',
+			});
+		}
+	}
+	catch (e) {
+		r.status(500).json({
+			success: false,
+			error: e.message,
 		});
 	}
 });
