@@ -22,7 +22,7 @@ function playAlert(){
     alertAudio.play();
 }
 
-let profilePic = document.getElementById('profilepic');
+        const profilePic = document.getElementById('profilepic');
         const initialProfilePic = document.getElementById('profilepic-initial');
         const inputFile = document.getElementById("input-file-pfp");
         const pfp_submit_btn = document.getElementById('change-profilepic-confirm-btn');
@@ -37,25 +37,43 @@ let profilePic = document.getElementById('profilepic');
         function cancelProfilePicChange(){
         initialProfilePic.src = profilePic.src;
         }
+    
         pfp_submit_btn.addEventListener('click', async function confirmProfilePicChange() {
             const reader = new FileReader();
-            const base64photo = reader.readAsDataURL(inputFile.files[0]);
-
-            const user = await fetch('/query-current-user', {
+            reader.readAsDataURL(inputFile.files[0]);
+            /* https://stackoverflow.com/a/74390975 */
+            const base64photo = await new Promise(function (res, rej) {
+                reader.onload = function(e) {
+                    res(e.target.result);
+                }
+            });
+            let user = await fetch('/query-current-user', {
                 method: 'GET',
                 headers: { 'Content-Length': 0 },
             });
+            const user_json = await user.json();
             const profile_change = await fetch('/query-modify-user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', },
-                body: {
-                    email: user.settings.email,
+                body: JSON.stringify({
+                    email: JSON.parse(user_json.user).settings.email,
                     matchjson: JSON.stringify({}),
                     updjson: JSON.stringify({ 'settings.photo': base64photo }),
-                    }
+                }),
             });
+            user = await fetch('/query-current-user', {
+                method: 'GET',
+                headers: { 'Content-Type': 0 },
+            })
+            const new_pfp_json = await user.json();
+            const new_pfp_user = JSON.parse(new_pfp_json.user);
+            const new_photo = new_pfp_user.settings.photo;
+            console.log(new_photo);
+            profilePic.src = new_photo;
+        });
 
-        })
+    
+     
 // const submit_btn = document.getElementById('change-profile-submit-btn');
 // const profile_desc = document.getElementById('profile-description');
 // const profile_name = document.getElementById('profile-name');
