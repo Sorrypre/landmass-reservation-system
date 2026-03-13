@@ -134,13 +134,13 @@ router.post('/api/reserve', async (req,res)=>{
             }
         }
     
-        const conflict = await db.getUsers({
+        const seatConflict = await db.getUsers({
             "reservation.details.startTime": new Date(startT).getTime(),
             "reservation.details.room": room,
             "reservation.details.seats": {$in: [seats]}
         });
         
-        if(conflict && conflict.length>0){
+        if(seatConflict && seatConflict.length>0){
             return res.status(409).json({message: "Seat already taken by another user. Please refresh"});
         }
         

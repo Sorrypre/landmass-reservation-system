@@ -156,7 +156,6 @@ async function addReservations(email, reservation){
 			return false;
 		throw new Error('db.register: unexpected error on registration');
 	}
-
 }
 
 module.exports.connect = connect;
