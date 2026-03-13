@@ -71,14 +71,14 @@ async function reserveSeatForm(){
     let startDateTime = `${date_dropdown.value}T${time_dropdown.value.slice(0, 2)}:${time_dropdown.value.slice(2)}:00Z`;
     let endDateTime = `${date_dropdown.value}T${endTime.slice(0, 2)}:${endTime.slice(2)}:00Z`;
 
-
+    let isAnon = document.getElementById("anon-checkbox").value;
     const selected_seat = document.querySelector("#slots-container .seat.selected");
     if(selected_seat.length===0){
         alert("Choose a seat");
         return;
     }
-    console.log(selected_seat);
-    let seatList = selected_seat;
+    console.log(selected_seat.dataset.pc);
+    let seatList = selected_seat.dataset.pc;
     
     try {
         console.log("entered reserveSeatForm")
@@ -93,6 +93,7 @@ async function reserveSeatForm(){
                 seats: seatList,
                 room: room_dropdown.value,
                 bldg: bldgName,
+                anon: isAnon
             })
         });
         const data = await response.json();
@@ -117,8 +118,8 @@ function reserveSummary(){
         alert("Choose >1 seat");
         return false;
     }
-    console.log(selected_seats);
-    let seatList = selected_seat
+    console.log(selected_seat.dataset.pc);
+    let seatList = selected_seat.dataset.pc
     
 
     const string = `Date: ${date_dropdown.value}
@@ -206,4 +207,3 @@ function updateSeatUI(data) {
         }
     });
 }
-
