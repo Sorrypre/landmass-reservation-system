@@ -192,6 +192,7 @@ async function getReservations(email) {
 		startTime: r.details.startTime,
 		endTime: r.details.endTime,
 		seat: r.details.seat,
+		user_email: u.settings.email,
 	}));
 }
 

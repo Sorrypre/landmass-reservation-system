@@ -1,6 +1,7 @@
 let filter_toggled = false;
 let reservations = [];
 let currentFilters = { };
+let filter_user_search;
 
 const filter_btn = document.getElementById("filter-btn")
 const filter_cls_btn = document.getElementById("filter-close-btn");
@@ -279,7 +280,7 @@ function saveFilters() {
     const building = document.getElementById("filter-building-select").value;
     const room = document.getElementById("filter-room-select").value;
     const time = document.getElementById("filter-time-select").value;
-    const username = filter_user_search ? filter_user_search.value : '';
+    const username = (filter_user_search && !filter_user_search.classList.contains('hidden')) ? filter_user_search.value : '';
 
     currentFilters = {};
     if (building && building !== 'Pick Building') currentFilters.building = building;
@@ -301,10 +302,12 @@ function resetFilters() {
 }
 
 document.addEventListener('DOMContentLoaded', async() => {
+    filter_user_search = document.getElementById("filter-user-search");
     reservation_list.innerHTML = '<div class="reservation-item" style="z-index: 1;"><p id="no-reservation">No Reservations</p></div>';
 
     addRoomOptions();
     await loadReservations();
+    await addSearchUserInput();
 
     if (filter_btn) filter_btn.addEventListener("click", toggleFilter);
     if (filter_cls_btn) filter_cls_btn.addEventListener("click", toggleFilter);
@@ -330,6 +333,34 @@ document.addEventListener('DOMContentLoaded', async() => {
         currentFilters.date = tomorrow.toISOString().split('T')[0];
         loadReservations();
     });
+    if (filter_user_search) filter_user_search.addEventListener("change", () => { saveFilters() });
     if (reservation_next_btn) reservation_next_btn.addEventListener("click", nextReservation);
     if (reservation_prev_btn) reservation_prev_btn.addEventListener("click", prevReservation);
+
 });
+
+async function addSearchUserInput() {
+    try {
+        const query = await fetch('/query-current-user', {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        });
+
+        const data = await query.json();
+
+        if (data.success) {
+            const user = JSON.parse(data.user)
+            if (!user.admin && filter_user_search) {
+                filter_user_search.classList.add('hidden');
+                return true;
+            }
+        }
+        return false;
+    }
+    catch(e) {
+        console.error('Error Checking Lab Tech Status:', e);
+        return false;
+    }
+}
