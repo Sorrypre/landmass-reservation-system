@@ -9,6 +9,9 @@ const path = require('path');
 const dns = require('dns');
 const hbs = require('./hbs');
 const db = require('./db');
+
+const reserveSeatRouter = require('./routes/reserveSeatRoutes');
+
 const sess = require('./session');
 require('dotenv').config({ quiet: true });
 setServers(['8.8.8.8', '8.8.4.4']);
@@ -182,8 +185,7 @@ xj.post('/query-modify-user', async function(q, r) {
 	const result = await db.modifyUser(
 		q.body.email,
 		q.body.matchjson,
-		q.body.setjson,
-		q.body.deljson
+		q.body.updjson,
 	);
 	r.status(200).json({
 		success: true,
@@ -191,13 +193,14 @@ xj.post('/query-modify-user', async function(q, r) {
 	});
 });
 
-/*
-xj.get('/testview', async function(q,r) {
-	const template = await hbs.getTemplate('reservation-list', q.session.email);
-	r.render('reservation-list', template);
-});
-*/
 
+xj.get('/testview', async function(q,r) {
+	const template = await hbs.getTemplate('settings', q.session.email);
+	r.render('settings', template);
+});
+
+
+xj.use('/reserve-seat', reserveSeatRouter);
 /* LOGIN/REGISTER POST */
 
 xj.post('/lu', async function(q, r) {
@@ -266,9 +269,9 @@ xj.post('/ru', async function(q, r) {
 			message: 'Registration successful.',
 		});
 	} else {
-		r.status(500).json({
+		r.status(400).json({
 			success: false,
-			error: 'Unexpected error upon registering user.',
+			error: 'User already exists.',
 		});
 	}
 });

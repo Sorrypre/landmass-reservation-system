@@ -54,12 +54,12 @@
 	@apply font-inter text-red-500 hidden;
 }
 
-.register-invalid.username-empty, .login-invalid.username-empty {
-	@apply after:content-['\26A0__Please_enter_a_username.'];
+.register-invalid.email-empty, .login-invalid.email-empty {
+	@apply after:content-['\26A0__Please_enter_a_valid_email.'];
 }
 
-.register-invalid.username-invalid, .login-invalid.username-invalid {
-	@apply after:content-['\26A0__Username_is_invalid.'];
+.register-invalid.email-invalid, .login-invalid.email-invalid {
+	@apply after:content-['\26A0__Email_is_invalid.'];
 }
 
 .register-invalid.password-empty, .login-invalid.password-empty {

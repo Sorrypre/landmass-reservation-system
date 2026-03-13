@@ -13,15 +13,15 @@ const form_reg = document.getElementById('register');
 const form_login = document.getElementById('login');
 
 // input boxes
-const form_inp_lusr = form_login.elements.namedItem('login-username');
+const form_inp_lusr = form_login.elements.namedItem('login-email');
 const form_inp_lpwd = form_login.elements.namedItem('login-password');
-const form_inp_rusr = form_reg.elements.namedItem('register-username');
+const form_inp_rusr = form_reg.elements.namedItem('register-email');
 const form_inp_rpwd = form_reg.elements.namedItem('register-password');
 const form_inp_rcfm = form_reg.elements.namedItem('register-confirm-password');
 // status labels
-const lbl_lusr = document.getElementById('login-username-status');
+const lbl_lusr = document.getElementById('login-email-status');
 const lbl_lpwd = document.getElementById('login-password-status');
-const lbl_rusr = document.getElementById('register-username-status');
+const lbl_rusr = document.getElementById('register-email-status');
 const lbl_rpwd = document.getElementById('register-password-status');
 const lbl_rcfm = document.getElementById('register-confirm-status');
 
@@ -53,13 +53,13 @@ const make_failure_dialog = function(id, title, message) {
 
 // handle login / create account
 btn_login.addEventListener('click', function(e) {
-	function alert_username(t) {
+	function alert_email(t) {
 		switch (t) {
 			case 0:
-				lbl_lusr.classList.add('username-empty');
+				lbl_lusr.classList.add('email-empty');
 				break;
 			case 1:
-				lbl_lusr.classList.add('username-invalid');
+				lbl_lusr.classList.add('email-invalid');
 				break;
 			default:
 				return false;
@@ -92,11 +92,11 @@ btn_login.addEventListener('click', function(e) {
 		return true;
 	} else {
 		if (form_inp_lusr.value.length === 0)
-			alert_username(0);
+			alert_email(0);
 		if (form_inp_lpwd.value.length === 0)
 			alert_password(0);
 		if (!rxe.test(form_inp_lusr.value))
-			alert_username(1);
+			alert_email(1);
 		if (form_inp_lpwd.value.length < pwd_min)
 			alert_password(1);
 		return false;
@@ -104,13 +104,13 @@ btn_login.addEventListener('click', function(e) {
 });
 
 btn_create.addEventListener('click', function(e) {
-	function alert_username(t) {
+	function alert_email(t) {
 		switch (t) {
 			case 0:
-				lbl_rusr.classList.add('username-empty');
+				lbl_rusr.classList.add('email-empty');
 				break;
 			case 1:
-				lbl_rusr.classList.add('username-invalid');
+				lbl_rusr.classList.add('email-invalid');
 				break;
 			default:
 				return false;
@@ -159,13 +159,13 @@ btn_create.addEventListener('click', function(e) {
 		return true;
 	} else {
 		if (form_inp_rusr.value.length === 0)
-			alert_username(0);
+			alert_email(0);
 		if (form_inp_rpwd.value.length === 0)
 			alert_password(0);
 		if (form_inp_rcfm.value.length === 0)
 			alert_confirm(0);
 		if (!rxe.test(form_inp_rusr.value))
-			alert_username(1);
+			alert_email(1);
 		if (form_inp_rpwd.value.length < pwd_min)
 			alert_password(1);
 		if (form_inp_rpwd.value !== form_inp_rcfm.value)
