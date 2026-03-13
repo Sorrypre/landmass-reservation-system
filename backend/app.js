@@ -21,7 +21,7 @@ const root_dir = path.join(__dirname, '..');
 
 let db_instance;
 
-const xj = express();
+
 xj.use(express.json({limit: '5mb'}));
 xj.use(express.urlencoded({ limit: '5mb', extended: true }));
 xj.use(express.static(root_dir));
@@ -207,11 +207,11 @@ xj.post('/query-change-password', async function(q, r) {
 			error: 'Trying to modify a non-existent user.',
 		});
 	}
-	const new_hashing = await session.h512(q.body.password, try_user.salt);
+	const new_hashing = await sess.h512(q.body.password, try_user.salt);
 	const result = await db.setUser(
 		q.body.email,
 		{},
-		{ 'hash': new_hashing.hashed },
+		{ 'hash': new_hashing.hashed }
 	);
 	r.status(200).json({
 		success: true,
