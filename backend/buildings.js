@@ -15,9 +15,9 @@ let buildingRedirect = (buildingID, roomlink) => {
 }
 
 
-buildingRedirect('#HenrySy-area', '/rr');
-buildingRedirect('#Gokongwei-area', '/rr');
-buildingRedirect('#StLasalle-area', '/rr');
+buildingRedirect('#HenrySy-area', '/reserve-seat/henrysy');
+buildingRedirect('#Gokongwei-area', '/reserve-seat/gokongwei');
+buildingRedirect('#StLasalle-area', '/reserve-seat/stlasalle');
 
 ;
 
