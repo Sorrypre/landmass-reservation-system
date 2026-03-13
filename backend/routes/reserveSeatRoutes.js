@@ -16,7 +16,7 @@ router.get('/gokongwei', async (req,res) => {
         ];
 		const template = await hbs.getTemplate('reserve-seat', req.session.email);
 		const argjson = {
-            bldg: "Gokongwei Hall",
+            bldg: "Gokongwei Wing",
             rooms: roomsList,
             time: timesList
         };
@@ -39,7 +39,7 @@ router.get('/henrysy', async (req,res) => {
         ];
 		const template = await hbs.getTemplate('reserve-seat', req.session.email);
 		const argjson = {
-            bldg: "Henry Sy Hall",
+            bldg: "Henry Sy Star",
             rooms: roomsList,
             time: timesList
         };
@@ -62,7 +62,7 @@ router.get('/stlasalle', async (req,res) => {
         ];
         const template = await hbs.getTemplate('reserve-seat');
 		const argjson = {
-            bldg: "St. Lasalle Hall",
+            bldg: "St. Lasalle Ship",
             rooms: roomsList,
             time: timesList
         };
@@ -118,6 +118,7 @@ router.get('/ping', (req, res) => {
 // Reserve the seats
 // - Handle conflicts
 router.post('/api/reserve', async (req,res)=>{
+    console.log("ENTERED API RESERVE");
     try {
         let {bldg, room, startT, endT, seats} = req.body;
         let email = req.session.email;
@@ -151,10 +152,12 @@ router.post('/api/reserve', async (req,res)=>{
         } else {
             res.status(500).json({ message: "Failed to save reservation" });
         }
-    } catch (error) {
+    } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server Error" });
     }
+    console.log("EXITED API RESERVE");
+
 });
 
 module.exports = router;
