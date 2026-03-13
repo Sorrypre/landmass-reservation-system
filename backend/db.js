@@ -196,6 +196,22 @@ async function getReservations(email) {
 	}));
 }
 
+async function addReservations(email, reservation){
+	try {
+		const result = await User.updateOne(
+            { "settings.email": email }, 
+            { $push: { reservations: reservation } }
+        );
+		return result.modifiedCount>0;
+	} catch (e) {
+		/*	MongoDB E11000: incoming duplicate on property with unique: true,
+			as for the email, ibig sabihin meron na sa database pero sinusubukan pa rin ipasok
+			https://www.mongodb.com/docs/manual/reference/error-codes/ */
+		if (e.code === 11000)
+			return false;
+		throw new Error('db.register: unexpected error on registration');
+  }
+}
 async function getAllReservations() {
 	const allUsers = await getUsers({});
 	const reservations = [];
@@ -292,6 +308,7 @@ async function removeReservation(email, reservation_id) {
 }
 
 module.exports.connect = connect;
+module.exports.instance = instance;
 module.exports.dummyUsers = dummyUsers;
 module.exports.getUsers = getUsers;
 module.exports.getUser = getUser;
@@ -299,6 +316,7 @@ module.exports.setUser = modifyUser;
 module.exports.register = register;
 module.exports.login = login;
 module.exports.getReservations = getReservations;
+module.exports.addReservations = addReservations;
 module.exports.getAllReservations = getAllReservations;
 module.exports.getUserReservations = getUserReservations;
 module.exports.removeReservation = removeReservation;

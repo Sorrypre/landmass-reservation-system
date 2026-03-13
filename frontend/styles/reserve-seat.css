@@ -4,9 +4,9 @@
     @apply overflow-hidden;
 }
 /*dropdown related*/
-    .reservation-room .reserve-bldg-text, 
+    .reservation-room #reserve-bldg-text, 
     .go-back-text, 
-    .reserve-bldg-text, 
+    #reserve-bldg-text, 
     #available-text-container p, 
     #date-time-selection input, 
     #date-time-selection select, 
@@ -15,7 +15,8 @@
 /*seat related*/
     .seat-legend span,
     .whiteboard,
-    .submit.btn {
+    .submit.btn,
+    #anon-checkbox-label span{
     @apply font-grotesk;
     @apply text-white;
 }
@@ -32,7 +33,7 @@
 .available-text-container{
     @apply flex flex-row items-center min-h-screen overflow-hidden
 }
-.reserve-bldg-text{
+#reserve-bldg-text{
 	@apply pt-7 text-3xl md:text-7xl text-white font-bold justify-self-center;
 }
 .available-text{
@@ -199,4 +200,14 @@
 
 .cancel-btn{
     @apply w-xs text-gray-400 
+}
+
+#anon-checkbox {
+    @apply appearance-none h-5 w-5 border border-white rounded-sm bg-transparent;
+    @apply checked:bg-[#E55B2E] checked:border-[#E55B2E] transition-all;
+    @apply cursor-pointer relative;
+}
+
+#anon-checkbox-label{
+    @apply m-5;
 }
