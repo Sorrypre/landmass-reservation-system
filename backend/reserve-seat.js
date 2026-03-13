@@ -21,6 +21,8 @@ container.addEventListener("click", (e) => {
 
 });
 
+
+
 const modal = document.getElementById('confirm-modal-container');
 
 function openModal() {
@@ -45,6 +47,66 @@ const date_dropdown = document.querySelector("#reserved-date");
 const time_dropdown = document.querySelector("#reserved-time");
 const room_dropdown = document.querySelector("#reserved-room");
 
+async function reserveSeatForm(){
+    let bldgName = document.getElementsByClassName("reserve-bldg-text").innerHTML();
+    
+    let endTime = (Number(time_dropdown.value) + 200).toString().padStart(4,'0');
+    let startDateTime = `${date_dropdown.value}T${time_dropdown.value.slice(0, 2)}:${time_dropdown.value.slice(2)}:00Z`;
+    let endDateTime = `${date_dropdown.value}T${endTime.slice(0, 2)}:${endTime.slice(2)}:00Z`;
+
+
+    const selected_seats = document.querySelectorAll("#slots-container .seat.selected");
+    if(selected_seats === null){
+        alert("Choose >1 seat");
+        return false;
+    }
+    console.log(selected_seats);
+    let seatList = Array.from(selected_seats).map(s => s.dataset.pc).join(", ");
+    
+    const reservation = {
+            dt_request: Date,
+            details: {
+                requestor: sessionUsername,
+                building: bldg,
+                room: room,
+                startTime: startDateTime,
+                endTime: endDateTime,
+                seats: seats,
+            }
+        }
+    try {
+        console.log("entered reserveSeatForm")
+        let {bldg, room, startT, endT, seats, email} = req.body;
+
+        // const response = await fetch(`/reserve-seat/api/get-seats?start=${dateTime}&room=${room}`);
+        const response = await fetch('/reserve-seat/api/reserve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', },
+            body: JSON.stringify({
+                startT: startDateTime,
+                endT: endDateTime,
+                seats: seatList,
+                room: room_dropdown.value,
+                bldg: bldgName,
+            })
+        });
+        const data = await response.json();
+        // console.log(ror);
+        // This prevents the <!DOCTYPE HTML error
+        if (!response.ok) {
+            console.error("Server returned HTML error instead of JSON");
+            return;
+        }
+        console.log("exiting reserveSeatForm")
+
+        updateSeatUI(data.seats);
+        // const data = await response.text();
+        // console.log(data);
+        // updateSeatUI(data.seats);
+    } catch (err) {
+        console.error("Network or Parsing error:", err);
+    }
+}
 function reserveSummary(){
     let endTime = (Number(time_dropdown.value) + 200).toString().padStart(4,'0');
 
