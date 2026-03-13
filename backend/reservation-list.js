@@ -202,8 +202,8 @@ async function loadReservations() {
         if (currentFilters.building) filterParam.push(`building=${encodeURIComponent(currentFilters.building)}`);
         if (currentFilters.room) filterParam.push(`room=${encodeURIComponent(currentFilters.room)}`);
         if (currentFilters.startTime) filterParam.push(`startTime=${encodeURIComponent(currentFilters.startTime)}`);
+        //date of filter option, today, all, tomorrow
         if (currentFilters.date) filterParam.push(`date=${encodeURIComponent(currentFilters.date)}`);
-        if (currentFilters.requestor) filterParam.push(`requestor=${encodeURIComponent(currentFilters.requestor)}`);
         if (currentFilters.username) filterParam.push(`username=${encodeURIComponent(currentFilters.username)}`);
 
         url += filterParam.join('&');
