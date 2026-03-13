@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', async() => {
     if (reservation_next_btn) reservation_next_btn.addEventListener("click", nextReservation);
     if (reservation_prev_btn) reservation_prev_btn.addEventListener("click", prevReservation);
     if (back_btn)  back_btn.addEventListener('click', async function(e) {
-            window.location.href = '/reservation-list';
+            window.location.href = '/dashboard';
     });
 });
 
