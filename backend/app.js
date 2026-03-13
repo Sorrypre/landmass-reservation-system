@@ -24,57 +24,57 @@ let db_instance;
 xj.use(express.urlencoded({ extended: true }));
 xj.use(express.json());
 
+xj.use(session({
+	secret: process.env.SESSION_SIGNATURE,
+	resave: false,
+	saveUninitialized: false,
+	store: MongoStore.create({
+		mongoUrl: process.env.MDB_URI_SRV,
+		collectionName: 'session-store',
+		ttl: 60 * 60 * 24 * 30,
+		autoRemove: 'interval',
+		autoRemoveInterval: 5,
+	}),
+	cookie: {
+		sameSite: true,
+		httpOnly: true,
+		maxAge: 1000 * 60 * 60 * 24 * 30,
+	},
+}));
+
 const reserveSeatRouter = require('./routes/reserveSeatRoutes');
 xj.use('/reserve-seat', reserveSeatRouter);
 
 xj.use(express.static(root_dir));
 /* https://expressjs.com/en/resources/middleware/session.html */
-
-// xj.use(session({
-// 	secret: process.env.SESSION_SIGNATURE,
-// 	resave: false,
-// 	saveUninitialized: false,
-// 	store: MongoStore.create({
-// 		mongoUrl: process.env.MDB_URI_SRV,
-// 		collectionName: 'session-store',
-// 		ttl: 60 * 60 * 24 * 30,
-// 		autoRemove: 'interval',
-// 		autoRemoveInterval: 5,
-// 	}),
-// 	cookie: {
-// 		sameSite: true,
-// 		httpOnly: true,
-// 		maxAge: 1000 * 60 * 60 * 24 * 30,
-// 	},
-// }));
 xj.engine('handlebars', handlebars.engine());
 xj.set('view engine', 'handlebars');
 xj.set('views', './frontend/pages');
 
-// xj.use(function(q, r, s) {
-// 	if (q.url === '/testview' || q.url.startsWith('/reserve-seat'))
-// 		return s();
-// 	/* lahat ng pages babalik sa login page pag walang session */
-// 	if (q.method === 'GET' && q.url !== '/' && !q.session.email)
-// 		return r.redirect('/');
-// 	s();
-// });
+xj.use(function(q, r, s) {
+	if (q.url === '/testview' || q.url.startsWith('/reserve-seat'))
+		return s();
+	/* lahat ng pages babalik sa login page pag walang session */
+	if (q.method === 'GET' && q.url !== '/' && !q.session.email)
+		return r.redirect('/');
+	s();
+});
 
 /* GET */
-// xj.get('/', async function(q, r) {
+xj.get('/', async function(q, r) {
 	
-// 	const rand = Math.floor(Math.random() * 10000);
-// 	const hash = await sess.h512('password' + rand, undefined);
-// 	const email = 'example.user' + rand + '@gmail.com';
-// 	await db.register(email, hash.hashed, hash.salt);
+	// const rand = Math.floor(Math.random() * 10000);
+	// const hash = await sess.h512('password' + rand, undefined);
+	// const email = 'example.user' + rand + '@gmail.com';
+	// await db.register(email, hash.hashed, hash.salt);
 	
-// 	if (!q.session.email) {
-// 		const template = await hbs.getTemplate('login', q.session.email);
-// 		r.render('login', template);
-// 	} else {
-// 		r.redirect('/dashboard');
-// 	}
-// });
+	if (!q.session.email) {
+		const template = await hbs.getTemplate('login', q.session.email);
+		r.render('login', template);
+	} else {
+		r.redirect('/dashboard');
+	}
+});
 
 xj.get('/login', function(q, r) {
 	r.redirect('/');
