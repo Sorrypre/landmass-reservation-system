@@ -14,6 +14,7 @@ const reservation_list = document.getElementById("reservation-list");
 const filter_all = document.getElementById("filter-all");
 const filter_today = document.getElementById("filter-today");
 const filter_tomo = document.getElementById("filter-tomo");
+const back_btn = document.getElementById("back-to-dashboard");
 
 function toggleFilter() {
     const filter_box = document.getElementById("filter-box");
@@ -336,7 +337,9 @@ document.addEventListener('DOMContentLoaded', async() => {
     if (filter_user_search) filter_user_search.addEventListener("change", () => { saveFilters() });
     if (reservation_next_btn) reservation_next_btn.addEventListener("click", nextReservation);
     if (reservation_prev_btn) reservation_prev_btn.addEventListener("click", prevReservation);
-
+    if (back_btn)  back_btn.addEventListener('click', async function(e) {
+            window.location.href = '/reservation-list';
+    });
 });
 
 async function addSearchUserInput() {
