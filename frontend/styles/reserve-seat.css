@@ -15,7 +15,8 @@
 /*seat related*/
     .seat-legend span,
     .whiteboard,
-    .submit.btn {
+    .submit.btn,
+    #anon-checkbox-label span{
     @apply font-grotesk;
     @apply text-white;
 }
@@ -199,4 +200,14 @@
 
 .cancel-btn{
     @apply w-xs text-gray-400 
+}
+
+#anon-checkbox {
+    @apply appearance-none h-5 w-5 border border-white rounded-sm bg-transparent;
+    @apply checked:bg-[#E55B2E] checked:border-[#E55B2E] transition-all;
+    @apply cursor-pointer relative;
+}
+
+#anon-checkbox-label{
+    @apply m-5;
 }
