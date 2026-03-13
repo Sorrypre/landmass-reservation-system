@@ -50,7 +50,7 @@ function closeModal() {
 }
 
 function returnDashboard() {
-    window.location.href = '/dashboard';
+    reserveSeatForm();
 }
 
 const date_dropdown = document.querySelector("#reserved-date");
@@ -98,6 +98,7 @@ async function reserveSeatForm(){
             return;
         }
         console.log("exiting reserveSeatForm")
+        window.location.href = '/dashboard';
     } catch (err) {
         console.error("Network or Parsing error:", err);
     }
