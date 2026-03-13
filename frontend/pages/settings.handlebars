@@ -1,0 +1,160 @@
+<div id="main-settings-content">
+    <div id="profile-info-content">
+        <div id="profile-card">
+            <div id="photo-holder"> 
+                <!---->
+                <img id="profilepic" class="profile-img" src={{photo}}>
+            </div>
+            <div id="profile-content">
+                <div id="profile-name-container">
+                <p id="profile-name">{{username}}</p>
+                </div>
+                <div id="profile-info">
+                    <p class="text-info-title">Description: <p>
+                    <p id="profile-description" class="text-info-content">{{description}}</p>
+                <br>
+                    <p class="text-info-title">Email: </p>
+                    <p id="profile-email" class="text-info-content">{{email}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="collapsable-menu-content">
+        <span id="settings-text"></span>
+        <div id="edit-profile-content" class="collapsible-area">
+        <div class="collapsible-header-content">
+            <button type="button" class="collapsible-settings-button">Edit Profile Picture</button>
+            <span class="collapsible-plus-icon collapsed"></span>
+        </div>
+        <div class="collapsible-target-div collapsed">
+            <div class="collapsible-target-div-content">
+            <h3> Change Your Profile </h3>
+            <!--- this divs are for formatting the inner contents of the collapsible seperate from the inner div container the title--->
+            <div id="change-profile-content">
+                <div id ="overlay">
+                <img id="profilepic-initial" class="profile-img" src="../../frontend/assets/images/pexels-cottonbro-7166828.jpg">
+                </div>
+                <div id="upload-image-area"class="input-label-alert-area">    
+                <label for="input-file-pfp">Upload New Photo</label>
+                <input type="file" accept="image/jpeg, image/png, image/jpg" id="input-file-pfp">
+                <span id="change-pfp-status" class="change-invalid"></span>          
+                </div>
+            </div>
+            <div id="settings-buttons-container">
+                <button id="change-profilepic-cancel-btn" class="settings-menu-options" onclick="cancelProfilePicChange()" type="button">Cancel</button>
+                <button id="change-profilepic-confirm-btn" class="settings-menu-options" type="button">Confirm</button>
+            </div>
+            </div>
+        </div>
+        </div>
+        <div id="edit-information-content" class="collapsible-area">
+        <div class="collapsible-header-content">
+            <button type="button" class="collapsible-settings-button">Edit Profile Information</button>
+            <span class="collapsible-plus-icon collapsed"></span>
+        </div>
+        <div class="collapsible-target-div collapsed">
+            <div class="collapsible-target-div-content">
+            <h3>Change Your Information</h3>
+            <!--- this divs are for formatting the inner contents of the collapsible seperate from the inner div container the title--->
+            <div id="change-information-content">
+                <form id="change-info" method="post">
+                <div class="change-info-area">
+                    <label for="change-username">New Username</label>
+                    <div class="input-label-alert-area">
+                    <input type="text" name="change-username" id="change-username">
+                    <span id="change-username-status" class="change-invalid"></span>
+                    </div>
+                </div>
+                <div class="change-info-area">
+                    <label for="change-desc">New Description</label>
+                    <div class="input-label-alert-area">
+                    <textarea name="change-desc" id="change-desc" rows="4" cols="30" placeholder="Tell Us Your Story..."></textarea>
+                    <span id="change-desc-status" class="change-invalid"></span>
+                    </div>
+                </div>
+                <div id="reset-button-container">
+                    <!--- Initial button but the actual reset is in the modal --->
+                    <button id="change-profile-reset-btn" class="settings-menu-options" type="button" onclick="playAlert()">Reset</button>
+                </div>
+                </div>
+            </form>
+            <div id="submit-button-container">
+                <button id="change-profile-submit-btn" class="settings-menu-options" type="button" form="change-info">Save</button>
+            </div>
+            </div>
+        </div>
+        </div>
+        <div id="set-new-password-content" class="collapsible-area">
+        <div class="collapsible-header-content">
+        <button type="button" class="collapsible-settings-button">Change Password</button>
+        <span class="collapsible-plus-icon collapsed"></span>
+        </div>
+        <div class="collapsible-target-div collapsed">
+            <div class="collapsible-target-div-content">
+            <h3>Change Password</h3>
+            <div id="change-password-content">
+                <form id="change-password" method="post">
+                <div class="change-password-area">
+                    <label for="old-password">Old Password</label>
+                    
+                    <div class="input-label-alert-area">
+                    <div class="input-box-with-eye">
+                    <input name="old-password" id="old-password" class="input-password" type="password" placeholder="Enter Old Password">
+                    <i class="fa-solid fa-eye"></i>
+                    <i class="fa-solid fa-eye-slash hide"></i>
+                    </div>
+                    <span id="old-password-status" class="change-invalid"></span>
+                    </div>
+                </div>
+                <div class="change-password-area">
+                    <label for="new-password">New Password</label>
+
+                    <div class="input-label-alert-area">
+                    <div class="input-box-with-eye">
+                    <input name="new-password" id="new-password" class="input-password" type="password" placeholder="Enter new Password">
+                    <i class="fa-solid fa-eye"></i>
+                    <i class="fa-solid fa-eye-slash hide"></i>
+                    </div>
+                    <span id="change-new-password-status" class="change-invalid"></span>
+                    </div>
+                </div>
+                <div class="change-password-area">
+                    <label for="confirm-new-password">Confirm Password</label>
+                    
+                    <div class="input-label-alert-area">                  
+                    <div class="input-box-with-eye">
+                    <input name="confirm-new-password" id="confirm-new-password"  class="input-password" type="password" placeholder="Confirm New Password">
+                    <i class="fa-solid fa-eye"></i>
+                    <i class="fa-solid fa-eye-slash hide"></i>
+                    </div>
+                    <span id="confirm-password-status" class="change-invalid"></span>
+                    </div>    
+                    
+                </div>
+                </form>
+                </div>
+                <div id="submit-button-container">
+                <button id="change-password-submit-btn" class="settings-menu-options" type="button" form="change-password">Save</button>
+            </div>
+            </div>
+        </div>
+        </div>
+        <div id="delete-account-content" class="collapsible-area">
+        <div class="collapsible-header-content">
+            <button type="button" class="collapsible-settings-button">Delete Account</button>
+            <span class="collapsible-plus-icon collapsed"></span>
+        </div>
+        <div class="collapsible-target-div collapsed">
+            <div class="collapsible-target-div-content">
+            <h3>Delete Account</h3>
+            <div id="delete-account-button-content">
+                <div id="delete-account-button-container">
+                <button id="delete-account-btn" onclick="playAlert()" class="settings-menu-options">OK</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>

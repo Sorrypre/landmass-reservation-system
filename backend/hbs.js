@@ -1,8 +1,11 @@
 const db = require('./db');
 
 async function getTemplate(id, email) {
-	const user = await db.getUser(email);
+	const user = await db.getUser(email, {});
 	const result = user !== null;
+	const username = result ? user.settings.username : 'Username';
+    const description = result ? user.settings.bio : '';
+	const pfp_photo = result ? user.settings.photo : '../frontend/assets/images/pexels-cottonbro-7166828.jpg'
 	return {
 		'login': {
 			user: false,
@@ -30,6 +33,15 @@ async function getTemplate(id, email) {
 			bg: 'dashboard',
 			page_classes: 'reservation-seat',
 		},
+		'settings': {
+			user: result,
+			scripts: ['settings_collapse.js', 'eyeTool.js','dialog.js','settings_reset_warning.js', 'settingsDataValidation.js'],
+			bg: 'dlsuBuildings',
+			username: username,
+			description: description,
+			email: email,
+			photo: pfp_photo,
+		}
 		/*	add more keys here with the corresponding Handlebars arguments as value
 			depende kung anong page ang irerender */
 	}[id.toLowerCase()];

@@ -1,6 +1,7 @@
 let filter_toggled = false;
 let reservations = [];
 let currentFilters = { };
+let filter_user_search;
 
 const filter_btn = document.getElementById("filter-btn")
 const filter_cls_btn = document.getElementById("filter-close-btn");
@@ -10,6 +11,9 @@ const reserve_page_no = document.getElementById("reserve-page-no");
 const reservation_next_btn = document.getElementById("next-btn");
 const reservation_prev_btn = document.getElementById("prev-btn");
 const reservation_list = document.getElementById("reservation-list");
+const filter_all = document.getElementById("filter-all");
+const filter_today = document.getElementById("filter-today");
+const filter_tomo = document.getElementById("filter-tomo");
 
 function toggleFilter() {
     const filter_box = document.getElementById("filter-box");
@@ -23,90 +27,118 @@ function toggleFilter() {
     filter_toggled = !filter_toggled;
 }
 
-function Reservation(name, building, room, request_date, request_time, reserve_date, seats, start_time, end_time) {
+function addRoomOptions() {
+    const select_building = document.getElementById("filter-building-select");
+    const select_room = document.getElementById("filter-room-select");
+
+    select_building.addEventListener('change', (e) => {
+        const selected_building = e.target.value;
+        select_room.innerHTML = '<option selected hidden disabled>Pick Room</option>';
+
+        if (selected_building && selected_building !== 'Pick Building' && building_map[selected_building]) {
+            building_map[selected_building].forEach(room => {
+                const option = document.createElement('option');
+                option.value = room;
+                option.textContent = room;
+                select_room.appendChild(option);
+            });
+        }
+    });
+}
+
+function Reservation(_id, name, building, room, request_date, request_time, reserve_date, seat, startTime, endTime, user_email) {
+    this._id = _id;
     this.name = name;
     this.building = building;
     this.room = room;
     this.request_date = request_date;
     this.request_time = request_time;
     this.reserve_date = reserve_date;
-    this.seats = seats;
-    this.start_time = start_time;
-    this.end_time = end_time;
+    this.seat = seat;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.user_email = user_email;
 }
 
-function addReservation(n, b, r, req_d, req_t, res_d, s, strt_t, end_t) {
-    const reservation = new Reservation(n, b, r, req_d, req_t, res_d, s, strt_t, end_t);
+function addReservation(i, n, b, r, req_d, req_t, res_d, s, strt_t, end_t, ue) {
+    const reservation = new Reservation(i, n, b, r, req_d, req_t, res_d, s, strt_t, end_t, ue);
     reservations.push(reservation);
     console.log(reservations);
 }
 
 function writeReservations() {
     const reservation_list = document.getElementById("reservation-list");
+    reservation_list.innerHTML = '';
 
+    const fragment = document.createDocumentFragment();
     let z = 5;
-    reservations.forEach(reservation => {
+
+    reservations.forEach((reservation, res_index) => {
         const reservation_item = document.createElement("div");
-        const seat_list = document.createElement("div");
-        const right_most_btn = document.createElement("div");
-        const save_edit_btn = document.createElement("button");
-
         reservation_item.classList.add('reservation-item');
-        right_most_btn.classList.add('right-most-btn');
-        seat_list.classList.add('seat-list');
-        save_edit_btn.id = "save-edit-btn";
-
-        reservation_item.style.zIndex = "" + z;
-        save_edit_btn.innerHTML = `Save Edited Reservation`;
+        reservation_item.style.zIndex = `${z--}`;
 
         reservation_item.innerHTML = `
-            <h3> <span class="font-bold">${reservation.building}</span></h3>
+            <h3><span class="font-bold">${reservation.building}</span></h3>
             <p>Requester: <span class="font-bold">${reservation.name}</span></p>
             <p>Room: <span class="font-bold">${reservation.room}</span></p>
             <p>Date of Request: <span class="font-bold">${reservation.request_date}</span></p>
             <p>Time of Request: <span class="font-bold">${reservation.request_time}</span></p>
             <p>Date of Reservation: <span class="font-bold">${reservation.reserve_date}</span></p>
-            <p>Time: <span class="font-bold">${reservation.start_time} - ${reservation.end_time}</span></p>
-            <p>Seats: </p>
+            <p>Time: <span class="font-bold">${reservation.startTime} - ${reservation.endTime}</span></p>
+            <p>Seat: </p>
+            <p id="seat-name">${reservation.seat}</p>
         `;
-        reservation.seats.forEach(seat=> {
-            const seat_item = document.createElement("div");
-            seat_item.classList.add('seat-item');
-            seat_item.innerHTML = `
-                <p id="seat-name">${seat}</p>
-                <button class="cross-btn" id="remove-seat-btn">&#128941</button>
-            `;
-            seat_list.appendChild(seat_item);
-        });
+        const right_most_btn = document.createElement("div");
+        right_most_btn.classList.add('right-most-btn');
 
-        if (right_most_btn)
-            right_most_btn.appendChild(save_edit_btn);
-        if (reservation_item) {
-            reservation_item.appendChild(seat_list)
-            reservation_item.appendChild(right_most_btn)
-        }
-        if (reservation_list) {
-            reservation_list.appendChild(reservation_item);
-        }
-        z--;
+        const delete_edit_btn = document.createElement("button");
+        delete_edit_btn.classList.add('edit-btn');
+        delete_edit_btn.innerHTML = `Delete Reservation`;
+        //confirm delete
+        delete_edit_btn.addEventListener('click', () => {
+            if (confirm('Delete this entire reservation?')) {
+                removeReservation(res_index);
+            }
+        });
+        right_most_btn.appendChild(delete_edit_btn);
+        reservation_item.appendChild(right_most_btn);
+        fragment.appendChild(reservation_item);
     });
+
+    reservation_list.appendChild(fragment);
 }
 
 function updatePageNumber() {
     const reservation_items = document.getElementsByClassName('reservation-item');
-    let currentIndex = 0;
+    const totalPages = reservation_items.length;
 
+    if (totalPages === 0) return;
+
+    let current_page = 1;
     let max_z = -1;
     for (let i = 0; i < reservation_items.length; i++) {
         const z = parseInt(reservation_items[i].style.zIndex);
         if (z > max_z) {
             max_z = z;
-            currentIndex = i;
+            current_page = i + 1;
+        }
+    }
+
+    let start_page = Math.max(1, current_page - 2);
+    let end_page = Math.min(totalPages, current_page + 2);
+
+    let page_text = '';
+    for (let i = start_page; i <= end_page; i++) {
+        if (i === current_page) {
+            page_text += `<span class="font-bold text-white">${i}</span>  `;
+        } else {
+            page_text += `<span class="bg-[#212D40] text-white p-1 rounded">${i}</span>  `;
         }
     }
 
     if (reserve_page_no) {
-        reserve_page_no.textContent = `${currentIndex + 1} / ${reservation_items.length}`;
+        reserve_page_no.innerHTML = page_text;
     }
 }
 
@@ -117,17 +149,21 @@ function prevReservation() {
     for (let i = 0; i < reservation_items.length; i++)
         z_indices.push(parseInt(reservation_items[i].style.zIndex));
 
-    let z_first = z_indices[0];
+    let max_z = Math.max(...z_indices);
 
-    for (let i = 0; i < z_indices.length - 1; i++)
-        z_indices[i] = z_indices[i + 1];
+    if (max_z > 1) {
+        let current_index = z_indices.indexOf(max_z);
+        let prev_index = (current_index - 1 + z_indices.length) % z_indices.length;
 
-    z_indices[z_indices.length - 1] = z_first;
+        let temp = z_indices[current_index];
+        z_indices[current_index] = z_indices[prev_index];
+        z_indices[prev_index] = temp;
 
-    for (let i = 0; i < reservation_items.length; i++)
-        reservation_items[i].style.zIndex = '' + z_indices[i];
+        for (let i = 0; i < reservation_items.length; i++)
+            reservation_items[i].style.zIndex = '' + z_indices[i];
 
-    updatePageNumber();
+        updatePageNumber();
+    }
 }
 
 function nextReservation() {
@@ -137,17 +173,21 @@ function nextReservation() {
     for (let i = 0; i < reservation_items.length; i++)
         z_indices.push(parseInt(reservation_items[i].style.zIndex));
 
-    let z_last = z_indices[z_indices.length - 1];
+    let max_z = Math.max(...z_indices);
 
-    for (let i = z_indices.length - 1; i > 0; i--)
-        z_indices[i] = z_indices[i - 1];
+    if (max_z > 1) {
+        let current_index = z_indices.indexOf(max_z);
+        let next_index = (current_index + 1) % z_indices.length;
 
-    z_indices[0] = z_last;
+        let temp = z_indices[current_index];
+        z_indices[current_index] = z_indices[next_index];
+        z_indices[next_index] = temp;
 
-    for (let i = 0; i < reservation_items.length; i++)
-        reservation_items[i].style.zIndex = '' + z_indices[i];
+        for (let i = 0; i < reservation_items.length; i++)
+            reservation_items[i].style.zIndex = '' + z_indices[i];
 
-    updatePageNumber();
+        updatePageNumber();
+    }
 }
 
 async function loadReservations() {
@@ -164,6 +204,7 @@ async function loadReservations() {
         if (currentFilters.startTime) filterParam.push(`startTime=${encodeURIComponent(currentFilters.startTime)}`);
         if (currentFilters.date) filterParam.push(`date=${encodeURIComponent(currentFilters.date)}`);
         if (currentFilters.requestor) filterParam.push(`requestor=${encodeURIComponent(currentFilters.requestor)}`);
+        if (currentFilters.username) filterParam.push(`username=${encodeURIComponent(currentFilters.username)}`);
 
         url += filterParam.join('&');
 
@@ -184,20 +225,22 @@ async function loadReservations() {
                 const endTime = new Date(res.endTime);
 
                 addReservation(
+                    res._id,
                     res.requestor,
                     res.building,
                     res.room,
                     reqDate.toLocaleDateString(),
                     reqDate.toLocaleTimeString(),
                     startTime.toLocaleDateString(),
-                    res.seats,
+                    res.seat,
                     startTime.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false}),
-                    endTime.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false})
+                    endTime.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false}),
+                    res.user_email
                 );
             });
             writeReservations();
         } else {
-            reservation_list.innerHTML = '<p id="no-reservation">No reservations found.</p>';
+            reservation_list.innerHTML = '<p id="no-reservation">No Reservations</p>';
         }
         updatePageNumber();
     }
@@ -207,20 +250,42 @@ async function loadReservations() {
     }
 }
 
+async function removeReservation(reservation_index) {
+    try {
+        const res = reservations[reservation_index];
+
+        const r = await fetch('/query-remove-reservation', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                reservation_id: res._id,
+                user_email: res.user_email
+            })
+        });
+
+        const data = await r.json();
+        if (data.success) {
+            loadReservations();
+        } else {
+            console.error('Failed to remove reservation:', data.error);
+        }
+    } catch (e) {
+        console.error('Error removing reservation:', e);
+    }
+}
+
 function saveFilters() {
     const building = document.getElementById("filter-building-select").value;
     const room = document.getElementById("filter-room-select").value;
     const time = document.getElementById("filter-time-select").value;
-    const username = filter_user_search.value;
+    const username = (filter_user_search && !filter_user_search.classList.contains('hidden')) ? filter_user_search.value : '';
 
     currentFilters = {};
     if (building && building !== 'Pick Building') currentFilters.building = building;
     if (room && room !== 'Pick Room') currentFilters.room = room;
-    if (time && time !== 'Pick Time') {
-        const hour = time.substring(0, 2);
-        const minute = time.substring(2, 4);
-        currentFilters.startTime = `${hour}:${minute}`;
-    }
+    if (time && time !== 'Pick Time') currentFilters.startTime = time;
     if (username) currentFilters.username = username;
 
     loadReservations();
@@ -237,10 +302,12 @@ function resetFilters() {
 }
 
 document.addEventListener('DOMContentLoaded', async() => {
-    reservation_list.innerHTML = '<div class="reservation-item" style="z-index: 1;"><p id="no-reservation">No reservations found.</p></div>';
+    filter_user_search = document.getElementById("filter-user-search");
+    reservation_list.innerHTML = '<div class="reservation-item" style="z-index: 1;"><p id="no-reservation">No Reservations</p></div>';
 
-    //await loadReservations();
-    await checkLabTechStatus();
+    addRoomOptions();
+    await loadReservations();
+    await addSearchUserInput();
 
     if (filter_btn) filter_btn.addEventListener("click", toggleFilter);
     if (filter_cls_btn) filter_cls_btn.addEventListener("click", toggleFilter);
@@ -252,6 +319,48 @@ document.addEventListener('DOMContentLoaded', async() => {
         resetFilters();
         toggleFilter();
     });
+    if (filter_all) filter_all.addEventListener("click", () => {
+        currentFilters.date = null;
+        loadReservations();
+    });
+    if (filter_today) filter_today.addEventListener("click", () => {
+        currentFilters.date = new Date().toISOString().split('T')[0];
+        loadReservations();
+    });
+    if (filter_tomo) filter_tomo.addEventListener("click", () => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        currentFilters.date = tomorrow.toISOString().split('T')[0];
+        loadReservations();
+    });
+    if (filter_user_search) filter_user_search.addEventListener("change", () => { saveFilters() });
     if (reservation_next_btn) reservation_next_btn.addEventListener("click", nextReservation);
     if (reservation_prev_btn) reservation_prev_btn.addEventListener("click", prevReservation);
+
 });
+
+async function addSearchUserInput() {
+    try {
+        const query = await fetch('/query-current-user', {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        });
+
+        const data = await query.json();
+
+        if (data.success) {
+            const user = JSON.parse(data.user)
+            if (!user.admin && filter_user_search) {
+                filter_user_search.classList.add('hidden');
+                return true;
+            }
+        }
+        return false;
+    }
+    catch(e) {
+        console.error('Error Checking Lab Tech Status:', e);
+        return false;
+    }
+}
