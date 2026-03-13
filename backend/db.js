@@ -139,15 +139,12 @@ async function getReservations(email) {
 }
 
 async function addReservations(email, reservation){
-	const u = await getUser(email, {});
-	if(!u){
-		console.error("User not found");
-		return false;
-	}
 	try {
-		const reservation = u.reservations.push(reservation);
-		await u.save();
-		return true;
+		const result = await User.updateOne(
+            { "settings.email": email }, 
+            { $push: { reservations: reservation } }
+        );
+		return result.modifiedCount>0;
 	} catch (e) {
 		/*	MongoDB E11000: incoming duplicate on property with unique: true,
 			as for the email, ibig sabihin meron na sa database pero sinusubukan pa rin ipasok
