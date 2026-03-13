@@ -238,8 +238,7 @@ xj.post('/query-modify-user', async function(q, r) {
 	const result = await db.modifyUser(
 		q.body.email,
 		q.body.matchjson,
-		q.body.setjson,
-		q.body.deljson
+		q.body.updjson,
 	);
 	r.status(200).json({
 		success: true,
@@ -248,10 +247,10 @@ xj.post('/query-modify-user', async function(q, r) {
 });
 
 
-// xj.get('/testview', async function(q,r) {
-// 	const template = await hbs.getTemplate('reserve-seat', q.session.email);
-// 	r.render('reserve-seat', template);
-// });
+xj.get('/testview', async function(q,r) {
+	const template = await hbs.getTemplate('settings', q.session.email);
+	r.render('settings', template);
+});
 
 
 xj.use('/reserve-seat', reserveSeatRouter);

@@ -83,43 +83,41 @@ async function dummyUsers(count) {
 		const user_hash = await session.h512('password' + rand, undefined);
 		const user_register = await register(email, user_hash.hashed, user_hash.salt);
 		if (user_register) {
-			for (let j = 0; j < 2; j++) {
-				if (timesList.length < 2) {
-					timesList = [
-						"0730", "0800", "0830", "0900", "0930", 
-						"1000", "1030", "1100", "1130", "1200", 
-						"1230", "1300", "1330", "1400", "1430", 
-						"1500", "1530", "1600", "1630", "1700"
-					];
-					quotient++;
-				}
-				const index = Math.floor(Math.random() * timesList.length);
-				const time = (timesList[index].slice(0, 2) + ':' + timesList[index].slice(2)).split(':');
-				let request_datetime = new Date();
-				request_datetime.setDate(request_datetime.getDate() + 2 * quotient + j);
-				let start_datetime = new Date();
-				start_datetime.setDate(start_datetime.getDate() + 2 * quotient + j + 1);
-				start_datetime.setHours(parseInt(time[0], 10) + 8, parseInt(time[1], 10), 0, 0);
-				let end_datetime = new Date(start_datetime);
-				end_datetime.setHours(end_datetime.getHours() + 2);
-				const modify = await modifyUser(email, {}, {
-					$push: {
-						reservations: {
-							dt_request: request_datetime,
-							details: {
-								building: 'Gokongwei',
-								room: 'G204',
-								startTime: start_datetime,
-								endTime: end_datetime,
-								seats: [0, 1],
-							}
+			if (timesList.length < 2) {
+				timesList = [
+					"0730", "0800", "0830", "0900", "0930", 
+					"1000", "1030", "1100", "1130", "1200", 
+					"1230", "1300", "1330", "1400", "1430", 
+					"1500", "1530", "1600", "1630", "1700"
+				];
+				quotient++;
+			}
+			const index = Math.floor(Math.random() * timesList.length);
+			const time = (timesList[index].slice(0, 2) + ':' + timesList[index].slice(2)).split(':');
+			let request_datetime = new Date();
+			request_datetime.setDate(request_datetime.getDate() + 2 * quotient + j);
+			let start_datetime = new Date();
+			start_datetime.setDate(start_datetime.getDate() + 2 * quotient + j + 1);
+			start_datetime.setHours(parseInt(time[0], 10) + 8, parseInt(time[1], 10), 0, 0);
+			let end_datetime = new Date(start_datetime);
+			end_datetime.setHours(end_datetime.getHours() + 2);
+			const modify = await modifyUser(email, {}, {
+				$push: {
+					reservations: {
+						dt_request: request_datetime,
+						details: {
+							building: 'Gokongwei',
+							room: 'G204',
+							startTime: start_datetime,
+							endTime: end_datetime,
+							seats: [0, 1],
 						}
 					}
-				});
-				if (modify > 0) {
-					timesList.splice(index, 5);
-					timesList.splice(Math.max(0, index - 4), 4);
 				}
+			});
+			if (modify > 0) {
+				timesList.splice(index, 5);
+				timesList.splice(Math.max(0, index - 4), 4);
 			}
 		}
 	}
