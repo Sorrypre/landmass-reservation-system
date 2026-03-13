@@ -156,7 +156,7 @@ btn_save_pfp_pwd.addEventListener('click', async (e) => {
     if(!form_input_old_pwd || !form_input_new_pwd || !form_input_new_cfr_pwd)
         return;
     //get the old password from the database and compare the input in the form
-    if (form_input_old_pwd.value > 0 && form_input_new_pwd.value >= pwd_min && form_input_new_cfr_pwd.value === form_input_new_pwd.value){
+    if (form_input_old_pwd.value.length > 0 && form_input_new_pwd.value.length >= pwd_min && form_input_new_cfr_pwd.value === form_input_new_pwd.value){
         //change and edit so that only the new password wil be submitted to the database
         let user = await fetch('/query-current-user', {
         method: 'GET',
@@ -189,6 +189,9 @@ btn_save_pfp_pwd.addEventListener('click', async (e) => {
         }
         return false;
     }
+    form_input_old_pwd.value = '';
+    form_input_new_pwd.value = '';
+    form_input_new_cfr_pwd.value = '';
 });
 input_pfp.addEventListener('change', () => {
     console.log('triggered but not doing anything');
