@@ -4,9 +4,9 @@
     @apply overflow-hidden;
 }
 /*dropdown related*/
-    .reservation-room .reserve-bldg-text, 
+    .reservation-room #reserve-bldg-text, 
     .go-back-text, 
-    .reserve-bldg-text, 
+    #reserve-bldg-text, 
     #available-text-container p, 
     #date-time-selection input, 
     #date-time-selection select, 
@@ -32,7 +32,7 @@
 .available-text-container{
     @apply flex flex-row items-center min-h-screen overflow-hidden
 }
-.reserve-bldg-text{
+#reserve-bldg-text{
 	@apply pt-7 text-3xl md:text-7xl text-white font-bold justify-self-center;
 }
 .available-text{
