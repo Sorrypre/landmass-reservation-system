@@ -1,27 +1,31 @@
-function getTemplate(id) {
+const db = require('./db');
+
+async function getTemplate(id, email) {
+	const user = await db.getUser(email, {});
+	const result = user !== null;
 	return {
 		'login': {
-			user: {},
-			scripts: ['index.js'],
+			user: false,
+			scripts: ['dialog.js', 'index.js'],
 			bg: 'dashboard',
 		},
 		'dashboard': {
-			user: {},
+			user: result,
 			scripts: ['dashboard.js'],
 			bg: 'dashboard',
 		},
 		'buildings': {
-			user: {},
+			user: result,
 			scripts: ['buildings.js'],
 			bg: 'dlsuBuildings',
 		},
 		'reservation-list': {
-			user: {},
-			scripts: ['reservation-list.js'],
+			user: result,
+			scripts: ['main.js','reservation-list.js'],
 			bg: 'reservation-list',
 		},
 		'reserve-seat': {
-			user: {},
+			user: result,
 			scripts: ['reserve-seat.js'],
 			bg: 'dashboard',
 			page_classes: 'reservation-seat',

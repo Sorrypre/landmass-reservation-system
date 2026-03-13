@@ -1,0 +1,142 @@
+/* @import "tailwindcss";
+
+body{
+    @apply overflow-visible;
+
+} 
+.reservation-seat .go-back-text, 
+                    #available-text-container p, 
+                    .seat-legend span,
+                    .whiteboard,
+                    .submit.btn
+                    {
+    @apply font-grotesk;
+    @apply text-white;
+}
+
+.whiteboard{
+    @apply text-black
+}
+
+.go-back-text{
+    @apply block text-right;
+    @apply cursor-pointer;
+}
+
+#go-back-container{
+    @apply mx-auto w-full px-6;  
+    @apply justify-end; 
+}
+.submit-btn{
+    @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
+    @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
+    @apply h-8 w-26 items-center bg-[#5d5d81] text-white rounded-xs;
+    @apply md:h-10 md:w-30 items-center bg-[#5d5d81] text-white rounded-lg;
+}
+#submit-container{
+    @apply flex justify-end mx-auto w-full;
+}
+.available-text-container{
+    @apply flex flex-row items-center h-screen overflow-hidden
+}
+.reserve-room-text{
+	@apply pt-7 text-5xl md:text-6xl text-white font-bold justify-self-center;
+}
+.available-text{
+    @apply pt-7 text-lg text-white font-bold justify-self-center;
+}
+
+#content {
+    @apply mt-10 flex flex-col items-center w-full;
+}
+
+#content-area{
+    @apply p-4 gap-2 flex flex-col items-center w-full px-6;
+}
+
+#slots-container{
+  @apply flex flex-col items-center overflow-y-auto max-h-[400px];
+}
+
+.whiteboard{
+    @apply bg-white h-4 w-2xs m-2 items-center justify-center flex flex-row;
+}
+.row{
+  @apply flex flex-row items-center; 
+}
+
+.seat, .cis{
+    @apply h-6 w-6 rounded-t-sm m-[8px] bg-gray-400;
+    @apply md:h-10 md:w-10 rounded-t-lg md:m-[10px] bg-gray-400;
+}
+
+@media (hover:hover) and (pointer:fine){
+#slots-container .seat:not(.taken):hover{
+  transform:scale(1.05);
+  @apply bg-[#5d5d81] cursor-pointer transition
+}
+
+.confirm-btn:hover{
+    @apply w-xs bg-[#7070a1] text-white
+}
+
+.confirm-btn:hover{
+    @apply w-xs bg-[#7070a1] text-white
+}
+
+.cancel-btn:hover{
+    @apply w-xs text-white
+}
+}
+.cis{
+    @apply bg-transparent;
+}
+.space{
+    @apply h-[12px] w-[12px]
+}
+
+.seat.selected{
+    @apply bg-[#E55B2E]
+}
+
+.seat.taken{
+  @apply bg-[#2a4252]
+}
+
+.seat-legend{
+    @apply border-solid flex flex-row items-center p-0 m-0 bg-transparent;
+}
+
+#confirm-modal{
+    @apply p-10 fixed inset-0 z-[100] h-full w-full hidden items-center justify-center;
+}
+.hidden {
+    display: none !important;
+}
+
+.flex {
+    display: flex !important;
+}
+#confirm-modal-area{
+    @apply bg-gray-800 rounded-xl w-lg h-auto ;
+}
+
+#confirm-modal h2{
+    @apply p-3 text-white text-2xl font-bold text-center
+}
+
+#modal-details{
+    @apply text-gray-200 text-sm mb-8 p-4
+}
+
+.dialog-buttons{
+    @apply flex flex-col gap-2 m-2 items-center
+}
+
+.confirm-btn{
+    @apply w-xs bg-[#5d5d81] text-white rounded-full
+}
+
+.cancel-btn{
+    @apply w-xs text-gray-400 
+} */

@@ -136,6 +136,10 @@ function exec(target, command) {
 	}
 	else if (lc_command === 'close')
 		close_dialog(target);
+	else if (lc_command === 'closedel') {
+		close_dialog(target);
+		document.getElementById(DIALOG_ID_PREFIX + '' + target).remove();
+	}
 	/* add more else ifs dito if need pa ng ibang custom commands */
 }
 
