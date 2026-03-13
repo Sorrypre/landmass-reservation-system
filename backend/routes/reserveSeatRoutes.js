@@ -119,7 +119,8 @@ router.get('/ping', (req, res) => {
 // - Handle conflicts
 router.post('/api/reserve', async (req,res)=>{
     try {
-        let {bldg, room, startT, endT, seats, email} = req.body;
+        let {bldg, room, startT, endT, seats} = req.body;
+        let email = req.session.email;
         let sessionUsername = db.getUser(email, {});
     
         const reservation = {
