@@ -23,10 +23,10 @@ container.addEventListener("click", (e) => {
 });
 
 function handleSeatClick(e){
-    const currSeat = e.currentTarget;
+    const currSeat = e.target;
 
     if(currSeat.classList.contains("taken")){ return }
-    document.querySelectorAll(".seat.selected").forEach(s => {
+    document.querySelectorAll("#slots-container .seat.selected").forEach(s => {
         if(s!==currSeat){
             s.classList.remove("selected");
         }
@@ -58,7 +58,9 @@ const time_dropdown = document.querySelector("#reserved-time");
 const room_dropdown = document.querySelector("#reserved-room");
 
 async function reserveSeatForm(){
-    let bldgName = document.getElementsByClassName("reserve-bldg-text").innerHTML();
+    console.log("entered reserveSeatForm");
+    let b = document.getElementById("reserve-bldg-text");
+    let bldgName = b.innerText;
     
     let endTime = (Number(time_dropdown.value) + 200).toString().padStart(4,'0');
     let startDateTime = `${date_dropdown.value}T${time_dropdown.value.slice(0, 2)}:${time_dropdown.value.slice(2)}:00Z`;
@@ -75,7 +77,6 @@ async function reserveSeatForm(){
     
     try {
         console.log("entered reserveSeatForm")
-        let {bldg, room, startT, endT, seats, email} = req.body;
 
         // const response = await fetch(`/reserve-seat/api/get-seats?start=${dateTime}&room=${room}`);
         const response = await fetch('/reserve-seat/api/reserve', {
@@ -97,14 +98,10 @@ async function reserveSeatForm(){
             return;
         }
         console.log("exiting reserveSeatForm")
-
-        updateSeatUI(data.seats);
-        // const data = await response.text();
-        // console.log(data);
-        // updateSeatUI(data.seats);
     } catch (err) {
         console.error("Network or Parsing error:", err);
     }
+
 }
 function reserveSummary(){
     let endTime = (Number(time_dropdown.value) + 200).toString().padStart(4,'0');
