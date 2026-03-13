@@ -1,7 +1,7 @@
 const db = require('./db');
 
 async function getTemplate(id, email) {
-	const user = await db.getUser(email);
+	const user = await db.getUser(email, {});
 	const result = user !== null;
 	return {
 		'login': {

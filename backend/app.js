@@ -323,9 +323,9 @@ xj.post('/ru', async function(q, r) {
 			message: 'Registration successful.',
 		});
 	} else {
-		r.status(500).json({
+		r.status(400).json({
 			success: false,
-			error: 'Unexpected error upon registering user.',
+			error: 'User already exists.',
 		});
 	}
 });
