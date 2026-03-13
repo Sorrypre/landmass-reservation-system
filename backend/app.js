@@ -10,8 +10,6 @@ const dns = require('dns');
 const hbs = require('./hbs');
 const db = require('./db');
 
-const xj = express();
-
 const sess = require('./session');
 require('dotenv').config({ quiet: true });
 setServers(['8.8.8.8', '8.8.4.4']);
