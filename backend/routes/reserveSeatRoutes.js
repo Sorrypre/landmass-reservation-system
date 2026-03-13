@@ -100,14 +100,14 @@ router.get('/stlasalle', async (req,res) => {
 
 // Get Available Seats
 router.get('/api/get-seats', async (req, res) => {
-    console.log("POST request received!");
+    console.log("GET request received!");
     try {
         const { start, room } = req.query;
         const startTime = new Date(start);
-        const endTime = (Number(startTime.getTime()) + 200).toString().padStart(4,'0');
-        let endDateTime = `${startTime.getDate()}T${endTime.slice(0, 2)}:${endTime.slice(2)}:00Z`;
+        const endTime = new Date(startTime.getTime() + (30 * 60 * 1000));        
+        // let endDateTime = `${startTime.getDate()}T${endTime.slice(0, 2)}:${endTime.slice(2)}:00Z`;
         const booked = await db.getUsers({
-            "reservations.details.startTime": {$lt: new Date(endDateTime)}, 
+            "reservations.details.startTime": {$lt: endTime}, 
             "reservations.details.endTime": {$gt: startTime}, 
             "reservations.details.room": room
         });
@@ -122,8 +122,8 @@ router.get('/api/get-seats', async (req, res) => {
                         const rsvEnd = new Date(rsv.details.endTime);
                         
                         if (rsv.details.room === room && 
-                        new Date(rsv.details.startTime).getTime() === startTime.getTime() &&
-                        rsvStart < endDateTime && rsvEnd > startTime) {
+                        // new Date(rsv.details.startTime).getTime() === startTime.getTime() &&
+                        rsvStart < endTime && rsvEnd > startTime) {
                             takenSeats.push(...rsv.details.seats);
                         }   
                     });
