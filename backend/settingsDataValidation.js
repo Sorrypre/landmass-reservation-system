@@ -70,7 +70,7 @@ btn_confirm_pfp_pic.addEventListener('click', (e) => {
 });
 
 // handle edit information
-btn_save_pfp_info.addEventListener('click', (e) => {
+btn_save_pfp_info.addEventListener('click', async (e) => {
     function alert_new_username() {
         label_user_n.classList.add('username-length-invalid');
         label_user_n.style['display'] = 'inline';
@@ -86,7 +86,25 @@ btn_save_pfp_info.addEventListener('click', (e) => {
     if (!form_input_user_n || !form_input_desc)
         return;
     if(form_input_user_n.value.length <= user_n_max && form_input_desc.value.length <= desc_max){
-        form_change_info.submit(); //edit so that when the input the length is 0 it will not send that
+       //edit so that when the input the length is 0 it will not send that
+        let user = await fetch('/query-current-user', {
+        method: 'GET',
+        headers: { 'Content-Length': 0 },
+        });
+        const user_json = await user.json();
+        const response = await fetch('/query-modify-user', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', },
+            body: JSON.stringify({
+                email: JSON.parse(user_json.user).settings.email,
+                matchjson: JSON.stringify({}),
+                updjson: JSON.stringify({ 
+                    'settings.username': form_input_user_n.value.length > 0  ? form_input_user_n.value : JSON.parse(user_json.user).settings.username,
+                    'settings.bio': form_input_desc.value.length > 0 ? form_input_desc.value : JSON.parse(user_json.user).settings.bio
+                 }),
+            })
+        });
+        window.location.reload();
         return true;
     } else {
         if(form_input_user_n.value.length > user_n_max)
@@ -96,7 +114,7 @@ btn_save_pfp_info.addEventListener('click', (e) => {
         return false;
     }
 });
-btn_save_pfp_pwd.addEventListener('click', (e) => {
+btn_save_pfp_pwd.addEventListener('click', async (e) => {
     function alert_old_pwd(t) {
         switch(t) {
             case 0:
@@ -139,8 +157,21 @@ btn_save_pfp_pwd.addEventListener('click', (e) => {
         return;
     //get the old password from the database and compare the input in the form
     if (form_input_old_pwd.value > 0 && form_input_new_pwd.value >= pwd_min && form_input_new_cfr_pwd.value === form_input_new_pwd.value){
-        form_change_pwd.submit(); //change and edit so that only the new password wil be submitted to the database
-        return true;
+        //change and edit so that only the new password wil be submitted to the database
+        let user = await fetch('/query-current-user', {
+        method: 'GET',
+        headers: { 'Content-Length': 0 },
+        });
+        const user_json = await user.json();
+        const response = await fetch('/query-change-password', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', },
+            body: JSON.stringify({
+                email: JSON.parse(user_json.user).settings.email,
+                password: form_input_new_pwd.value
+            })
+        });
+
     } else {
         if(form_input_old_pwd.value.length === 0)
             alert_old_pwd(0);
