@@ -9,17 +9,13 @@ const path = require('path');
 const dns = require('dns');
 const hbs = require('./hbs');
 const db = require('./db');
-
 const sess = require('./session');
-require('dotenv').config({ quiet: true });
-setServers(['8.8.8.8', '8.8.4.4']);
-
+const reserveSeatRouter = require('./routes/reserveSeatRoutes');
 const port = process.env.PORT;
 const root_dir = path.join(__dirname, '..');
-
-let db_instance;
-
-
+const xj = express();
+require('dotenv').config({ quiet: true });
+setServers(['8.8.8.8', '8.8.4.4']);
 xj.use(express.json({limit: '5mb'}));
 xj.use(express.urlencoded({ limit: '5mb', extended: true }));
 xj.use(express.static(root_dir));
@@ -41,33 +37,68 @@ xj.use(session({
 		maxAge: 1000 * 60 * 60 * 24 * 30,
 	},
 }));
-
-const reserveSeatRouter = require('./routes/reserveSeatRoutes');
-xj.use('/reserve-seat', reserveSeatRouter);
-
 xj.use(express.static(root_dir));
 /* https://expressjs.com/en/resources/middleware/session.html */
-xj.engine('handlebars', handlebars.engine());
+xj.engine('handlebars', handlebars.engine({
+	partialsDir: path.join(root_dir, '/frontend/pages/partials'),
+	helpers: {
+		or(left, right) {
+			return left || right;
+		},
+		and(left, right) {
+			return left && right;
+		},
+		und(operand) {
+			return typeof operand === 'undefined';
+		},
+		undt(operand) {
+			return operand === undefined || operand;
+		},
+		nmpt(array) {
+			return Array.isArray(array) && array.length > 0;
+		},
+		mpt(array) {
+			return Array.isArray(array) && array.length === 0;
+		},
+		ndx(n) {
+			return n != null && Number.isInteger(n) && n >= 0;
+		},
+		equ(left, right) {
+			return left === right;
+		},
+		neq(left, right) {
+			return left !== right;
+		},
+		gtr(left, right) {
+			return left > right;
+		},
+		jsonstr(json) {
+			return JSON.stringify(json).replaceAll('"', '\\"');
+		},
+	},
+}));
 xj.set('view engine', 'handlebars');
 xj.set('views', './frontend/pages');
-
 xj.use(function(q, r, s) {
-	if (q.url === '/testview' || q.url.startsWith('/reserve-seat'))
+	if (q.url === '/testview')
 		return s();
 	/* lahat ng pages babalik sa login page pag walang session */
 	if (q.method === 'GET' && q.url !== '/' && !q.session.email)
 		return r.redirect('/');
 	s();
 });
+xj.use('/reserve-seat', reserveSeatRouter);
 
 /* GET */
+
+/*
+xj.get('/testview', async function(q,r) {
+	const template = await hbs.getTemplate('settings', q.session.email);
+	r.render('settings', template);
+});
+*/
+
 xj.get('/', async function(q, r) {
-	
-	// const rand = Math.floor(Math.random() * 10000);
-	// const hash = await sess.h512('password' + rand, undefined);
-	// const email = 'example.user' + rand + '@gmail.com';
-	// await db.register(email, hash.hashed, hash.salt);
-	
 	if (!q.session.email) {
 		const template = await hbs.getTemplate('login', q.session.email);
 		r.render('login', template);
@@ -93,6 +124,11 @@ xj.get('/reservation-list', async function(q, r) {
 xj.get('/buildings', async function(q, r) {
 	const template = await hbs.getTemplate('buildings', q.session.email);
 	r.render('buildings', template);
+});
+
+xj.get('/settings', async function(q,r) {
+	const template = await hbs.getTemplate('settings', q.session.email);
+	r.render('settings', template);
 });
 
 /* QUERY POST/GET */
@@ -146,6 +182,34 @@ xj.get('/query-get-reservations', async function(q, r) {
 		r.status(500).json({
 			success: false,
 			error: e.message
+		});
+	}
+});
+
+xj.post('/query-remove-reservation', async function(q, r) {
+	try {
+		const session_email = q.session.email;
+		const { reservation_id, user_email } = q.body;
+		const email_query = user_email || session_email;
+
+		const result = await db.removeReservation(email_query, reservation_id);
+
+		if (result.modifiedCount > 0) {
+			r.status(200).json({
+				success: true,
+				message: 'Reservation removed successfully.',
+			});
+		} else {
+			r.status(404).json({
+				success: false,
+				error: 'Reservation not found.',
+			});
+		}
+	}
+	catch (e) {
+		r.status(500).json({
+			success: false,
+			error: e.message,
 		});
 	}
 });
@@ -222,14 +286,28 @@ xj.post('/query-change-password', async function(q, r) {
 	});
 });
 
-xj.get('/settings', async function(q,r) {
-	const template = await hbs.getTemplate('settings', q.session.email);
-	r.render('settings', template);
+xj.post('/make-dialog', async function(q, r) {
+	try {
+		const template = hbs.getDialogTemplate(q.body.dialogs);
+		r.render('partials/dialogs', template, function(e, html) {
+			if (e) {
+				return r.status(500).json({
+					success: false,
+					error: e.message,
+				});
+			}
+			return r.status(200).json({
+				success: true,
+				html: html,
+			});
+		});
+	} catch (e) {
+		return r.status(500).json({
+			success: false,
+			error: e.message,
+		});
+	}
 });
-// xj.get('/testview', async function(q,r) {
-// 	const template = await hbs.getTemplate('settings', q.session.email);
-// 	r.render('settings', template);
-// });
 
 /* LOGIN/REGISTER POST */
 
@@ -302,34 +380,6 @@ xj.post('/ru', async function(q, r) {
 		r.status(400).json({
 			success: false,
 			error: 'User already exists.',
-		});
-	}
-});
-
-xj.post('/query-remove-reservation', async function(q, r) {
-	try {
-		const session_email = q.session.email;
-		const { reservation_id, user_email } = q.body;
-		const email_query = user_email || session_email;
-
-		const result = await db.removeReservation(email_query, reservation_id);
-
-		if (result.modifiedCount > 0) {
-			r.status(200).json({
-				success: true,
-				message: 'Reservation removed successfully.',
-			});
-		} else {
-			r.status(404).json({
-				success: false,
-				error: 'Reservation not found.',
-			});
-		}
-	}
-	catch (e) {
-		r.status(500).json({
-			success: false,
-			error: e.message,
 		});
 	}
 });

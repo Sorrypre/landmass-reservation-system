@@ -1,6 +1,6 @@
 let go_back = document.querySelector("#back-to-dashboard");
 go_back.onclick = function (){
-	window.location.href = "../../frontend/pages/dashboard.html";
+	window.location.href = "/dashboard";
 };
 
 let buildingRedirect = (buildingID, roomlink) => {

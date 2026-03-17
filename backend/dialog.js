@@ -6,6 +6,11 @@ const ESCAPED_COMMA = '\u{22EB9}'; /* Chu Nom form of Vietnamese 'chia' (to sepa
 let with_dialog_targets = null;
 refresh_dialog_targets();
 
+// util func
+function sleep(ms) {
+	return new Promise(r => setTimeout(r, ms));
+}
+
 function make_dialog(parent_id, button_handler_id_if_any, dialog_name, dialog_size, dialog_title, is_content_flex_col, is_content_nogap, content_html, responses_html) {
 	if (typeof parent_id !== 'string' || typeof button_handler_id_if_any !== 'string' ||
 		typeof dialog_name !== 'string' || typeof dialog_size !== 'string' ||
@@ -75,6 +80,53 @@ function make_dialog(parent_id, button_handler_id_if_any, dialog_name, dialog_si
 	return document.getElementById(DIALOG_ID_PREFIX + '' + dialog_name);
 }
 
+async function make_dialog_v2(parent_id, dialog_name, dialog_size, dialog_title, is_content_flex_col, is_content_nogap, html_content, json_responses) {
+	if (typeof parent_id !== 'string' || typeof dialog_name !== 'string' || typeof dialog_size !== 'string' ||
+		typeof dialog_title !== 'string' || typeof is_content_flex_col !== 'boolean' || typeof is_content_nogap !== 'boolean' || 
+		typeof html_content !== 'string' || !(json_responses !== null && typeof json_responses === 'object')) {
+		console.error('make_dialog_v2: Invalid parameter set');
+		return;
+	}
+	if (document.getElementById(DIALOG_ID_PREFIX + '' + dialog_name)) {
+		console.error('make_dialog_v2: ' + dialog_name + ' already exists');
+		return false;
+	}
+	const containing_parent = document.getElementById(parent_id);
+	if (!containing_parent) {
+		console.error('make_dialog_v2: Parent does not exist');
+		return false;
+	}
+	const dialog_sizes = ['typical', 'big', 'bigger', 'xbig'];
+	if (!dialog_sizes.includes(dialog_size)) {
+		console.error('make_dialog: Invalid dialog size; should be one of the following: ' + dialog_sizes.join(','));
+		return false;
+	}
+	const make_dialog_response = await fetch('/make-dialog', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json', },
+		body: JSON.stringify({
+			dialogs: [{
+				name: dialog_name,
+				title: dialog_title,
+				size: dialog_size,
+				vertical: is_content_flex_col,
+				nogap: is_content_nogap,
+				html_content: html_content,
+				responses: json_responses,
+			}],
+		}),
+	});
+	const make_dialog_json = await make_dialog_response.json();
+	if (!make_dialog_response.ok && !make_dialog_json.success) {
+		console.error(make_dialog_json.error);
+		return false;
+	}
+	const html = make_dialog_json.html;
+	containing_parent.insertAdjacentHTML('beforeend', html);
+	refresh_dialog_targets();
+	return true;
+}
+
 function dialog_message(dialog_name) {
 	if (typeof dialog_name !== 'string' || dialog_name.length < 1)
 		return null;
@@ -91,39 +143,54 @@ function refresh_dialog_targets() {
 	if (with_dialog_targets && with_dialog_targets.length > 0)
 		for (const b of with_dialog_targets)
 			b.removeEventListener('click', dialog_target_handler);
-	with_dialog_targets = document.querySelectorAll('button[target-dialog-id]:not([target-dialog-id=""])');
-	for (let i = 0; i < with_dialog_targets.length; i++) {
+	with_dialog_targets = document.querySelectorAll(
+		'button[target-dialog-id]:not([target-dialog-id=""]),' +
+		'button[target-dialog-ids]:not([target-dialog-ids=""])'
+	);
+	for (let i = 0; i < with_dialog_targets.length; i++)
 		/* async event listener kung sakaling mangailangan in the future */
 		with_dialog_targets[i].addEventListener('click', dialog_target_handler);
-	}
 }
 
 function dialog_target_handler(e) {
-	/* parehong required ang target-dialog-id target-dialog-command(s) sa button */
+	/* parehong required ang target-dialog-id(s) target-dialog-command(s) sa button */
 	const target = e.target.getAttribute('target-dialog-id');
+	const target_multi = e.target.getAttribute('target-dialog-ids');
 	const command = e.target.getAttribute('target-dialog-command');
 	const command_multi = e.target.getAttribute('target-dialog-commands');
-	if (whitespaced(target))
-		return; /* bawal space */
+	if (whitespaced(target) || whitespaced(target_multi))
+		return;
+	if (!target && !target_multi)
+		return;
 	if (!command && !command_multi)
 		return;
+	if (target_multi && !command_multi)
+		return;
+	const command_params = JSON.parse(e.target.getAttribute('target-dialog-command-params').replaceAll('\\"', '"'));
 	if (command_multi) {
 		/*	for some psychos na gusto maglagay ng comma sa id, kunsino ka man,
 			you have to escape the comma with \, sa multi-command */
 		/*	replaced escaped commas temporarily with special character */
-		const command_set = command_multi.toLowerCase().replace('\\,', ESCAPED_COMMA).split(',');
-		for (const s of command_set)
-			/* return comma bago iexecute */
-			exec(target, s.replace(ESCAPED_COMMA, ','));
+		const command_set = command_multi.replace('\\,', ESCAPED_COMMA).split(',');
+		if (target_multi) {
+			const target_set = target_multi.replace('\\,', ESCAPED_COMMA).split(',');
+			for (let i = 0; i < target_set.length && i < command_set.length; i++)
+				/* return comma bago iexecute */
+				exec(target_set[i].replace(ESCAPED_COMMA, ','), command_set[i].replace(ESCAPED_COMMA, ','), command_params[i] ?? []);
+		} else {
+			for (let i = 0; i < command_set.length; i++)
+				exec(target, s.replace(ESCAPED_COMMA, ','), command_params[i] ?? []);
+		}
 	} else if (command) {
 		exec(target, command);
 	}
 }
 
-function exec(target, command) {
+async function exec(target, command, params) {
 	const lc_command = command.toLowerCase();
-	if (lc_command === 'open')
+	if (lc_command === 'open') {
 		open_dialog(target);
+	}
 	else if (lc_command.startsWith('form-clear@') && lc_command.length > 'form-clear@'.length) {
 		/*	when getting the target form, gamitin ulit ung command instead of lc_command
 			para case-insensitive na sya ulit */
@@ -134,16 +201,23 @@ function exec(target, command) {
 		const target_form = command.substring(command.indexOf('@') + 1);
 		submit_form(target, target_form);
 	}
-	else if (lc_command === 'close')
+	else if (lc_command === 'close') {
 		close_dialog(target);
+	}
 	else if (lc_command === 'closedel') {
 		close_dialog(target);
+		await sleep(150);
 		document.getElementById(DIALOG_ID_PREFIX + '' + target).remove();
+	}
+	else if (lc_command.startsWith('func@') && lc_command.length > 'func@'.length) {
+		const target_func = command.substring(command.indexOf('@') + 1);
+		await window[target_func](...params);
 	}
 	/* add more else ifs dito if need pa ng ibang custom commands */
 }
 
-function open_dialog(target) {
+async function open_dialog(target) {
+	await sleep(150);
 	if (whitespaced(target))
 		return false;
 	const target_dialog = document.getElementById(DIALOG_ID_PREFIX + '' + target);
@@ -154,7 +228,7 @@ function open_dialog(target) {
 	return true;
 }
 
-function close_dialog(target) {
+async function close_dialog(target) {
 	if (whitespaced(target))
 		return false;
 	const target_dialog = document.getElementById(DIALOG_ID_PREFIX + '' + target);
@@ -184,3 +258,9 @@ function whitespaced(str) {
 		return false;
 	return /\s/.test(str.trim());
 }
+
+/* USER-DEFINED COMMANDS */
+function sendConsoleLog(msg) {
+	console.log(msg);
+}
+

@@ -1,5 +1,29 @@
 const db = require('./db');
 
+const DIALOG_ID_PREFIX = 'mlcndlg-';
+const PREFIX_CLOSE_BUTTON = '\u{20603}'; /* Chu Nom of Vietnamese 'đóng' (to seal shut) */
+const PREFIX_DIALOG_MESSAGE = '\u{20D0D}'; /* Chu Nom of Vietnamese 'nhắn' (to leave a message) */
+const PREFIX_DIALOG_RESPONSES = '\u{20CD2}'; /* Chu Nom of Vietnamese 'lời' (word; response) */
+
+const dialog_config_template = {
+	config: {
+		dialog_name_prefix: DIALOG_ID_PREFIX,
+		dialog_close_prefix: PREFIX_CLOSE_BUTTON,
+		dialog_content_prefix: PREFIX_DIALOG_MESSAGE,
+		dialog_responses_prefix: PREFIX_DIALOG_RESPONSES,
+	}
+}
+
+function getDialogTemplate(dialog_layouts) {
+	if (!Array.isArray(dialog_layouts))
+		throw new Error('getDialogTemplate: parameter type mismatch');
+	return {
+		...dialog_config_template,
+		layout: false,
+		dialogs: dialog_layouts,
+	}
+}
+
 async function getTemplate(id, email) {
 	const user = await db.getUser(email, {});
 	const result = user !== null;
@@ -48,3 +72,4 @@ async function getTemplate(id, email) {
 }
 
 module.exports.getTemplate = getTemplate;
+module.exports.getDialogTemplate = getDialogTemplate;

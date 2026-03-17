@@ -576,6 +576,10 @@
     --tw-duration: 350ms;
     transition-duration: 350ms;
   }
+  .select-none {
+    -webkit-user-select: none;
+    user-select: none;
+  }
   .text-shadow-\[5px_5px_2px_rgba\(0\,0\,0\,0\.6\)\] {
     text-shadow: 5px 5px 2px var(--tw-text-shadow-color, rgba(0,0,0,0.6));
   }
@@ -1623,7 +1627,7 @@
 #reserve-no {
   width: calc(1/2 * 100%);
 }
-#reserve-list-main {
+#reserve-list-content {
   display: flex;
   width: 100%;
   flex-grow: 1;
@@ -2067,7 +2071,7 @@
   font-weight: var(--font-weight-bold);
   color: var(--color-white);
 }
-#content {
+#reserve-seat-content {
   margin-top: calc(var(--spacing) * 10);
   display: flex;
   width: 100%;
