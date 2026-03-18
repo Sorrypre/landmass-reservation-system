@@ -85,7 +85,7 @@ async function make_dialog_v2(parent_id, dialog_name, dialog_size, dialog_title,
 		typeof dialog_title !== 'string' || typeof is_content_flex_col !== 'boolean' || typeof is_content_nogap !== 'boolean' || 
 		typeof html_content !== 'string' || !(json_responses !== null && typeof json_responses === 'object')) {
 		console.error('make_dialog_v2: Invalid parameter set');
-		return;
+		return false;
 	}
 	if (document.getElementById(DIALOG_ID_PREFIX + '' + dialog_name)) {
 		console.error('make_dialog_v2: ' + dialog_name + ' already exists');
@@ -125,6 +125,69 @@ async function make_dialog_v2(parent_id, dialog_name, dialog_size, dialog_title,
 	containing_parent.insertAdjacentHTML('beforeend', html);
 	refresh_dialog_targets();
 	return true;
+}
+
+async function make_dialogs_v2(...make_dialog_v2_params) {
+	let func_result = true;
+	let group_by_parent = new Map();
+	/* Foolproofing + group dialogs to their respective parent */
+	for (let i = 0; i < make_dialog_v2_params.length; i++) {
+		const set = make_dialog_v2_params[i];
+		if (typeof set.parent_id !== 'string' || typeof set.dialog_name !== 'string' || typeof set.dialog_size !== 'string' ||
+			typeof set.dialog_title !== 'string' || typeof set.is_content_flex_col !== 'boolean' || typeof set.is_content_nogap !== 'boolean' || 
+			typeof set.html_content !== 'string' || typeof set.json_responses === 'object') {
+			console.error('make_dialogs_v2: parameter set ' + (i + 1) + ' is invalid');
+			return false;
+		}
+		if (whitespaced(set.parent_id) || whitespaced(set.dialog_name) || !document.getElementById(set.parent_id) ||
+			document.getElementById(DIALOG_ID_PREFIX + '' + set.dialog_name) || set.json_responses === null) {
+			console.error('make_dialogs_v2: parameter set ' + (i + 1) + ' is invalid');
+			return false;	
+		}
+		if (group_by_parent.has(set.parent_id)) {
+			group_by_parent.get(set.parent_id).push(set);
+		} else {
+			group_by_parent.set(set.parent_id, [set]);
+		}
+	}
+	/* Create the dialogs and append resulting HTML to the respective parent */
+	for (const [k, v] of group_by_parent) {
+		let dialogs = [];
+		for (const set of v) {
+			dialogs.push({
+				name: set.dialog_name,
+				title: set.dialog_title,
+				size: set.dialog_size,
+				vertical: set.is_content_flex_col,
+				nogap: set.is_content_nogap,
+				html_content: set.html_content,
+				responses: set.json_responses,
+			});
+		}
+		const make_dialog_response = await fetch('/make-dialog', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				dialogs: dialogs,
+			}),
+		});
+		const make_dialog_json = await make_dialog_response.json();
+		if (!make_dialog_response.ok && !make_dialog_json.success) {
+			func_result = false;
+			console.warn('make_dialogs_v2: unable to create dialogs for parent ' + k + ', please recheck your parameter sets assigned to this parent');
+			continue;
+		}
+		const html = make_dialog_json.html;
+		const containing_parent = document.getElementById(k);
+		if (!containing_parent) {
+			func_result = false;
+			console.warn('make_dialogs_v2: unable to append created dialogs for parent ' + k + ' as it no longer exists by the time of appending');
+			continue;
+		}
+		containing_parent.insertAdjacentHTML('beforeend', html);
+	}
+	refresh_dialog_targets();
+	return func_result;
 }
 
 function dialog_message(dialog_name) {
@@ -254,9 +317,9 @@ function clear_form(target, target_form) {
 }
 
 function whitespaced(str) {
-	if (typeof str !== 'string' || str.trim().length < 1)
+	if (typeof str !== 'string')
 		return false;
-	return /\s/.test(str.trim());
+	return /\s/.test(str);
 }
 
 /* USER-DEFINED COMMANDS */
