@@ -156,23 +156,38 @@ btn_save_pfp_pwd.addEventListener('click', async (e) => {
     if(!form_input_old_pwd || !form_input_new_pwd || !form_input_new_cfr_pwd)
         return;
     //get the old password from the database and compare the input in the form
-    if (form_input_old_pwd.value.length > 0 && form_input_new_pwd.value.length >= pwd_min && form_input_new_cfr_pwd.value === form_input_new_pwd.value){
+    let user = await fetch('/query-current-user', {
+    method: 'GET',
+    headers: { 'Content-Length': 0 },
+    });
+    const user_json = await user.json();
+    const form_input_old_pwd_value = form_input_old_pwd.value;
+    const current_user_email = JSON.parse(user_json.user).settings.email;
+    const verifyOldPassword = await fetch('/lu', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            email: current_user_email, 
+            password: form_input_old_pwd_value
+        }),
+    });
+    if (verifyOldPassword.ok && form_input_old_pwd.value.length > 0 && form_input_new_pwd.value.length >= pwd_min && form_input_new_cfr_pwd.value === form_input_new_pwd.value){
         //change and edit so that only the new password wil be submitted to the database
-        let user = await fetch('/query-current-user', {
-        method: 'GET',
-        headers: { 'Content-Length': 0 },
-        });
-        const user_json = await user.json();
         const response = await fetch('/query-change-password', {
             method: 'POST',
             headers: {'Content-Type': 'application/json', },
             body: JSON.stringify({
                 email: JSON.parse(user_json.user).settings.email,
                 password: form_input_new_pwd.value
-            })
+            }),
         });
 
     } else {
+        //if the old password does not match what is inside the database
+        if(!verifyOldPassword.ok)
+            alert_old_pwd(1);
+
+        //to check if the input boxes are not empty
         if(form_input_old_pwd.value.length === 0)
             alert_old_pwd(0);
         if(form_input_new_pwd.value.length === 0)
