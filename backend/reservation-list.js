@@ -94,7 +94,6 @@ function writeReservations() {
 
         const delete_edit_btn = document.createElement("button");
         delete_edit_btn.classList.add('edit-btn');
-        delete_edit_btn.id = `delete-btn-${res_index}`;
         delete_edit_btn.innerHTML = `Delete Reservation`;
         //confirm delete
         createDeleteDialog(res_index, delete_edit_btn);
@@ -280,7 +279,7 @@ function createDeleteDialog(reservation_index, delete_btn) {
         <button type="button" class="page-dialog-message-button after:content-['Yes'] text-black" onclick="removeReservation(${reservation_index})"></button>
     `;
 
-    make_dialog('reservation-list', `${delete_btn.id}`, dialog, 'typical', 'Confirm Delete', false, false, msg, res);
+    make_dialog('reservation-list', ``, dialog, 'typical', 'Confirm Delete', false, false, msg, res);
 
     delete_btn.addEventListener('click', () => {
         open_dialog(dialog);
