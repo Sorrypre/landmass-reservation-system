@@ -229,7 +229,8 @@ function dialog_target_handler(e) {
 		return;
 	if (target_multi && !command_multi)
 		return;
-	const command_params = JSON.parse(e.target.getAttribute('target-dialog-command-params').replaceAll('\\"', '"'));
+	const params_attrib = e.target.getAttribute('target-dialog-command-params');
+	const command_params = params_attrib ? JSON.parse(params_attrib.replaceAll('\\"', '"')) : null;
 	if (command_multi) {
 		/*	for some psychos na gusto maglagay ng comma sa id, kunsino ka man,
 			you have to escape the comma with \, sa multi-command */
