@@ -99,6 +99,7 @@ xj.get('/testview', async function(q,r) {
 */
 
 xj.get('/', async function(q, r) {
+	/*db.dummyUsers(5);*/
 	if (!q.session.email) {
 		const template = await hbs.getTemplate('login', q.session.email);
 		r.render('login', template);

@@ -95,9 +95,9 @@ async function dummyUsers(count) {
 			const index = Math.floor(Math.random() * timesList.length);
 			const time = (timesList[index].slice(0, 2) + ':' + timesList[index].slice(2)).split(':');
 			let request_datetime = new Date();
-			request_datetime.setDate(request_datetime.getDate() + 2 * quotient + j);
+			request_datetime.setDate(request_datetime.getDate() + 2 * quotient);
 			let start_datetime = new Date();
-			start_datetime.setDate(start_datetime.getDate() + 2 * quotient + j + 1);
+			start_datetime.setDate(start_datetime.getDate() + 2 * quotient + 1);
 			start_datetime.setHours(parseInt(time[0], 10) + 8, parseInt(time[1], 10), 0, 0);
 			let end_datetime = new Date(start_datetime);
 			end_datetime.setHours(end_datetime.getHours() + 2);
@@ -110,7 +110,7 @@ async function dummyUsers(count) {
 							room: 'G204',
 							startTime: start_datetime,
 							endTime: end_datetime,
-							seats: [0, 1],
+							seat: Math.floor(Math.random() * 29) + 1,
 						}
 					}
 				}
