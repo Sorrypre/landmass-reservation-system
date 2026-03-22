@@ -236,6 +236,9 @@
 #change-username-status.username-length-invalid{
 	@apply after:content-['\26A0__Username_must_be_at_most_45_characters.'];
 }
+#change-username-status.username-taken{
+	@apply after:content-['\26A0__Username_already_taken.'];
+}
 #change-desc-status.desc-length-invalid{
 	@apply after:content-['\26A0__Description_must_be_at_most_160_characters.'];
 }
