@@ -4,7 +4,7 @@
     @apply w-1/2;
 }
 
-#reserve-list-main {
+#reserve-list-content {
     @apply w-full gap-y-4 flex flex-col flex-grow items-center;
 }
 

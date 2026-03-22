@@ -6,24 +6,25 @@ const { MongoStore } = require('connect-mongo');
 const hbs = require('../hbs');
 const db = require('../db');
 
-// xj.use(session({
-//     secret: process.env.SESSION_SIGNATURE,
-//     resave: false,
-//     saveUninitialized: false,
-//     store: MongoStore.create({
-//         mongoUrl: process.env.MDB_URI_SRV,
-//         collectionName: 'session-store',
-//         ttl: 60 * 60 * 24 * 30,
-//         autoRemove: 'interval',
-//         autoRemoveInterval: 5,
-//     }),
-//     cookie: {
-//         sameSite: true,
-//         httpOnly: true,
-//         maxAge: 1000 * 60 * 60 * 24 * 30,
-//     },
-// }));
-
+/*
+xj.use(session({
+	secret: process.env.SESSION_SIGNATURE,
+	resave: false,
+	saveUninitialized: false,
+	store: MongoStore.create({
+		mongoUrl: process.env.MDB_URI_SRV,
+		collectionName: 'session-store',
+		ttl: 60 * 60 * 24 * 30,
+		autoRemove: 'interval',
+		autoRemoveInterval: 5,
+	}),
+	cookie: {
+		sameSite: true,
+		httpOnly: true,
+		maxAge: 1000 * 60 * 60 * 24 * 30,
+	},
+}));
+*/
 
 // Load Page
 router.get('/gokongwei', async (req,res) => {

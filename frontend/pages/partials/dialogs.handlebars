@@ -1,0 +1,54 @@
+{{#each dialogs}}
+	<div id="{{../config.dialog_name_prefix}}{{this.name}}" class="closed page-dialog pd-size-{{this.size}}">
+		<div class="page-dialog-header">
+			<a class="page-dialog-header-title">{{this.title}}</a>
+			<button type="button" target-dialog-command="close" target-dialog-id="{{this.name}}" id="{{../config.dialog_close_prefix}}{{this.name}}" class="page-dialog-header-close"></button>
+		</div>
+		<hr class="page-dialog-divider">
+		<div class="page-dialog-content">
+			{{#if this.html_content}}
+				<div id="{{../config.dialog_content_prefix}}{{this.name}}" class="page-dialog-message{{#if this.vertical}}-vertical{{/if}}{{#if this.nogap}}-nogap{{/if}}">
+					{{{this.html_content}}}
+				</div>
+			{{/if}}
+			{{#if (nmpt this.responses)}}
+				<div id="{{../config.dialog_responses_prefix}}{{this.name}}" class="page-dialog-responses">
+					{{#each this.responses}}
+						<button
+							type="button"
+							{{#if (undt this.use_default_class)}}
+								class="page-dialog-message-button select-none"
+							{{else if (nmpt this.class)}}
+								class="{{this.class}}"
+							{{/if}}
+							{{#if (nmpt this.commands)}}
+								{{#if (equ this.commands.length 1)}}
+									target-dialog-command="{{this.commands.[0].command}}"
+								{{else if (neq this.commands.length 0)}}
+									target-dialog-commands="{{#each this.commands}}{{this.command}}{{#unless @last}},{{/unless}}{{/each}}"
+								{{else}}
+									target-dialog-command=""
+								{{/if}}
+								{{#if (equ this.commands.length 1)}}
+									target-dialog-id="{{this.commands.[0].target}}"
+								{{else if (neq this.commands.length 0)}}
+									target-dialog-ids="{{#each this.commands}}{{this.target}}{{#unless @last}},{{/unless}}{{/each}}"
+								{{else}}
+									target-dialog-id=""
+								{{/if}}
+							{{else}}
+								target-dialog-command=""
+								target-dialog-id=""
+							{{/if}}
+							{{#if (nmpt this.commands)}}
+								target-dialog-command-params="[{{#each this.commands}}{{#if (nmpt this.params)}}{{jsonstr this.params}}{{else}}[]{{/if}}{{#unless @last}},{{/unless}}{{/each}}]"
+							{{else}}
+								target-dialog-command-params=""
+							{{/if}}
+						>{{this.button_text}}</button>
+					{{/each}}
+				</div>
+			{{/if}}
+		</div>
+	</div>
+{{/each}}

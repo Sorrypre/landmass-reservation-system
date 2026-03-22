@@ -40,7 +40,7 @@
     @apply pt-7 text-lg text-white font-bold justify-self-center;
 }
 
-#content{
+#reserve-seat-content{
     @apply mt-10 flex flex-col items-center w-full;
 }
 
