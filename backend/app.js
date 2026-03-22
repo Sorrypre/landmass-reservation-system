@@ -231,21 +231,18 @@ xj.post('/query-get-user', async function(q, r) {
 });
 
 xj.post('/query-get-users', async function(q, r) {
-	const result = await db.getUsers(q.body.email, q.body.matchjson).toArray(
-		function(e, f) {
-			if (e) {
-				r.status(500).json({
-					success: false,
-					message: e.message,
-				});
-			} else {
-				r.status(200).json({
-					success: true,
-					users: f,
-				});
-			}
-		}
-	);
+	try {
+		const result = await db.getUsers(q.body.matchjson);
+		r.status(200).json({
+			success: true,
+			users: result,
+		});
+	} catch (e) {
+		r.status(500).json({
+			success: false,
+			error: e.message,
+		});
+	}
 });
 
 xj.post('/query-modify-user', async function(q, r) {

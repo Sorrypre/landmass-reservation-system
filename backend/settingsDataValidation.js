@@ -71,13 +71,19 @@ btn_confirm_pfp_pic.addEventListener('click', (e) => {
 
 // handle edit information
 btn_save_pfp_info.addEventListener('click', async (e) => {
-    function alert_new_username() {
-        label_user_n.classList.add('username-length-invalid');
+    function alert_new_username(t) {
+        switch(t){
+            case 0:
+                label_user_n.classList.add('username-length-invalid');
+            case 1:
+                label_user_n.classList.add('username-taken');
+
+        }
         label_user_n.style['display'] = 'inline';
         void label_user_n.offsetWidth;
         return true;
     }
-    function alert_new_desc(t) {
+    function alert_new_desc() {
         label_desc.classList.add('desc-length-invalid');
         label_desc.style['display'] = 'inline';
         void label_desc.offsetWidth;
@@ -85,7 +91,17 @@ btn_save_pfp_info.addEventListener('click', async (e) => {
     }
     if (!form_input_user_n || !form_input_desc)
         return;
-    if(form_input_user_n.value.length <= user_n_max && form_input_desc.value.length <= desc_max){
+    //insert the array of users here
+    const usersWithSameUsername = await fetch('/query-get-users', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            matchjson: {'settings.username': form_input_user_n.value},
+        }),
+    });
+    const json_get_same_usernames = await usersWithSameUsername.json();
+    console.log(json_get_same_usernames.users.length);
+    if(json_get_same_usernames.users.length === 0 && form_input_user_n.value.length <= user_n_max && form_input_desc.value.length <= desc_max){
        //edit so that when the input the length is 0 it will not send that
         let user = await fetch('/query-current-user', {
         method: 'GET',
@@ -102,13 +118,15 @@ btn_save_pfp_info.addEventListener('click', async (e) => {
                     'settings.username': form_input_user_n.value.length > 0  ? form_input_user_n.value : JSON.parse(user_json.user).settings.username,
                     'settings.bio': form_input_desc.value.length > 0 ? form_input_desc.value : JSON.parse(user_json.user).settings.bio
                  }),
-            })
+            }),
         });
         window.location.reload();
         return true;
     } else {
+        if (json_get_same_usernames.users.length > 0)
+            alert_new_username(1);
         if(form_input_user_n.value.length > user_n_max)
-            alert_new_username();
+            alert_new_username(0);
         if(form_input_desc.value.length > desc_max)
             alert_new_desc();
         return false;
@@ -163,46 +181,50 @@ btn_save_pfp_pwd.addEventListener('click', async (e) => {
     const user_json = await user.json();
     const form_input_old_pwd_value = form_input_old_pwd.value;
     const current_user_email = JSON.parse(user_json.user).settings.email;
-    const verifyOldPassword = await fetch('/lu', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            email: current_user_email, 
-            password: form_input_old_pwd_value
-        }),
-    });
-    if (verifyOldPassword.ok && form_input_old_pwd.value.length > 0 && form_input_new_pwd.value.length >= pwd_min && form_input_new_cfr_pwd.value === form_input_new_pwd.value){
-        //change and edit so that only the new password wil be submitted to the database
-        const response = await fetch('/query-change-password', {
+    try {
+        const verifyOldPassword = await fetch('/lu', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json', },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                email: JSON.parse(user_json.user).settings.email,
-                password: form_input_new_pwd.value
+                email: current_user_email, 
+                password: form_input_old_pwd_value
             }),
         });
+        if (verifyOldPassword.ok && form_input_old_pwd.value.length > 0 && form_input_new_pwd.value.length >= pwd_min && form_input_new_cfr_pwd.value === form_input_new_pwd.value){
+            //change and edit so that only the new password wil be submitted to the database
+            const response = await fetch('/query-change-password', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', },
+                body: JSON.stringify({
+                    email: JSON.parse(user_json.user).settings.email,
+                    password: form_input_new_pwd.value
+                }),
+            });
 
-    } else {
-        //if the old password does not match what is inside the database
-        if(!verifyOldPassword.ok)
-            alert_old_pwd(1);
+        } else {
+            //if the old password does not match what is inside the database
+            if(!verifyOldPassword.ok)
+                alert_old_pwd(1);
 
-        //to check if the input boxes are not empty
-        if(form_input_old_pwd.value.length === 0)
-            alert_old_pwd(0);
-        if(form_input_new_pwd.value.length === 0)
-            alert_new_pwd(0);
-        if(form_input_new_cfr_pwd.value.length === 0)
-            alert_confirm_new_pwd(0);
+            //to check if the input boxes are not empty
+            if(form_input_old_pwd.value.length === 0)
+                alert_old_pwd(0);
+            if(form_input_new_pwd.value.length === 0)
+                alert_new_pwd(0);
+            if(form_input_new_cfr_pwd.value.length === 0)
+                alert_confirm_new_pwd(0);
 
-        //add the alert of database password mismatch here when it is implemented
-        if(form_input_new_pwd.value.length < pwd_min)
-            alert_new_pwd(1);
-        if(form_input_new_cfr_pwd.value !== form_input_new_pwd.value){
-            alert_confirm_new_pwd(1);
+            //add the alert of database password mismatch here when it is implemented
+            if(form_input_new_pwd.value.length < pwd_min)
+                alert_new_pwd(1);
+            if(form_input_new_cfr_pwd.value !== form_input_new_pwd.value){
+                alert_confirm_new_pwd(1);
 
+            }
+            return false;
         }
-        return false;
+    } catch(e){
+        console.error('An unexpected error has occured.');
     }
     form_input_old_pwd.value = '';
     form_input_new_pwd.value = '';

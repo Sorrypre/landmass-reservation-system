@@ -22,6 +22,7 @@ function playAlert(){
     alertAudio.play();
 }
 
+//migrate to settingsDataValidation.js for data validation of file size
 const profilePic = document.getElementById('profilepic');
 const initialProfilePic = document.getElementById('profilepic-initial');
 const inputFile = document.getElementById("input-file-pfp");
@@ -51,6 +52,7 @@ pfp_submit_btn.addEventListener('click', async function confirmProfilePicChange(
         method: 'GET',
         headers: { 'Content-Length': 0 },
     });
+    
     const user_json = await user.json();
     const profile_change = await fetch('/query-modify-user', {
         method: 'POST',
@@ -61,6 +63,10 @@ pfp_submit_btn.addEventListener('click', async function confirmProfilePicChange(
             updjson: JSON.stringify({ 'settings.photo': base64photo }),
         }),
     });
+    //prototype to data validation
+    if (profile_change.status === 413) {
+        console.log('Picture size exceeds 5mb limit');
+    }
     user = await fetch('/query-current-user', {
         method: 'GET',
         headers: { 'Content-Type': 0 },
@@ -68,7 +74,6 @@ pfp_submit_btn.addEventListener('click', async function confirmProfilePicChange(
     const new_pfp_json = await user.json();
     const new_pfp_user = JSON.parse(new_pfp_json.user);
     const new_photo = new_pfp_user.settings.photo;
-    console.log(new_photo);
     profilePic.src = new_photo;
 });
 
