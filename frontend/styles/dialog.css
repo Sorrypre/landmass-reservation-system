@@ -12,7 +12,7 @@
 }
 
 .page-dialog {
-	@apply absolute z-10 flex flex-col;
+	@apply absolute z-10000 top-1/2 left-1/2 transform-[translate(-50%,-50%)] flex flex-col;
 	@apply bg-zinc-600 shadow-zinc-700 rounded-4xl outline-2 outline-neutral-400;
 	@apply scale-100;
 	@apply transition duration-200;
