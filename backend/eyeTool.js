@@ -18,7 +18,7 @@ for(let i = 0; i < getInputsList.length; i++){
 }
 function playAlert(){
     const alertAudio = new Audio();
-    alertAudio.src = '../assets/audio/alertSound.mp3';
+    alertAudio.src = '../frontend/assets/audio/alertSound.mp3';
     alertAudio.play();
 }
 

@@ -29,7 +29,7 @@ async function getTemplate(id, email) {
 	const result = user !== null;
 	const username = result ? user.settings.username : 'Username';
     const description = result ? user.settings.bio : '';
-	const pfp_photo = result ? user.settings.photo : '../frontend/assets/images/pexels-cottonbro-7166828.jpg'
+	const pfp_photo = result && user.settings.photo !== '' ? user.settings.photo : '../frontend/assets/images/pexels-cottonbro-7166828.jpg'
 	return {
 		'login': {
 			user: false,
