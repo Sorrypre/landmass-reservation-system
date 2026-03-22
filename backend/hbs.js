@@ -24,7 +24,7 @@ async function getTemplate(id, email) {
 		},
 		'reservation-list': {
 			user: result,
-			scripts: ['main.js','reservation-list.js'],
+			scripts: ['main.js', 'dialog.js','reservation-list.js'],
 			bg: 'reservation-list',
 		},
 		'reserve-seat': {

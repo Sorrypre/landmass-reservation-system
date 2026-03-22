@@ -72,7 +72,7 @@ function writeReservations() {
     reservation_list.innerHTML = '';
 
     const fragment = document.createDocumentFragment();
-    let z = 5;
+    let z = reservations.length;
 
     reservations.forEach((reservation, res_index) => {
         const reservation_item = document.createElement("div");
@@ -87,21 +87,17 @@ function writeReservations() {
             <p>Time of Request: <span class="font-bold">${reservation.request_time}</span></p>
             <p>Date of Reservation: <span class="font-bold">${reservation.reserve_date}</span></p>
             <p>Time: <span class="font-bold">${reservation.startTime} - ${reservation.endTime}</span></p>
-            <p>Seat: </p>
-            <p id="seat-name">${reservation.seat}</p>
+            <p>Seat: <span class="font-bold" id="seat-name">${reservation.seat}</span></p>
         `;
         const right_most_btn = document.createElement("div");
         right_most_btn.classList.add('right-most-btn');
 
         const delete_edit_btn = document.createElement("button");
         delete_edit_btn.classList.add('edit-btn');
+        delete_edit_btn.id = `delete-btn-${res_index}`;
         delete_edit_btn.innerHTML = `Delete Reservation`;
         //confirm delete
-        delete_edit_btn.addEventListener('click', () => {
-            if (confirm('Delete this entire reservation?')) {
-                removeReservation(res_index);
-            }
-        });
+        createDeleteDialog(res_index, delete_edit_btn);
         right_most_btn.appendChild(delete_edit_btn);
         reservation_item.appendChild(right_most_btn);
         fragment.appendChild(reservation_item);
@@ -275,6 +271,20 @@ async function removeReservation(reservation_index) {
     } catch (e) {
         console.error('Error removing reservation:', e);
     }
+}
+
+function createDeleteDialog(reservation_index, delete_btn) {
+    const dialog = `delete-confirm-${reservation_index}`;
+    const msg = `Are you sure you want to delete this reservation?`;
+    const res = `
+        <button type="button" class="page-dialog-message-button after:content-['Yes'] text-black" onclick="removeReservation(${reservation_index})"></button>
+    `;
+
+    make_dialog('reservation-list', `${delete_btn.id}`, dialog, 'typical', 'Confirm Delete', false, false, msg, res);
+
+    delete_btn.addEventListener('click', () => {
+        open_dialog(dialog);
+    });
 }
 
 function saveFilters() {

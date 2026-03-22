@@ -90,7 +90,7 @@ async function reserveSeatForm(){
             body: JSON.stringify({
                 startT: startDateTime,
                 endT: endDateTime,
-                seats: seatList,
+                seat: Number(seatList),
                 room: room_dropdown.value,
                 bldg: bldgName,
                 anon: isAnon

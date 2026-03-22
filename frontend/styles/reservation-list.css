@@ -13,11 +13,11 @@
 }
 
 #filter-box {
-    @apply fixed inset-0 z-[100] hidden items-center justify-center;
+    @apply fixed inset-0 z-[100] hidden flex-col items-center justify-center;
 }
 
 #filter-area {
-    @apply  bg-[#212D40] rounded-2xl flex flex-col justify-center gap-y-4;
+    @apply  bg-[#212D40] rounded-2xl flex flex-col justify-center gap-y-4 max-w-md;
 }
 
 #text-filter {
