@@ -23,59 +23,60 @@ function playAlert(){
 }
 
 //migrate to settingsDataValidation.js for data validation of file size
-const profilePic = document.getElementById('profilepic');
-const initialProfilePic = document.getElementById('profilepic-initial');
-const inputFile = document.getElementById("input-file-pfp");
-const pfp_submit_btn = document.getElementById('change-profilepic-confirm-btn');
+// const profilePic = document.getElementById('profilepic');
+// const initialProfilePic = document.getElementById('profilepic-initial');
+// const inputFile = document.getElementById("input-file-pfp");
+// const pfp_submit_btn = document.getElementById('change-profilepic-confirm-btn');
 // let profileCancelBtn = document.getElementById('change-profilepic-cancel-btn');
 
-inputFile.onclick = function(){
-this.value = null;
-}
-inputFile.onchange = function(){
-    initialProfilePic.src = URL.createObjectURL(inputFile.files[0]);
-}
-function cancelProfilePicChange(){
-initialProfilePic.src = profilePic.src;
-}
+// inputFile.onclick = function(){
+// this.value = null;
+// }
+// inputFile.onchange = function(){
+//     initialProfilePic.src = URL.createObjectURL(inputFile.files[0]);
+// }
+// function cancelProfilePicChange(){
+//     inputFile.value = null;
+//     initialProfilePic.src = profilePic.src;
+// }
 
-pfp_submit_btn.addEventListener('click', async function confirmProfilePicChange() {
-    const reader = new FileReader();
-    reader.readAsDataURL(inputFile.files[0]);
-    /* https://stackoverflow.com/a/74390975 */
-    const base64photo = await new Promise(function (res, rej) {
-        reader.onload = function(e) {
-            res(e.target.result);
-        }
-    });
-    let user = await fetch('/query-current-user', {
-        method: 'GET',
-        headers: { 'Content-Length': 0 },
-    });
+// pfp_submit_btn.addEventListener('click', async function confirmProfilePicChange() {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(inputFile.files[0]);
+//     /* https://stackoverflow.com/a/74390975 */
+//     const base64photo = await new Promise(function (res, rej) {
+//         reader.onload = function(e) {
+//             res(e.target.result);
+//         }
+//     });
+//     let user = await fetch('/query-current-user', {
+//         method: 'GET',
+//         headers: { 'Content-Length': 0 },
+//     });
     
-    const user_json = await user.json();
-    const profile_change = await fetch('/query-modify-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', },
-        body: JSON.stringify({
-            email: JSON.parse(user_json.user).settings.email,
-            matchjson: JSON.stringify({}),
-            updjson: JSON.stringify({ 'settings.photo': base64photo }),
-        }),
-    });
-    //prototype to data validation
-    if (profile_change.status === 413) {
-        console.log('Picture size exceeds 5mb limit');
-    }
-    user = await fetch('/query-current-user', {
-        method: 'GET',
-        headers: { 'Content-Type': 0 },
-    })
-    const new_pfp_json = await user.json();
-    const new_pfp_user = JSON.parse(new_pfp_json.user);
-    const new_photo = new_pfp_user.settings.photo;
-    profilePic.src = new_photo;
-});
+//     const user_json = await user.json();
+//     const profile_change = await fetch('/query-modify-user', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json', },
+//         body: JSON.stringify({
+//             email: JSON.parse(user_json.user).settings.email,
+//             matchjson: JSON.stringify({}),
+//             updjson: JSON.stringify({ 'settings.photo': base64photo }),
+//         }),
+//     });
+//     //prototype to data validation
+//     if (profile_change.status === 413) {
+//         console.log('Picture size exceeds 5mb limit');
+//     }
+//     user = await fetch('/query-current-user', {
+//         method: 'GET',
+//         headers: { 'Content-Type': 0 },
+//     })
+//     const new_pfp_json = await user.json();
+//     const new_pfp_user = JSON.parse(new_pfp_json.user);
+//     const new_photo = new_pfp_user.settings.photo;
+//     profilePic.src = new_photo;
+// });
 
 
 

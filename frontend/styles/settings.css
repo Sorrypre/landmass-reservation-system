@@ -233,6 +233,10 @@
 #change-pfp-status.pfp-invalid-type{
 	@apply after:content-['\26A0__Invalid_file_type.'];
 }
+#change-pfp-status.pfp-too-large{
+	@apply text-center;
+	@apply after:content-['\26A0__File_exceeds_5MB.'];
+}
 #change-username-status.username-length-invalid{
 	@apply after:content-['\26A0__Username_must_be_at_most_45_characters.'];
 }

@@ -151,7 +151,7 @@ router.post('/api/reserve', async (req,res)=>{
     console.log("Session Data:", req.session.email);
     console.log("ENTERED API RESERVE");
     try {
-        let {bldg, room, startT, endT, seats, anon, name} = req.body;
+        let {bldg, room, startT, endT, seat, anon, name} = req.body;
         let email = req.session.email;
         let u = await db.getUser(email, {})
         let sessionUsername = "";
@@ -172,14 +172,14 @@ router.post('/api/reserve', async (req,res)=>{
                 room: room,
                 startTime: new Date(startT),
                 endTime: new Date(endT),
-                seats: seats,
+                seat: seat,
             }
         }
     
         const seatConflict = await db.getUsers({
             "reservations.details.startTime": new Date(startT),
             "reservations.details.room": room,
-            "reservations.details.seats": {$in: seats}
+            "reservations.details.seat": seat
         });
         
         if(seatConflict && seatConflict.length>0){
