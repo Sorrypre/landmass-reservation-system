@@ -3363,6 +3363,13 @@
     content: var(--tw-content);
   }
 }
+#change-pfp-status.pfp-too-large {
+  text-align: center;
+  &::after {
+    --tw-content: '\26A0  File exceeds 5MB.';
+    content: var(--tw-content);
+  }
+}
 #change-username-status.username-length-invalid {
   &::after {
     --tw-content: '\26A0  Username must be at most 45 characters.';
