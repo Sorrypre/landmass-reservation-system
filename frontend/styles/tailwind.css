@@ -1879,6 +1879,11 @@
     }
   }
 }
+#mlcndlg-delete-confirm-reservation {
+  top: calc(1/2 * 100%);
+  left: calc(1/2 * 100%);
+  transform: translate(-50%,-50%);
+}
 @layer theme, base, components, utilities;
 @layer theme;
 @layer base {
@@ -3412,6 +3417,34 @@
     content: var(--tw-content);
   }
 }
+#back-to-dashboard-settings {
+  border-radius: var(--radius-xl);
+  background-color: var(--color-white);
+  padding: calc(var(--spacing) * 3);
+  font-family: var(--font-dmsans);
+  font-size: 16px;
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+  color: #364156;
+  &:hover {
+    @media (hover: hover) {
+      background-color: #364156;
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-white);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      cursor: pointer;
+    }
+  }
+}
+#right-btn-settings-div {
+  justify-content: flex-end;
+}
 @layer theme, base, components, utilities;
 @layer theme;
 @layer base {
@@ -3921,11 +3954,8 @@
 }
 .page-dialog {
   position: absolute;
-  top: calc(1/2 * 100%);
-  left: calc(1/2 * 100%);
   z-index: 10000;
   display: flex;
-  transform: translate(-50%,-50%);
   flex-direction: column;
   border-radius: var(--radius-4xl);
   background-color: var(--color-zinc-600);

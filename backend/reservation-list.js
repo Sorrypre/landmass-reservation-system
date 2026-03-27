@@ -273,7 +273,7 @@ async function removeReservation(reservation_index) {
 }
 
 function createDeleteDialog(reservation_index, delete_btn) {
-    const dialog = `delete-confirm-${reservation_index}`;
+    const dialog = `delete-confirm-reservation`;
     const msg = `Are you sure you want to delete this reservation?`;
     const res = `
         <button type="button" class="page-dialog-message-button after:content-['Yes'] text-black" onclick="removeReservation(${reservation_index})"></button>
