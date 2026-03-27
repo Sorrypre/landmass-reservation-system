@@ -22,6 +22,11 @@ function playAlert(){
     alertAudio.play();
 }
 
+let go_back = document.querySelector("#back-to-dashboard-settings");
+go_back.onclick = function (){
+	window.location.href = "/dashboard";
+};
+
 //migrate to settingsDataValidation.js for data validation of file size
 // const profilePic = document.getElementById('profilepic');
 // const initialProfilePic = document.getElementById('profilepic-initial');

@@ -258,3 +258,13 @@
 #confirm-password-status.confirm-password-mismatch {
 	@apply after:content-['\26A0__Passwords_do_not_match.'];
 }
+
+#back-to-dashboard-settings{
+    @apply p-3 bg-white text-[16px] text-[#364156] font-bold font-dmsans rounded-xl;
+    @apply hover:bg-[#364156] hover:text-white;
+    @apply hover:cursor-pointer;
+}
+
+#right-btn-settings-div{
+	@apply justify-end;
+}
