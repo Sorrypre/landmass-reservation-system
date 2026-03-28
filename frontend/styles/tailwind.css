@@ -2110,7 +2110,7 @@
 #date-time-selection option {
   color: var(--color-black);
 }
-#reserved-date, #reserved-time, #reserved-room, #admin-walk-in-input {
+#reserved-date, #reserved-time, #reserved-room {
   appearance: none;
   --tw-border-style: none;
   border-style: none;
@@ -2297,11 +2297,15 @@
   color: var(--color-white);
 }
 #modal-details {
-  margin-bottom: calc(var(--spacing) * 8);
   padding: calc(var(--spacing) * 4);
+  padding-bottom: calc(var(--spacing) * 0);
   font-size: var(--text-sm);
   line-height: var(--tw-leading, var(--text-sm--line-height));
   color: var(--color-gray-200);
+}
+#admin-only-requestor {
+  margin-bottom: calc(var(--spacing) * 6);
+  padding: calc(var(--spacing) * 4);
 }
 .dialog-buttons {
   margin: calc(var(--spacing) * 2);
@@ -2343,14 +2347,40 @@
 }
 #anon-checkbox-label {
   margin: calc(var(--spacing) * 5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--spacing) * 3);
 }
 #admin-walk-in-input {
-  font-size: var(--text-base);
-  line-height: var(--tw-leading, var(--text-base--line-height));
-  @media (width >= 48rem) {
-    font-size: var(--text-xl);
-    line-height: var(--tw-leading, var(--text-xl--line-height));
+  margin-bottom: calc(var(--spacing) * 8);
+  padding: calc(var(--spacing) * 6);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  appearance: none;
+  --tw-border-style: none;
+  border-style: none;
+  background-color: transparent;
+  --tw-outline-style: none;
+  outline-style: none;
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 1px;
+  --tw-border-style: solid;
+  border-style: solid;
+  border-color: var(--color-white);
+  color: var(--color-white);
+  &::placeholder {
+    color: var(--color-white);
   }
+  width: 100%;
+  border-radius: 0;
+  padding-inline: calc(var(--spacing) * 0);
+  padding-block: calc(var(--spacing) * 2);
+}
+#admin-walk-in-input:focus {
+  border-style: var(--tw-border-style);
+  border-width: 2px;
+  border-color: var(--color-white);
 }
 @layer theme, base, components, utilities;
 @layer theme;

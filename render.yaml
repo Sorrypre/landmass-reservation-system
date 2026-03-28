@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ccapdev-lost-children
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: NODE_ENV
+        value: production
