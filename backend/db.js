@@ -130,11 +130,12 @@ async function connect() {
 }
 
 async function getUsers(matchjson) {
-	return await User.find({ ...matchjson, });
+	return await User.find({ 'settings.isActive': true, ...matchjson, });
 }
 
 async function getUser(email, matchjson) {
 	return await User.findOne({
+		'settings.isActive': true,
 		'settings.email': email,
 		...matchjson,
 	});
@@ -199,7 +200,7 @@ async function getReservations(email) {
 async function addReservations(email, reservation){
 	try {
 		const result = await User.updateOne(
-            { "settings.email": email }, 
+            { "settings.isActive": true, "settings.email": email, }, 
             { $push: { reservations: reservation } }
         );
 		return result.modifiedCount>0;
@@ -237,7 +238,7 @@ async function getAllReservations() {
 }
 
 async function getUserReservations(username) {
-	const targetUser = await User.findOne({ 'settings.username': username });
+	const targetUser = await User.findOne({ 'settings.isActive': true, 'settings.username': username });
 	if (!targetUser) return [];
 
 	return targetUser.reservations.map(r => ({
