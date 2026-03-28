@@ -282,6 +282,7 @@ function createDeleteDialog(reservation_index, delete_btn) {
     make_dialog('reservation-list', ``, dialog, 'typical', 'Confirm Delete', false, false, msg, res);
 
     delete_btn.addEventListener('click', () => {
+        playAlert(); //temporary fix, must call button handler in make dialog
         open_dialog(dialog);
     });
 }
