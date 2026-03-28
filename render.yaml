@@ -1,12 +1,12 @@
 services:
   - type: web
-    name: ccapdev-lost-children
+    name: landmass-reservation-system
     env: node
     plan: free
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: node ./backend/app.js
     envVars:
-      - key: MONGODB_URI
+      - key: MDB_URI
         sync: false
       - key: NODE_ENV
         value: production
