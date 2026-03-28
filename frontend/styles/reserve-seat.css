@@ -21,7 +21,6 @@
     @apply text-white;
 }
 
-
 .go-back-text{
     @apply block text-right;
     @apply cursor-pointer;
@@ -58,7 +57,7 @@
     @apply text-black;
 }
     
-#reserved-date, #reserved-time, #reserved-room,  #admin-walk-in-input{
+#reserved-date, #reserved-time, #reserved-room{
     @apply border-none outline-none appearance-none bg-transparent;
     @apply border-b border-solid border-white;
     @apply placeholder:text-white text-white;
@@ -187,7 +186,11 @@
 }
 
 #modal-details{
-    @apply text-gray-200 text-sm mb-8 p-4
+    @apply text-gray-200 text-sm p-4 pb-0
+}
+
+#admin-only-requestor {
+    @apply mb-6 p-4
 }
 
 .dialog-buttons{
@@ -212,5 +215,14 @@
     @apply m-5;
 }
 #admin-walk-in-input {
-    @apply text-base md:text-xl; 
+    @apply text-sm mb-8 p-6; 
+    @apply border-none outline-none appearance-none bg-transparent;
+    @apply border-b border-solid border-white;
+    @apply placeholder:text-white text-white;
+    @apply rounded-none py-2 px-0 w-full;
+
+}
+
+#admin-walk-in-input:focus {
+    @apply border-2 border-white;
 }
