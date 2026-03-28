@@ -67,8 +67,12 @@ function make_dialog(parent_id, button_handler_id_if_any, dialog_name, dialog_si
 	close_button.addEventListener('click', function(e) { close_dialog(dialog_name); });
 	if (button_handler_id_if_any != null && !whitespaced(button_handler_id_if_any) && button_handler_id_if_any.trim().length > 0) {
 		const button_handler = document.getElementById(button_handler_id_if_any);
-		if (button_handler)
-			button_handler.addEventListener('click', function(e) { open_dialog(dialog_name); });
+		if (button_handler) {
+			button_handler.addEventListener('click', function(e) { 
+				open_dialog(dialog_name); 
+				playAlert();
+			});
+		}
 		else
 			console.warn('make_dialog: Ignored provided parameter "button_handler_id_if_any"; '+
 				'button handler with the given ID does not exist');

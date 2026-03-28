@@ -77,7 +77,7 @@
                 </div>
                 <div id="reset-button-container">
                     <!--- Initial button but the actual reset is in the modal --->
-                    <button id="change-profile-reset-btn" class="settings-menu-options" type="button" onclick="playAlert()">Reset</button>
+                    <button id="change-profile-reset-btn" class="settings-menu-options" type="button">Reset</button>
                 </div>
                 </div>
             </form>
@@ -102,7 +102,7 @@
                     
                     <div class="input-label-alert-area">
                     <div class="input-box-with-eye">
-                    <input name="old-password" id="old-password" class="input-password" type="password" placeholder="Enter Old Password">
+                    <input name="old-password" id="old-password" class="input-password" type="password" placeholder="Enter Old Password" autocomplete="current-password">
                     <i class="fa-solid fa-eye"></i>
                     <i class="fa-solid fa-eye-slash hide"></i>
                     </div>
@@ -114,7 +114,7 @@
 
                     <div class="input-label-alert-area">
                     <div class="input-box-with-eye">
-                    <input name="new-password" id="new-password" class="input-password" type="password" placeholder="Enter new Password">
+                    <input name="new-password" id="new-password" class="input-password" type="password" placeholder="Enter new Password" autocomplete="new-password">
                     <i class="fa-solid fa-eye"></i>
                     <i class="fa-solid fa-eye-slash hide"></i>
                     </div>
@@ -126,7 +126,7 @@
                     
                     <div class="input-label-alert-area">                  
                     <div class="input-box-with-eye">
-                    <input name="confirm-new-password" id="confirm-new-password"  class="input-password" type="password" placeholder="Confirm New Password">
+                    <input name="confirm-new-password" id="confirm-new-password"  class="input-password" type="password" placeholder="Confirm New Password" autocomplete="new-password">
                     <i class="fa-solid fa-eye"></i>
                     <i class="fa-solid fa-eye-slash hide"></i>
                     </div>
@@ -152,7 +152,7 @@
             <h3>Delete Account</h3>
             <div id="delete-account-button-content">
                 <div id="delete-account-button-container">
-                <button id="delete-account-btn" onclick="playAlert()" class="settings-menu-options">OK</button>
+                <button id="delete-account-btn" class="settings-menu-options">OK</button>
                 </div>
             </div>
             </div>

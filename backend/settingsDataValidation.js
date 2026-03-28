@@ -35,6 +35,13 @@ const label_cfr_pwd = document.getElementById('confirm-password-status');
 const profilePic = document.getElementById('profilepic');
 const initialProfilePic = document.getElementById('profilepic-initial');
 
+const deleteAccountButton = document.getElementById('delete-account-button');
+
+let go_back = document.querySelector("#back-to-dashboard-settings");
+go_back.onclick = function (){
+	window.location.href = "/dashboard";
+};
+
 input_pfp.onclick = function(){
     this.value = null;
 }
@@ -338,3 +345,30 @@ form_input_new_cfr_pwd.addEventListener('input', () => {
     }
 });
 
+deleteAccountButton.addEventListener('click', async (e) => {
+    let user = await fetch('/query-current-user', { 
+        method: 'GET',
+        headers: {'Content-Length': 0},
+    });
+    const user_json = await user.json();
+    const change_active_status = await fetch('/query-modify-user', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            email: JSON.parse(user_json.user).settings.email,
+            matchjson: JSON.stringify({}),
+            updjson: JSON.stringify({'settings.isActive': false })
+        }),
+    });
+    if (change_active_status.ok)
+        console.log('successfully changed status at ' + Date.now());
+    else console.log('error-' + register.status + '-' + Date.now());
+    const logout = await fetch('/lou', {
+			method: 'POST',
+			headers: { 'Content-Length': 0 },
+    });
+    if (logout.ok)
+        window.location.href = '/';
+    else
+        console.error('Error upon logout (' + logout.status + '): ' + e);
+});
