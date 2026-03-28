@@ -4,7 +4,7 @@ services:
     env: node
     plan: free
     buildCommand: npm install
-    startCommand: node ./backend/app.js
+    startCommand: npm start
     envVars:
       - key: MDB_URI
         sync: false
