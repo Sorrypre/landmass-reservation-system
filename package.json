@@ -4,7 +4,7 @@
   "description": "<div id=\"readme-top\" align=\"center\">",
   "main": "index.js",
   "scripts": {
-    "start": "node /backend/app.js",
+    "start": "node ./backend/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
