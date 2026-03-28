@@ -102,7 +102,7 @@ async function reserveSeatForm(){
     let startDateTime = `${date_dropdown.value}T${time_dropdown.value.slice(0, 2)}:${time_dropdown.value.slice(2)}:00Z`;
     let endDateTime = `${date_dropdown.value}T${endTime.slice(0, 2)}:${endTime.slice(2)}:00Z`;
 
-    let isAnon = document.getElementById("anon-checkbox").value;
+    let isAnon = document.getElementById("anon-checkbox").checked;
     const selected_seat = document.querySelector("#slots-container .seat.selected");
     if(selected_seat.length===0){
         alert("Choose a seat");
