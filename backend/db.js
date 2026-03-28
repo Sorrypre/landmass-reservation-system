@@ -35,9 +35,9 @@ const schUser = new mongoose.Schema({
 		},
 	}],
 	settings: {
-		online: {
+		isActive: {
 			type: Boolean,
-			default: false,
+			default: true,
 		},
 		username: {
 			type: String,
@@ -171,9 +171,9 @@ async function register(email, hash, salt) {
 }
 
 async function login(email, password) {
-	const u = await getUser(email, {});
+	const u = await getUser(email, { 'settings.isActive': true, });
 	if (!u)
-		return -1; /* user not found in db */
+		return -1; /* user has been deleted or is not found in db */
 	const access = await session.cmph512(u.hash, password, u.salt);
 	return access ? 1 : 0;
 }
