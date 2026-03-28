@@ -212,7 +212,7 @@
 }
 
 #anon-checkbox-label{
-    @apply m-5;
+    @apply gap-3 m-5 flex items-center justify-center;
 }
 #admin-walk-in-input {
     @apply text-sm mb-8 p-6; 
