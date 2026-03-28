@@ -125,7 +125,7 @@ router.get('/api/get-seats', async (req, res) => {
                         if (rsv.details.room === room && 
                         // new Date(rsv.details.startTime).getTime() === startTime.getTime() &&
                         rsvStart < endTime && rsvEnd > startTime) {
-                            takenSeats.push(...rsv.details.seats);
+                            takenSeats.push(rsv.details.seat);
                         }   
                     });
                 }
@@ -154,16 +154,22 @@ router.post('/api/reserve', async (req,res)=>{
         let {bldg, room, startT, endT, seat, anon, name} = req.body;
         let email = req.session.email;
         let u = await db.getUser(email, {})
+
         let sessionUsername = "";
         if(anon){
+            console.log("anon user")
             sessionUsername = "";
         } else if(email === "admin@admin.com"){
+            console.log("admin user")
             sessionUsername = name;
         }
         else{
+            console.log("Username exists: " + u.settings.username);
             sessionUsername = u.settings.username;
         }
-    
+
+        console.log("sessionUser: " + sessionUsername);
+
         const reservation = {
             dt_request: new Date(),
             details: {
