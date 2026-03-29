@@ -256,6 +256,7 @@ form_login.addEventListener('submit', async function(e) {
 			body: JSON.stringify({ email, password }),
 		});
 		const result = await login.json();
+		console.log('start page 1');
 		if (login.ok) {
 			/* login success */
 			window.location.reload();
@@ -265,10 +266,13 @@ form_login.addEventListener('submit', async function(e) {
 			const failure_dialog_id = 'error-' + login.status + '-' + Date.now();
 			make_failure_dialog(failure_dialog_id, 'Error ' + login.status, result.error);
 			*/
+			console.log('start page 2');
 			const failure_dialog_id = 'error-' + login.status + '-' + Date.now();
 			const containing_parent = document.querySelector('div[id$="-content"]').getAttribute('id');
 			failure_dialog(containing_parent, failure_dialog_id, 'Error: ' + login.status, result.error);
+			console.log('start page 3');
 			open_dialog(failure_dialog_id);
+			console.log('start page 4');
 		}
 	} catch (e) {
 		console.error('An error occurred while logging in. ' + e);
@@ -335,5 +339,3 @@ btn_ret_login.addEventListener('click', async function(e) {
 	form_login.style['display'] = 'flex';
 	form_login.style['opacity'] = '1.0';
 });
-
-console.log('start page');
