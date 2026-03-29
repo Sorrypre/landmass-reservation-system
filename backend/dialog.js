@@ -285,12 +285,10 @@ async function exec(target, command, params) {
 }
 
 async function open_dialog(target) {
-	await sleep(150);
-	console.log(target);
+	await sleep(150);	
 	if (whitespaced(target))
 		return false;
 	const target_dialog = document.getElementById(DIALOG_ID_PREFIX + '' + target);
-	console.log(target_dialog);
 	if (target_dialog && target_dialog.classList.contains('closed'))
 		target_dialog.classList.toggle('closed');
 	else

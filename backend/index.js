@@ -267,10 +267,8 @@ form_login.addEventListener('submit', async function(e) {
 			*/
 			const failure_dialog_id = 'error-' + login.status + '-' + Date.now();
 			const containing_parent = document.querySelector('div[id$="-content"]').getAttribute('id');
-			const create_failure_dialog_result = await failure_dialog(containing_parent, failure_dialog_id, 'Error: ' + login.status, result.error);
-			console.log('failure dialog created: ' + create_failure_dialog_result);
-			const open_dialog_result = await open_dialog(failure_dialog_id);
-			console.log('failure dialog created: ' + open_dialog_result);
+			await failure_dialog(containing_parent, failure_dialog_id, 'Error: ' + login.status, result.error);			
+			await open_dialog(failure_dialog_id);
 		}
 	} catch (e) {
 		console.error('An error occurred while logging in. ' + e);
@@ -300,7 +298,7 @@ form_reg.addEventListener('submit', async function(e) {
 			const failure_dialog_id = 'error-' + register.status + '-' + Date.now();
 			make_failure_dialog(failure_dialog_id, 'Error ' + register.status, result.error);
 			await sleep(150);
-			open_dialog(failure_dialog_id);
+			await open_dialog(failure_dialog_id);
 		}
 	} catch (e) {
 		console.error('An error occurred while registering.' + e);
