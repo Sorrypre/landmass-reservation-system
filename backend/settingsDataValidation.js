@@ -128,9 +128,9 @@ btn_confirm_pfp_pic.addEventListener('click', async (e) => {
         const new_pfp_user = JSON.parse(new_pfp_json.user);
         const new_photo = new_pfp_user.settings.photo;
         profilePic.src = new_photo;
-        if (!profile_change.ok) {
+        if (profile_change.status === 413) {
             alert_file_type_pfp(1);
-            console.log('an error has occured and it will show the alert');
+            console.log('an size error has occured and it will show the alert');
             return false;
         }
         return true;
@@ -146,8 +146,10 @@ btn_save_pfp_info.addEventListener('click', async (e) => {
         switch(t){
             case 0:
                 label_user_n.classList.add('username-length-invalid');
+                break;
             case 1:
                 label_user_n.classList.add('username-taken');
+                break;
 
         }
         label_user_n.style['display'] = 'inline';
@@ -225,6 +227,7 @@ btn_save_pfp_pwd.addEventListener('click', async (e) => {
                 break;
             case 1:
                 label_new_pwd.classList.add('new-password-short');
+                break;
         }
         label_new_pwd.style['display'] = 'inline';
         void label_new_pwd.offsetWidth;
@@ -304,7 +307,6 @@ btn_save_pfp_pwd.addEventListener('click', async (e) => {
     form_input_new_cfr_pwd.value = '';
 });
 input_pfp.addEventListener('change', () => {
-    console.log('triggered but not doing anything');
     if(label_pfp.classList.length !== 0) {
         label_pfp.className = 'change-invalid';
         void label_pfp.offsetWidth;

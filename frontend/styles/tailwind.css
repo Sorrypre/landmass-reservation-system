@@ -3169,11 +3169,20 @@
   gap: calc(var(--spacing) * 4);
 }
 #change-info label {
-  width: calc(1/4 * 100%);
-  font-size: var(--text-xl);
-  line-height: var(--tw-leading, var(--text-xl--line-height));
-  overflow-wrap: break-word;
+  width: 100%;
+  font-size: var(--text-lg);
+  line-height: var(--tw-leading, var(--text-lg--line-height));
   white-space: normal;
+  @media (width >= 48rem) {
+    width: calc(1/4 * 100%);
+  }
+  @media (width >= 48rem) {
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+  }
+  @media (width >= 48rem) {
+    overflow-wrap: break-word;
+  }
 }
 #change-info input, textarea {
   width: 100%;
@@ -3275,11 +3284,20 @@
   gap: calc(var(--spacing) * 4);
 }
 #change-password label {
-  width: calc(1/4 * 100%);
-  font-size: var(--text-xl);
-  line-height: var(--tw-leading, var(--text-xl--line-height));
-  overflow-wrap: break-word;
+  width: 100%;
+  font-size: var(--text-lg);
+  line-height: var(--tw-leading, var(--text-lg--line-height));
   white-space: normal;
+  @media (width >= 48rem) {
+    width: calc(1/4 * 100%);
+  }
+  @media (width >= 48rem) {
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+  }
+  @media (width >= 48rem) {
+    overflow-wrap: break-word;
+  }
 }
 #change-password input {
   width: 100%;
@@ -3381,8 +3399,10 @@
 }
 .input-label-alert-area {
   display: flex;
-  width: calc(3/4 * 100%);
   flex-direction: column;
+  @media (width >= 48rem) {
+    width: calc(3/4 * 100%);
+  }
 }
 #upload-image-area {
   align-items: center;
