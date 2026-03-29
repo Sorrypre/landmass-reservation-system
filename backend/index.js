@@ -336,3 +336,4 @@ btn_ret_login.addEventListener('click', async function(e) {
 	form_login.style['opacity'] = '1.0';
 });
 
+console.log('start page');
