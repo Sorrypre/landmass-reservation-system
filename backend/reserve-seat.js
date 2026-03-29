@@ -49,6 +49,7 @@ function handleSeatClick(e){
         }
     });
     currSeat.classList.toggle("selected");
+    clearSeatError();
 }
 const modal = document.getElementById('confirm-modal-container');
 const adminInputField = document.getElementById('admin-only-requestor');
@@ -60,12 +61,8 @@ async function openModal() {
     const username = JSON.parse(userJson.user).settings.email;    
     console.log(username);
 
-    let success = reserveSummary();
-    // const selected_seats = document.querySelectorAll("#slots-container .seat.selected");
-    // if(selected_seats.length===0){
-    //     alert("Choose a seat");
-    //     return;
-    // }
+    const formIsValid = validateReservationInputs();
+    let success = formIsValid ? reserveSummary() : false;
 
     if(username === "admin@admin.com"){
         adminInputField.classList.remove('hidden');
@@ -92,6 +89,52 @@ function returnDashboard() {
 const date_dropdown = document.querySelector("#reserved-date");
 const time_dropdown = document.querySelector("#reserved-time");
 const room_dropdown = document.querySelector("#reserved-room");
+const dateError = document.getElementById("reserved-date-error");
+const timeError = document.getElementById("reserved-time-error");
+const roomError = document.getElementById("reserved-room-error");
+const seatError = document.getElementById("seat-required-error");
+
+function isPlaceholderSelected(selectEl) {
+    return !selectEl.value || selectEl.selectedIndex === 0;
+}
+
+function setFieldValidationState(field, errorEl, hasError) {
+    if (!field || !errorEl) return;
+
+    if (hasError) {
+        field.classList.add("field-invalid");
+        errorEl.classList.remove("hidden");
+    } else {
+        field.classList.remove("field-invalid");
+        errorEl.classList.add("hidden");
+    }
+}
+
+function clearSeatError() {
+    if (seatError) {
+        seatError.classList.add("hidden");
+    }
+}
+
+function validateReservationInputs() {
+    const hasDateError = !date_dropdown?.value;
+    const hasTimeError = isPlaceholderSelected(time_dropdown);
+    const hasRoomError = isPlaceholderSelected(room_dropdown);
+    const hasRequiredFieldError = hasDateError || hasTimeError || hasRoomError;
+    const hasSeatError = !hasRequiredFieldError && !document.querySelector("#slots-container .seat.selected");
+
+    setFieldValidationState(date_dropdown, dateError, hasDateError);
+    setFieldValidationState(time_dropdown, timeError, hasTimeError);
+    setFieldValidationState(room_dropdown, roomError, hasRoomError);
+
+    if (hasSeatError) {
+        seatError?.classList.remove("hidden");
+    } else {
+        clearSeatError();
+    }
+
+    return !(hasDateError || hasTimeError || hasRoomError || hasSeatError);
+}
 
 async function reserveSeatForm(){
     console.log("entered reserveSeatForm");
@@ -104,8 +147,8 @@ async function reserveSeatForm(){
 
     let isAnon = document.getElementById("anon-checkbox").checked;
     const selected_seat = document.querySelector("#slots-container .seat.selected");
-    if(selected_seat.length===0){
-        alert("Choose a seat");
+    if(!selected_seat){
+        seatError?.classList.remove("hidden");
         return;
     }
     console.log(selected_seat.dataset.pc);
@@ -156,18 +199,18 @@ function reserveSummary(){
 
     const selected_seat = document.querySelector("#slots-container .seat.selected");
     if(selected_seat === null){
-        alert("Choose >1 seat");
+        seatError?.classList.remove("hidden");
         return false;
     }
     console.log(selected_seat.dataset.pc);
-    let seatList = selected_seat.dataset.pc
+    let seat = selected_seat.dataset.pc
     
 
     const string = `Date: ${date_dropdown.value}
     Start Time: ${time_dropdown.value}
     End Time: ${endTime}
     Room: ${room_dropdown.value}
-    Seat list: ${seatList}`;
+    Seat: PC #${seat}`;
 
     let modalDetails = document.querySelector("#modal-details")
     if(modalDetails) {
@@ -184,6 +227,19 @@ if (date_dropdown && time_dropdown && room_dropdown) {
     [date_dropdown, time_dropdown, room_dropdown].forEach(element => {
         element.addEventListener("change", e => {
             console.log("Change detected in:", e.target.id);
+
+            if (e.target === date_dropdown && date_dropdown.value) {
+                setFieldValidationState(date_dropdown, dateError, false);
+            }
+
+            if (e.target === time_dropdown && !isPlaceholderSelected(time_dropdown)) {
+                setFieldValidationState(time_dropdown, timeError, false);
+            }
+
+            if (e.target === room_dropdown && !isPlaceholderSelected(room_dropdown)) {
+                setFieldValidationState(room_dropdown, roomError, false);
+            }
+
             if (date_dropdown.value && time_dropdown.value && room_dropdown.value) {
                 checkAvailable();
             } else {

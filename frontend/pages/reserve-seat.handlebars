@@ -20,6 +20,7 @@
                 this.type = 'text';
               }
             " id="reserved-date" name="reserved-date" />
+			<div id="reserved-date-error" class="field-error hidden">Required</div>
 			<!-- 0730H to 1700H (2hrs reservation) -->
 			<select id="reserved-time" name="reserved-time">
 				<option selected hidden disabled>Pick Start Time</option>
@@ -49,6 +50,7 @@
 				<option value="1700">1700H</option>
 				--}}
 			</select>
+			<div id="reserved-time-error" class="field-error hidden">Required</div>
 			<select id="reserved-room" name="reserved-room">
 				<option selected hidden disabled>Pick Room</option>
 				{{#each rooms}}
@@ -60,6 +62,7 @@
 				<option>G206</option>
 				<option>G207</option> --}}
 			</select>
+			<div id="reserved-room-error" class="field-error hidden">Required</div>
 			<label id="anon-checkbox-label" class="">
 				<input type="checkbox" id="anon-checkbox">
 				<span>Reserve as Anonymous</span>
@@ -148,6 +151,7 @@
 					<div class="cis"></div>
 				</div>
 				<div id="submit-container">
+					<div id="seat-required-error" class="field-error hidden">Select a seat</div>
 					<button onclick="openModal()" class="submit-btn">Submit</button>
 				</div>
 			</div>
@@ -155,13 +159,13 @@
 	</div>
 	<div id="confirm-modal-container" class="hidden">
 		<div id="confirm-modal-area">
-			<h2>Confimation</h2>
+			<h2>Confirmation</h2>
 			<p id="modal-details">
 				Date: <br>
 				Time: <br>
 				Building: <br>
 				Room: <br>
-				Seat List: <br>
+				Seat: <br>
 				<div id="admin-only-requestor" class="hidden">
 					<input type="text" id="admin-walk-in-input" placeholder="Requestor Username">
 				</div>

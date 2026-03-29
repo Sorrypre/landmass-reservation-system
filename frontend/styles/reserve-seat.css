@@ -65,6 +65,25 @@
     @apply md:text-2xl;
 }
 
+.field-invalid{
+    @apply border-b border-solid border-red-400;
+}
+
+#reserved-date.field-invalid,
+#reserved-time.field-invalid,
+#reserved-room.field-invalid{
+    @apply border-red-400 text-red-400;
+}
+
+#reserved-date.field-invalid::placeholder{
+    @apply text-red-400;
+}
+
+.field-error{
+    @apply text-red-400;
+    @apply text-sm pb-2;
+}
+
 /* #available-rooms-container{
     @apply flex flex-col w-full gap-y-4 overflow-auto scroll-smooth max-h-[350px];
 }
@@ -128,15 +147,11 @@
     }
 
     .confirm-btn:hover{
-        @apply w-xs bg-[#7070a1] text-white
-    }
-
-    .confirm-btn:hover{
-        @apply w-xs bg-[#7070a1] text-white
+        @apply bg-[#7070a1] text-white
     }
 
     .cancel-btn:hover{
-        @apply w-xs text-white
+        @apply bg-[#313b4a] text-white
     }
 }
 
@@ -154,7 +169,11 @@
 }
 
 #submit-container{
-    @apply flex justify-end mx-auto w-full;
+    @apply flex justify-end items-center gap-3 mx-auto w-full;
+}
+
+#seat-required-error{
+    @apply mb-0 pb-0;
 }
 
 .submit-btn{
@@ -168,6 +187,7 @@
 }
 #confirm-modal-container{
     @apply p-10 fixed inset-0 z-[100] h-full w-full hidden items-center justify-center;
+    @apply bg-black/60 backdrop-blur-sm;
 }
 
 .hidden {
@@ -177,12 +197,13 @@
 .flex {
     display: flex !important;
 }
+
 #confirm-modal-area{
-    @apply bg-gray-800 rounded-xl w-lg h-auto ;
+    @apply bg-[#1f2732] shadow-2xl shadow-black/45;
 }
 
 #confirm-modal-container h2{
-    @apply p-3 text-white text-2xl font-bold text-center
+    @apply p-5 pb-3 text-white text-2xl font-bold text-center;
 }
 
 #modal-details{
@@ -190,7 +211,7 @@
 }
 
 #admin-only-requestor {
-    @apply mb-6 p-4
+    @apply mb-4 p-4 pb-0;
 }
 
 .dialog-buttons{
@@ -202,7 +223,7 @@
 }
 
 .cancel-btn{
-    @apply w-xs text-gray-400 
+    @apply w-xs text-gray-400 rounded-full
 }
 
 #anon-checkbox {
