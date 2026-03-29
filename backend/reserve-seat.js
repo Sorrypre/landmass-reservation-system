@@ -94,6 +94,45 @@ const timeError = document.getElementById("reserved-time-error");
 const roomError = document.getElementById("reserved-room-error");
 const seatError = document.getElementById("seat-required-error");
 
+function formatAsInputDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
+
+function parseInputDate(dateValue) {
+    if (!dateValue) return null;
+    const [year, month, day] = dateValue.split("-").map(Number);
+    if (!year || !month || !day) return null;
+    return new Date(year, month - 1, day);
+}
+
+function getAllowedDateWindow() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const maxDate = new Date(today);
+    maxDate.setDate(maxDate.getDate() + 7);
+
+    return { today, maxDate };
+}
+
+function isDateWithinAllowedRange(dateValue) {
+    const selectedDate = parseInputDate(dateValue);
+    if (!selectedDate) return false;
+
+    const { today, maxDate } = getAllowedDateWindow();
+    selectedDate.setHours(0, 0, 0, 0);
+    return selectedDate >= today && selectedDate <= maxDate;
+}
+
+if (date_dropdown) {
+    const { today, maxDate } = getAllowedDateWindow();
+    date_dropdown.min = formatAsInputDate(today);
+    date_dropdown.max = formatAsInputDate(maxDate);
+}
+
 function isPlaceholderSelected(selectEl) {
     return !selectEl.value || selectEl.selectedIndex === 0;
 }
@@ -117,7 +156,7 @@ function clearSeatError() {
 }
 
 function validateReservationInputs() {
-    const hasDateError = !date_dropdown?.value;
+    const hasDateError = !date_dropdown?.value || !isDateWithinAllowedRange(date_dropdown.value);
     const hasTimeError = isPlaceholderSelected(time_dropdown);
     const hasRoomError = isPlaceholderSelected(room_dropdown);
     const hasRequiredFieldError = hasDateError || hasTimeError || hasRoomError;
@@ -138,6 +177,12 @@ function validateReservationInputs() {
 
 async function reserveSeatForm(){
     console.log("entered reserveSeatForm");
+
+    if (!isDateWithinAllowedRange(date_dropdown?.value)) {
+        setFieldValidationState(date_dropdown, dateError, true);
+        return;
+    }
+
     let b = document.getElementById("reserve-bldg-text");
     let bldgName = b.innerText;
     
@@ -229,7 +274,7 @@ if (date_dropdown && time_dropdown && room_dropdown) {
             console.log("Change detected in:", e.target.id);
 
             if (e.target === date_dropdown && date_dropdown.value) {
-                setFieldValidationState(date_dropdown, dateError, false);
+                setFieldValidationState(date_dropdown, dateError, !isDateWithinAllowedRange(date_dropdown.value));
             }
 
             if (e.target === time_dropdown && !isPlaceholderSelected(time_dropdown)) {
@@ -257,7 +302,7 @@ async function checkAvailable() {
     let room = room_dropdown.value;
     let dateTime = `${date}T${time.slice(0, 2)}:${time.slice(2)}:00Z`;
 
-    if (!date || !time || !room || time.includes("Pick") || room.includes("Pick")) {
+    if (!date || !isDateWithinAllowedRange(date) || !time || !room || time.includes("Pick") || room.includes("Pick")) {
         console.log("Waiting for valid selections...");
         return;
     }
