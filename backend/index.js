@@ -267,8 +267,10 @@ form_login.addEventListener('submit', async function(e) {
 			*/
 			const failure_dialog_id = 'error-' + login.status + '-' + Date.now();
 			const containing_parent = document.querySelector('div[id$="-content"]').getAttribute('id');
-			failure_dialog(containing_parent, failure_dialog_id, 'Error: ' + login.status, result.error);
-			open_dialog(failure_dialog_id);
+			const create_failure_dialog_result = await failure_dialog(containing_parent, failure_dialog_id, 'Error: ' + login.status, result.error);
+			console.log('failure dialog created: ' + create_failure_dialog_result);
+			const open_dialog_result = await open_dialog(failure_dialog_id);
+			console.log('failure dialog created: ' + open_dialog_result);
 		}
 	} catch (e) {
 		console.error('An error occurred while logging in. ' + e);
