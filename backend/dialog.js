@@ -286,6 +286,7 @@ async function exec(target, command, params) {
 
 async function open_dialog(target) {
 	await sleep(150);
+	console.log(target);
 	if (whitespaced(target))
 		return false;
 	const target_dialog = document.getElementById(DIALOG_ID_PREFIX + '' + target);
