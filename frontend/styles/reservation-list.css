@@ -49,7 +49,7 @@
 }
 
 .right-most-btn {
-    @apply p-2 mr-5 flex ml-auto;
+    @apply p-2 mr-5 flex gap-x-4 ml-auto;
 }
 
 .filter-options {
@@ -93,6 +93,6 @@
     @apply hover:bg-[#212D40] hover:text-white;
 }
 
-#mlcndlg-delete-confirm-reservation {
-    @apply top-1/2 left-1/2 transform-[translate(-50%,-50%)];
+[id^="mlcndlg-delete-confirm-reservation-"] {
+    @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100];
 }

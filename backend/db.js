@@ -308,6 +308,23 @@ async function removeReservation(email, reservation_id) {
 	}
 }
 
+async function updateReservation(email, reservation_id, update_data) {
+	try {
+		const id = new mongoose.Types.ObjectId(reservation_id);
+		const result = await User.updateOne({
+				'settings.email': email,
+				'reservations._id': id
+			},
+			{
+				$set: update_data
+			}
+		);
+		return result.matchedCount > 0;
+	} catch (e) {
+		console.error('Error in updateReservation:', e);
+	}
+}
+
 module.exports.connect = connect;
 module.exports.instance = instance;
 module.exports.dummyUsers = dummyUsers;
@@ -322,3 +339,4 @@ module.exports.getAllReservations = getAllReservations;
 module.exports.getUserReservations = getUserReservations;
 module.exports.removeReservation = removeReservation;
 module.exports.applyFilters = applyFilters;
+module.exports.updateReservation = updateReservation;

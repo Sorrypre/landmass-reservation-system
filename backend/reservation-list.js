@@ -67,7 +67,7 @@ function addReservation(i, n, b, r, req_d, req_t, res_d, s, strt_t, end_t, ue) {
     console.log(reservations);
 }
 
-function writeReservations() {
+async function writeReservations() {
     const reservation_list = document.getElementById("reservation-list");
     reservation_list.innerHTML = '';
 
@@ -92,11 +92,19 @@ function writeReservations() {
         const right_most_btn = document.createElement("div");
         right_most_btn.classList.add('right-most-btn');
 
+        const edit_btn = document.createElement("button");
+        edit_btn.classList.add('edit-btn');
+        edit_btn.innerHTML = `Edit Reservation`;
+        edit_btn.addEventListener('click', () => {
+            createEditReservationDialog(reservation)
+        });
+
         const delete_edit_btn = document.createElement("button");
         delete_edit_btn.classList.add('edit-btn');
         delete_edit_btn.innerHTML = `Delete Reservation`;
         //confirm delete
         createDeleteDialog(res_index, delete_edit_btn);
+        right_most_btn.appendChild(edit_btn);
         right_most_btn.appendChild(delete_edit_btn);
         reservation_item.appendChild(right_most_btn);
         fragment.appendChild(reservation_item);
@@ -263,7 +271,7 @@ async function removeReservation(reservation_index) {
 
         const data = await r.json();
         if (data.success) {
-            loadReservations();
+            await loadReservations();
         } else {
             console.error('Failed to remove reservation:', data.error);
         }
@@ -273,7 +281,7 @@ async function removeReservation(reservation_index) {
 }
 
 function createDeleteDialog(reservation_index, delete_btn) {
-    const dialog = `delete-confirm-reservation`;
+    const dialog = `delete-confirm-reservation-${reservation_index}`;
     const msg = `Are you sure you want to delete this reservation?`;
     const res = `
         <button type="button" class="page-dialog-message-button after:content-['Yes'] text-black" onclick="removeReservation(${reservation_index})"></button>
@@ -281,13 +289,13 @@ function createDeleteDialog(reservation_index, delete_btn) {
 
     make_dialog('reservation-list', ``, dialog, 'typical', 'Confirm Delete', false, false, msg, res);
 
-    delete_btn.addEventListener('click', () => {
+    delete_btn.addEventListener('click', async() => {
         playAlert(); //temporary fix, must call button handler in make dialog
-        open_dialog(dialog);
+        await open_dialog(dialog);
     });
 }
 
-function saveFilters() {
+async function saveFilters() {
     const building = document.getElementById("filter-building-select").value;
     const room = document.getElementById("filter-room-select").value;
     const time = document.getElementById("filter-time-select").value;
@@ -301,17 +309,17 @@ function saveFilters() {
     if (username) currentFilters.username = username;
     if (existing_date) currentFilters.date = existing_date;
 
-    loadReservations();
+    await loadReservations();
 }
 
-function resetFilters() {
+async function resetFilters() {
     document.getElementById("filter-building-select").value = 'Pick Building';
     document.getElementById("filter-room-select").value = 'Pick Room';
     document.getElementById("filter-time-select").value = 'Pick Time';
     if (filter_user_search) filter_user_search.value = '';
 
     currentFilters = {};
-    loadReservations();
+    await loadReservations();
 }
 
 function formatTimeString(dt_string) {
@@ -338,6 +346,8 @@ document.addEventListener('DOMContentLoaded', async() => {
     addRoomOptions();
     await loadReservations();
     await addSearchUserInput();
+
+    window.addEventListener('reservation-updated', loadReservations);
 
     if (filter_btn) filter_btn.addEventListener("click", toggleFilter);
     if (filter_cls_btn) filter_cls_btn.addEventListener("click", toggleFilter);

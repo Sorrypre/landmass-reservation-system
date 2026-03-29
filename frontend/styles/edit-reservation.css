@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/* Edit Reservation Form Container */
+.edit-reservation-form {
+    @apply flex flex-col w-full gap-y-2 p-2;
+}
+
+/* Form Section Styling */
+.edit-form-section {
+    @apply flex flex-col gap-y-2;
+}
+
+.edit-form-section label {
+    @apply text-white font-grotesk font-bold;
+}
+
+/* Edit Input Fields */
+.edit-option-select,
+#edit-date-select {
+    @apply border-none outline-none appearance-none bg-white;
+    @apply text-[#364156] font-bold font-dmsans rounded-xl;
+    @apply p-2 w-full;
+    @apply hover:bg-[#212D40] hover:text-white;
+    @apply transition duration-250 ease-in;
+}
+
+#edit-date-select {
+    @apply bg-white text-[#364156];
+}
+
+.edit-option-select option,
+#edit-date-select option {
+    @apply text-[#364156] bg-white;
+}
+
+/* Seats Container */
+.seats-container {
+    @apply flex flex-col items-center gap-y-2 max-h-[350px] overflow-y-auto;
+}
+
+.whiteboard {
+    @apply bg-white h-4 w-2xs flex items-center justify-center rounded-sm;
+    @apply text-black text-xs font-bold;
+}
+
+.row {
+    @apply flex flex-row items-center;
+}
+
+/* Seat Styling */
+.seat {
+    @apply h-8 w-8 rounded-t-sm m-1 bg-gray-400;
+    @apply transition duration-200;
+}
+
+.seat.selected {
+    @apply bg-[#E55B2E];
+}
+
+.seat.taken {
+    @apply bg-[#2a4252] cursor-not-allowed;
+}
+
+.space {
+    @apply h-2 w-2;
+}
+
+.cis {
+    @apply h-8 w-8 m-1 bg-transparent;
+}
+
+@media (hover:hover) and (pointer:fine) {
+    .seats-container .seat:not(.taken):hover {
+        @apply bg-[#5d5d81] cursor-pointer scale-110;
+    }
+}
+
+[id^="mlcndlg-edit-reservation-dialog-"] {
+    @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100];
+}

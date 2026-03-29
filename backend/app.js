@@ -307,6 +307,60 @@ xj.post('/make-dialog', async function(q, r) {
 	}
 });
 
+xj.post('/query-edit-reservation', async function(q, r) {
+	try {
+		let { reservation_id, user_email, building, room, startTime, endTime, seat } = q.body;
+		let email = user_email || q.session.email;
+
+		const seat_conflict = await db.getUsers({
+			"reservations": {
+				$elemMatch: {
+					"_id": { $ne: new mongoose.Types.ObjectId(reservation_id) },
+					"details.startTime": { $lt: new Date(endTime) },
+					"details.endTime": { $gt: new Date(startTime) },
+					"details.room": room,
+					"details.seat": Number(seat)
+				}
+			}
+		});
+
+		if (seat_conflict && seat_conflict.length > 0) {
+			return r.status(409).json({
+				success: false,
+				error: 'Seat is already reserved for another user.',
+			});
+		}
+
+		const update_reservation = {
+			'reservations.$.details.building': building,
+			'reservations.$.details.room': room,
+			'reservations.$.details.startTime': new Date(startTime),
+			'reservations.$.details.endTime': new Date(endTime),
+			'reservations.$.details.seat': Number(seat),
+			'reservations.$.dt_request': new Date(),
+		};
+
+		const success = await db.updateReservation(email, reservation_id, update_reservation);
+
+		if (success) {
+			r.status(200).json({
+				success: true,
+				message: 'Reservation updated successfully.',
+			});
+		} else {
+			r.status(404).json({
+				success: false,
+				error: 'Reservation not found.',
+			});
+		}
+	} catch (e) {
+		r.status(500).json({
+			success: false,
+			error: e.message,
+		});
+	}
+});
+
 /* LOGIN/REGISTER POST */
 
 xj.post('/lu', async function(q, r) {
