@@ -144,7 +144,7 @@
 	@apply flex flex-col gap-4 justify-center;
 }
 #change-info label {
-	@apply w-1/4 whitespace-normal text-xl wrap-break-word;
+	@apply md:w-1/4 w-full whitespace-normal md:text-xl md:wrap-break-word text-lg;
 }
 #change-info input, textarea {
 	@apply bg-white text-black p-2 rounded-2xl w-full;
@@ -184,7 +184,7 @@
 	@apply flex flex-col gap-4 justify-center;
 }
 #change-password label {
-	@apply w-1/4 whitespace-normal text-xl wrap-break-word;
+	@apply md:w-1/4 w-full whitespace-normal md:text-xl md:wrap-break-word text-lg;
 }
 
 #change-password input {
@@ -222,7 +222,7 @@
 	@apply flex w-full items-center justify-center;
 }
 .input-label-alert-area{
-	@apply flex flex-col w-3/4;
+	@apply flex flex-col md:w-3/4;
 }
 #upload-image-area{
 	@apply items-center;
