@@ -25,7 +25,7 @@
 }
 
 #edit-date-select {
-    @apply bg-white text-[#364156];
+    @apply bg-white text-white;
 }
 
 .edit-option-select option,
@@ -75,6 +75,7 @@
     }
 }
 
+/* Edit Reservation Dialog Positioning */
 [id^="mlcndlg-edit-reservation-dialog-"] {
     @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100];
 }

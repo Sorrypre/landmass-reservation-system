@@ -216,10 +216,10 @@ function generateSeat(seat) {
     seat_div.addEventListener('click', () => {
         if (seat_div.classList.contains('taken')) return;
 
-        const dialogRoot = document.getElementById(`mlcndlg-edit-reservation-dialog-${current_edit_res_id}`);
-        if (!dialogRoot) return;
+        const dialog_root = document.getElementById(`mlcndlg-edit-reservation-dialog-${current_edit_res_id}`);
+        if (!dialog_root) return;
 
-        dialogRoot.querySelectorAll('.seats-container .seat.selected').forEach(s => {
+        dialog_root.querySelectorAll('.seats-container .seat.selected').forEach(s => {
             if (s !== seat_div) s.classList.remove('selected');
         });
 
@@ -253,7 +253,7 @@ function updateEditSeatUI(taken_seats) {
     });
 }
 
-async function saveEditReservation(res_id) {
+async function saveEditReservation() {
     if (!edit_building_opt || !edit_room_opt || !edit_date_opt || !edit_time_opt) return;
 
     const bldg = edit_building_opt.value;

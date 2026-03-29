@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Reservation List Page Styles */
 #reserve-no {
     @apply w-1/2;
 }
@@ -12,6 +13,7 @@
     @apply relative w-full min-h-[460px] h-3/4;
 }
 
+/* Filter Modal Styles */
 #filter-box {
     @apply fixed inset-0 z-[100] hidden flex-col items-center justify-center;
 }
@@ -41,6 +43,7 @@
     @apply bg-[#364156] p-4 w-full min-h-[400px] h-2/3 text-[48px] flex items-center justify-center text-white font-grotesk rounded-2xl;
 }
 
+/* Reservation List Styles */
 .reserve-list-main {
     @apply text-white text-2xl font-bold font-grotesk;
 }
@@ -93,6 +96,7 @@
     @apply hover:bg-[#212D40] hover:text-white;
 }
 
+/* Edit Reservation Dialog Positioning */
 [id^="mlcndlg-delete-confirm-reservation-"] {
     @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100];
 }
