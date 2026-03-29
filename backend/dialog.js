@@ -68,8 +68,8 @@ function make_dialog(parent_id, button_handler_id_if_any, dialog_name, dialog_si
 	if (button_handler_id_if_any != null && !whitespaced(button_handler_id_if_any) && button_handler_id_if_any.trim().length > 0) {
 		const button_handler = document.getElementById(button_handler_id_if_any);
 		if (button_handler) {
-			button_handler.addEventListener('click', function(e) { 
-				open_dialog(dialog_name); 
+			button_handler.addEventListener('click', async function(e) { 
+				await open_dialog(dialog_name); 
 				playAlert();
 			});
 		}
@@ -257,7 +257,7 @@ function dialog_target_handler(e) {
 async function exec(target, command, params) {
 	const lc_command = command.toLowerCase();
 	if (lc_command === 'open') {
-		open_dialog(target);
+		await open_dialog(target);
 	}
 	else if (lc_command.startsWith('form-clear@') && lc_command.length > 'form-clear@'.length) {
 		/*	when getting the target form, gamitin ulit ung command instead of lc_command
@@ -270,10 +270,10 @@ async function exec(target, command, params) {
 		submit_form(target, target_form);
 	}
 	else if (lc_command === 'close') {
-		close_dialog(target);
+		await close_dialog(target);
 	}
 	else if (lc_command === 'closedel') {
-		close_dialog(target);
+		await close_dialog(target);
 		await sleep(150);
 		document.getElementById(DIALOG_ID_PREFIX + '' + target).remove();
 	}
