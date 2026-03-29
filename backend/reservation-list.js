@@ -225,12 +225,12 @@ async function loadReservations() {
                     res.requestor,
                     res.building,
                     res.room,
-                    reqDate.toLocaleDateString(),
-                    reqDate.toLocaleTimeString(),
-                    startTime.toLocaleDateString(),
+                    formatDateString(res.dt_request),
+                    formatTimeString(res.dt_request),
+                    formatDateString(res.startTime),
                     res.seat,
-                    startTime.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false}),
-                    endTime.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false}),
+                    formatTimeString(res.startTime),
+                    formatTimeString(res.endTime),
                     res.user_email
                 );
             });
@@ -292,12 +292,14 @@ function saveFilters() {
     const room = document.getElementById("filter-room-select").value;
     const time = document.getElementById("filter-time-select").value;
     const username = (filter_user_search && !filter_user_search.classList.contains('hidden')) ? filter_user_search.value : '';
+    const existing_date = currentFilters.date;
 
     currentFilters = {};
     if (building && building !== 'Pick Building') currentFilters.building = building;
     if (room && room !== 'Pick Room') currentFilters.room = room;
     if (time && time !== 'Pick Time') currentFilters.startTime = time;
     if (username) currentFilters.username = username;
+    if (existing_date) currentFilters.date = existing_date;
 
     loadReservations();
 }
@@ -310,6 +312,23 @@ function resetFilters() {
 
     currentFilters = {};
     loadReservations();
+}
+
+function formatTimeString(dt_string) {
+    const date = new Date(dt_string);
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+
+    return `${hours}:${minutes}`
+}
+
+function formatDateString(dt_string) {
+    const date = new Date(dt_string);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+
+    return `${month}/${day}/${year}`;
 }
 
 document.addEventListener('DOMContentLoaded', async() => {
