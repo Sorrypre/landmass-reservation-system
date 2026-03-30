@@ -11,6 +11,12 @@ function sleep(ms) {
 	return new Promise(r => setTimeout(r, ms));
 }
 
+function playAlert(){
+    const alertAudio = new Audio();
+    alertAudio.src = '../frontend/assets/audio/alertSound.mp3';
+    alertAudio.play();
+}
+
 function make_dialog(parent_id, button_handler_id_if_any, dialog_name, dialog_size, dialog_title, is_content_flex_col, is_content_nogap, content_html, responses_html) {
 	if (typeof parent_id !== 'string' || typeof button_handler_id_if_any !== 'string' ||
 		typeof dialog_name !== 'string' || typeof dialog_size !== 'string' ||
@@ -70,7 +76,6 @@ function make_dialog(parent_id, button_handler_id_if_any, dialog_name, dialog_si
 		if (button_handler) {
 			button_handler.addEventListener('click', async function(e) { 
 				await open_dialog(dialog_name); 
-				playAlert();
 			});
 		}
 		else
@@ -284,15 +289,18 @@ async function exec(target, command, params) {
 	/* add more else ifs dito if need pa ng ibang custom commands */
 }
 
-async function open_dialog(target) {
+async function open_dialog(target, sound = true) {
 	await sleep(150);	
 	if (whitespaced(target))
 		return false;
 	const target_dialog = document.getElementById(DIALOG_ID_PREFIX + '' + target);
-	if (target_dialog && target_dialog.classList.contains('closed'))
+	if (target_dialog && target_dialog.classList.contains('closed')) {
 		target_dialog.classList.toggle('closed');
-	else
+		if (sound)
+			playAlert();
+	} else {
 		return false;
+	}
 	return true;
 }
 
