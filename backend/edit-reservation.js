@@ -128,7 +128,7 @@ async function createEditReservationDialog(res) {
 
     await checkEditAvailability();
 
-    await open_dialog(dialog_name, false);
+    await open_dialog(dialog_name, true);
 }
 
 function updateEditRoomOptions() {
