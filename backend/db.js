@@ -238,8 +238,8 @@ async function getAllReservations() {
 }
 
 async function getUserReservations(username) {
-	const targetUser = await User.findOne({ 'settings.isActive': true, 'settings.username': username });
-	if (!targetUser) return [];
+	const u = await User.findOne({ 'settings.isActive': true, 'settings.username': username });
+	if (!u) return [];
 
 	return targetUser.reservations.map(r => ({
 		_id: r._id.toString(),
@@ -250,8 +250,8 @@ async function getUserReservations(username) {
 		startTime: r.details.startTime,
 		endTime: r.details.endTime,
 		seat: r.details.seat,
-		user_email: targetUser.settings.email,
-		username: targetUser.settings.username,
+		user_email: u.settings.email,
+		username: u.settings.username,
 	}));
 }
 

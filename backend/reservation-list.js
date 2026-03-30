@@ -2,6 +2,7 @@ let filter_toggled = false;
 let reservations = [];
 let currentFilters = { date: 'default' };
 let filter_user_search;
+let is_lab_tech = false;
 
 const filter_btn = document.getElementById("filter-btn")
 const filter_cls_btn = document.getElementById("filter-close-btn");
@@ -75,13 +76,14 @@ async function writeReservations() {
     let z = reservations.length;
 
     reservations.forEach((reservation, res_index) => {
+        const user_profile_id = `user-profile-${reservation._id}`;
         const reservation_item = document.createElement("div");
         reservation_item.classList.add('reservation-item');
         reservation_item.style.zIndex = `${z--}`;
 
         reservation_item.innerHTML = `
             <h3><span class="font-bold">${reservation.building}</span></h3>
-            <p>Requester: <span class="font-bold">${reservation.name}</span></p>
+            <p>Requester: <span class="font-bold" id="${user_profile_id}">${reservation.name}</span></p>
             <p>Room: <span class="font-bold">${reservation.room}</span></p>
             <p>Date of Request: <span class="font-bold">${reservation.request_date}</span></p>
             <p>Time of Request: <span class="font-bold">${reservation.request_time}</span></p>
@@ -89,6 +91,17 @@ async function writeReservations() {
             <p>Time: <span class="font-bold">${reservation.startTime} - ${reservation.endTime}</span></p>
             <p>Seat: <span class="font-bold" id="seat-name">${reservation.seat}</span></p>
         `;
+
+        if (is_lab_tech && reservation.name !== 'Anonymous') {
+            const user_pf = reservation_item.querySelector(`#${user_profile_id}`);
+
+            user_pf.classList.add('clickable-name');
+
+            user_pf.addEventListener('click', () => {
+                /*insert user profile dialog function*/
+                console.log(`Clicked on user profile: ${reservation.name} (${reservation.user_email})`);
+            });
+        }
         const right_most_btn = document.createElement("div");
         right_most_btn.classList.add('right-most-btn');
 
@@ -355,8 +368,8 @@ document.addEventListener('DOMContentLoaded', async() => {
     reservation_list.innerHTML = '<div class="reservation-item empty-state" style="z-index: 1;">No Reservations</div>';
 
     addRoomOptions();
-    await loadReservations();
     await addSearchUserInput();
+    await loadReservations();
 
     window.addEventListener('reservation-updated', loadReservations);
 
@@ -392,6 +405,8 @@ document.addEventListener('DOMContentLoaded', async() => {
 
 async function addSearchUserInput() {
     try {
+        filter_user_search.classList.add('hidden');
+
         const query = await fetch('/query-current-user', {
             method: 'GET',
             headers: {
@@ -404,7 +419,7 @@ async function addSearchUserInput() {
         if (data.success) {
             const user = JSON.parse(data.user)
             if (user.admin) {
-                filter_user_search.classList.remove('hidden');
+                is_lab_tech = true;
                 filter_user_search.classList.add('flex');
                 return true;
             }

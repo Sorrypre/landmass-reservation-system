@@ -69,16 +69,16 @@
 
 /* Search Input */
 #filter-user-search {
-    @apply hidden w-1/2 p-3 mr-auto ml-0 text-[16px] font-bold bg-white text-[#364156] rounded-xl font-dmsans focus:outline-none;
+    @apply w-1/2 p-3 mr-auto ml-0 text-[16px] font-bold bg-white text-[#364156] rounded-xl font-dmsans focus:outline-none;
 }
 
 /* Miscellaneous Elements */
-.right-most-btn {
-    @apply flex p-2 mt-auto ml-auto mr-5 gap-x-4;
-}
-
 #seat-name {
     @apply ml-4 mr-auto;
+}
+
+.right-most-btn {
+    @apply flex p-2 mt-auto ml-auto mr-5 gap-x-4;
 }
 
 .seat-list {
@@ -91,6 +91,11 @@
 
 .reserve-list-main {
     @apply text-2xl font-bold text-white font-grotesk;
+}
+
+.clickable-name {
+    @apply cursor-pointer hover:text-gray-300 transition-colors;
+    @apply focus:outline-5 focus:outline-[#212D40];
 }
 
 /* Edit Reservation Dialog Positioning */
