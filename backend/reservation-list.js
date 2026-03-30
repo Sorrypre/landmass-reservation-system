@@ -99,6 +99,7 @@ async function writeReservations() {
 
             user_pf.addEventListener('click', () => {
                 /*insert user profile dialog function*/
+                createProfileDialog(reservation.user_email);
                 console.log(`Clicked on user profile: ${reservation.name} (${reservation.user_email})`);
             });
         }

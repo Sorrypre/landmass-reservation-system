@@ -51,7 +51,7 @@ async function getTemplate(id, email) {
 		},
 		'reservation-list': {
 			user: result,
-			scripts: ['main.js', 'alert_sound.js','dialog.js', 'edit-reservation.js','reservation-list.js'],
+			scripts: ['main.js', 'alert_sound.js','dialog.js', 'profile_dialog.js', 'edit-reservation.js','reservation-list.js'],
 			bg: 'reservation-list',
 			photo: pfp_photo,
 		},

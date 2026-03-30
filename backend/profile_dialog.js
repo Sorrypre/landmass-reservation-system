@@ -1,7 +1,9 @@
 async function createProfileDialog(email) {
     const user = await fetch('/query-get-user', {
-        METHOD: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
            email,
         })
@@ -41,6 +43,8 @@ async function createProfileDialog(email) {
                 <button type="button" id="leave-pfp-dialog" target-dialog-command="closedel" target-dialog-id="view-profile-dialog" class="page-dialog-message-button after:content-['Exit'] text-black"></button>
         `;
         make_dialog('reservation-list', '', 'view-profile-dialog', 'typical', 'Profile', false, false, htmlbody, res);
+
+        await open_dialog('view-profile-dialog');
     } else {
         console.log('User not found');
     }
