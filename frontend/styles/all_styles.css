@@ -157,7 +157,7 @@
 }
 
 #redir-contact-us {
-	@apply after:content-['Contact_Us'];
+	@apply after:content-['About'];
 }
 
 #redir-log-out {
