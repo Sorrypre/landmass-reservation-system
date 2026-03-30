@@ -271,15 +271,33 @@ function applyFilters(res, building, room, startTime, date) {
 			return false;
 	}
 
-	if (date) {
-		const target_date = new Date(date);
-		const next_date = new Date(target_date);
-		next_date.setDate(next_date.getDate() + 1);
+	if (date && date !== 'all') {
 		const res_date = new Date(res.startTime);
 		res_date.setHours(0, 0, 0, 0);
-		target_date.setHours(0, 0, 0, 0);
-		next_date.setHours(0, 0, 0, 0);
-		if (res_date < target_date || res_date >= next_date) return false;
+
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+
+		const tomo = new Date(today);
+		tomo.setDate(tomo.getDate() + 1);
+
+		if (date === 'default') {
+			if (res_date < today || res_date > tomo)
+				return false;
+		}
+		else if (date === 'today') {
+			if (res_date.getTime() !== today.getTime())
+				return false;
+		}
+		else if (date === 'tomorrow') {
+			if (res_date.getTime() !== tomo.getTime())
+				return false;
+		}
+		else {
+			const exact_date = new Date(date);
+			exact_date.setHours(0, 0, 0, 0);
+			if (res_date.getTime() !== exact_date.getTime()) return false;
+		}
 	}
 
 	return true;

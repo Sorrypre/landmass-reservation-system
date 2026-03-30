@@ -1,6 +1,6 @@
 let filter_toggled = false;
 let reservations = [];
-let currentFilters = { };
+let currentFilters = { date: 'default' };
 let filter_user_search;
 
 const filter_btn = document.getElementById("filter-btn")
@@ -318,7 +318,7 @@ async function resetFilters() {
     document.getElementById("filter-time-select").value = 'Pick Time';
     if (filter_user_search) filter_user_search.value = '';
 
-    currentFilters = {};
+    currentFilters = { date: 'default' };
     await loadReservations();
 }
 
@@ -360,17 +360,15 @@ document.addEventListener('DOMContentLoaded', async() => {
         toggleFilter();
     });
     if (filter_all) filter_all.addEventListener("click", () => {
-        currentFilters.date = null;
+        currentFilters.date = 'all';
         loadReservations();
     });
     if (filter_today) filter_today.addEventListener("click", () => {
-        currentFilters.date = new Date().toISOString().split('T')[0];
+        currentFilters.date = 'today'
         loadReservations();
     });
     if (filter_tomo) filter_tomo.addEventListener("click", () => {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        currentFilters.date = tomorrow.toISOString().split('T')[0];
+        currentFilters.date = 'tomorrow'
         loadReservations();
     });
     if (filter_user_search) filter_user_search.addEventListener("change", () => { saveFilters() });
