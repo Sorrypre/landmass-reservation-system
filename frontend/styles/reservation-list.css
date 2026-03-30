@@ -94,7 +94,7 @@
 }
 
 .clickable-name {
-    @apply cursor-pointer hover:text-gray-300 transition-colors;
+    @apply cursor-pointer touch-manipulation hover:text-gray-300 transition-colors;
     @apply focus:outline-5 focus:outline-[#212D40];
 }
 
