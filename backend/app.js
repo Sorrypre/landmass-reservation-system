@@ -34,7 +34,7 @@ xj.use(session({
 	cookie: {
 		sameSite: true,
 		httpOnly: true,
-		maxAge: 1000 * 60 * 60 * 24 * 30,
+		maxAge: null,
 	},
 }));
 xj.use(express.static(root_dir));
@@ -366,7 +366,8 @@ xj.post('/query-edit-reservation', async function(q, r) {
 xj.post('/lu', async function(q, r) {
 	const eml = q.body.email;
 	const pwd = q.body.password;
-	if (!eml || !pwd) {
+	const persist = q.body.persist;
+	if (!eml || !pwd || persist == null) {
 		return r.status(400).json({
 			success: false,
 			error: 'Invalid request.',
@@ -375,6 +376,10 @@ xj.post('/lu', async function(q, r) {
 	const login = await db.login(eml, pwd);
 	if (login === 1) {
 		q.session.email = eml;
+		if (persist)
+			q.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
+		else
+			q.session.cookie.expires = false;
 		r.status(200).json({
 			success: true,
 			message: 'Login successful.',

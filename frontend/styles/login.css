@@ -14,8 +14,12 @@
 	@apply w-full text-white text-[15px] md:text-[30px] font-inter;
 }
 
-#index-forms input {
+#index-forms input[type="text"], input[type="password"] {
 	@apply p-2 text-[15px] w-full bg-white text-base md:max-lg:text-lg xl:text-xl font-smono rounded-2xl;
+}
+
+#index-forms input[type="checkbox"] {
+	@apply w-[15px] h-[15px] md:w-[30px] md:h-[30px];
 }
 
 #index-forms button {

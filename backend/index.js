@@ -15,6 +15,7 @@ const form_login = document.getElementById('login');
 // input boxes
 const form_inp_lusr = form_login.elements.namedItem('login-email');
 const form_inp_lpwd = form_login.elements.namedItem('login-password');
+const form_inp_lrem = form_login.elements.namedItem('login-remember');
 const form_inp_rusr = form_reg.elements.namedItem('register-email');
 const form_inp_rpwd = form_reg.elements.namedItem('register-password');
 const form_inp_rcfm = form_reg.elements.namedItem('register-confirm-password');
@@ -249,11 +250,12 @@ form_login.addEventListener('submit', async function(e) {
 	btn_login.disabled = true;
 	const email = form_inp_lusr.value;
 	const password = form_inp_lpwd.value;
+	const persist = form_inp_lrem.checked;
 	try {
 		const login = await fetch('/lu', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ email, password }),
+			body: JSON.stringify({ email, password, persist }),
 		});
 		const result = await login.json();
 		if (login.ok) {
