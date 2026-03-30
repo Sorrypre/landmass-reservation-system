@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+#about-content {
+    @apply mx-auto mt-8 flex w-full max-w-6xl flex-col px-4 pb-8;
+    
+}
+
+#about-header h1 {
+    @apply mb-6 text-5xl font-extrabold text-white md:text-7xl;
+    @apply font-grotesk;
+    @apply justify-center flex;
+}
+
+#about-sections {
+    @apply flex w-full flex-col gap-6;
+}
+
+.about-card {
+    @apply max-w-lg overflow-hidden rounded-2xl m-4;
+    @apply bg-[#5d5d81];
+}
+
+.section-title {
+    @apply w-full bg-[#2e3a55] px-6 py-4 text-2xl font-bold text-white;
+    @apply font-grotesk;
+    @apply justify-center flex;
+    @apply md:text-3xl
+}
+
+.section-content {
+    @apply min-h-72 px-6 py-5;
+}
+
+.info-list {
+    @apply flex list-disc flex-col gap-2 pl-5 text-base text-white md:text-lg;
+}
+
+.info-list li::marker {
+    color: #f0f3ff;
+}
+
+.external-icons {
+    list-style: none;
+    padding-left: 0;
+}
+
+.external-icons .list-item {
+    @apply flex items-center gap-3;
+}
+
+.external-icons .lib-icon {
+    @apply h-12 w-12 rounded-lg bg-white/50;
+    @apply flex items-center justify-center;
+}
+
+@media (width >= 64rem) {
+    #about-content {
+        @apply mt-10 px-8;
+    }
+
+    #about-sections {
+        @apply flex-row items-stretch;
+    }
+
+    .about-card {
+        @apply min-h-[420px] flex-1;
+    }
+}
