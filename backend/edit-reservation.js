@@ -261,8 +261,18 @@ async function saveEditReservation() {
     const date = edit_date_opt.value;
     const time = edit_time_opt.value;
 
-    if (!date || !time || !edit_room_opt.value) {
-        alert('Please fill out all fields and select a seat before saving.');
+    const error_dialog = async (message) => {
+        const timestamp = Date.now();
+        const err_dialog_name = `edit-error-dialog-${timestamp}`;
+        const content_html = `<span class="text-black">${message}</span>`;
+        const responses_html = `<button type="button" class="page-dialog-message-button text-black" target-dialog-id="${err_dialog_name}" target-dialog-command="closedel">OK</button>`;
+
+        make_dialog('reservation-list', '', err_dialog_name, 'typical', 'Error', true, false, content_html, responses_html);
+        await open_dialog(err_dialog_name, true);
+    };
+
+    if (!date || !time || !edit_room_opt.value || selected_seat === null || time.includes('Pick') || room.includes('Pick')) {
+        await error_dialog('Please fill out all fields and select a seat.');
         return;
     }
 
@@ -289,10 +299,10 @@ async function saveEditReservation() {
             await close_dialog('edit-reservation-dialog-' + current_edit_res_id);
             window.dispatchEvent(new CustomEvent('reservation-updated'));
         } else {
-            alert(data.error || 'Failed to update reservation.');
+            await error_dialog('Failed to save reservation. Please try again.');
         }
     } catch (e) {
         console.error('Error saving reservation:', e);
-        alert('An error occurred while saving. Please try again.');
+        await error_dialog('An unexpected error occurred. Please try again.');
     }
 }
