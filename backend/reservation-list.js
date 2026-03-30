@@ -95,8 +95,8 @@ async function writeReservations() {
         //reservations can only be edited if its from today or the future
         if (reservation.reserve_date >= formatDateString(new Date())) {
             const edit_btn = document.createElement("button");
-            edit_btn.classList.add('edit-btn');
-            edit_btn.innerHTML = `Edit Reservation`;
+            edit_btn.classList.add('btn-standard');
+            edit_btn.innerHTML = `Edit`;
             edit_btn.addEventListener('click', () => {
                 createEditReservationDialog(reservation)
             });
@@ -104,8 +104,8 @@ async function writeReservations() {
         }
 
         const delete_edit_btn = document.createElement("button");
-        delete_edit_btn.classList.add('edit-btn');
-        delete_edit_btn.innerHTML = `Delete Reservation`;
+        delete_edit_btn.classList.add('btn-standard');
+        delete_edit_btn.innerHTML = `Delete`;
         //confirm delete
         createDeleteDialog(res_index, delete_edit_btn);
         right_most_btn.appendChild(delete_edit_btn);
@@ -255,13 +255,13 @@ async function loadReservations() {
 
             writeReservations();
         } else {
-            reservation_list.innerHTML = '<p id="no-reservation">No Reservations</p>';
+            reservation_list.innerHTML = '<div class="reservation-item empty-state">No Reservations</div>';
         }
         updatePageNumber();
     }
     catch (e) {
         console.error('Error fetching reservations:', e);
-        reservation_list.innerHTML = '<p id="no-reservation">Error loading reservations. Please try again.</p>';
+        reservation_list.innerHTML = '<div class="reservation-item empty-state">Error loading reservations. Please try again.</div>';
     }
 }
 
@@ -352,7 +352,7 @@ function formatDateString(dt_string) {
 
 document.addEventListener('DOMContentLoaded', async() => {
     filter_user_search = document.getElementById("filter-user-search");
-    reservation_list.innerHTML = '<div class="reservation-item" style="z-index: 1;"><p id="no-reservation">No Reservations</p></div>';
+    reservation_list.innerHTML = '<div class="reservation-item empty-state" style="z-index: 1;">No Reservations</div>';
 
     addRoomOptions();
     await loadReservations();
@@ -403,8 +403,9 @@ async function addSearchUserInput() {
 
         if (data.success) {
             const user = JSON.parse(data.user)
-            if (!user.admin && filter_user_search) {
-                filter_user_search.classList.add('hidden');
+            if (user.admin) {
+                filter_user_search.classList.remove('hidden');
+                filter_user_search.classList.add('flex');
                 return true;
             }
         }

@@ -1,16 +1,37 @@
 @import "tailwindcss";
 
-/* Reservation List Page Styles */
+/* Layout & Container Styles */
+#reserve-list-content {
+    @apply flex flex-col items-center flex-grow w-full gap-y-4;
+}
+
+#reservation-list {
+    @apply relative flex flex-col items-center w-full min-h-[400px];
+}
+
 #reserve-no {
     @apply w-1/2;
 }
 
-#reserve-list-content {
-    @apply w-full gap-y-4 flex flex-col flex-grow items-center;
+.reserve-list-card {
+    @apply flex-col items-center justify-center w-2/3 p-2 h-2/3 min-h-[400px];
 }
 
-#reservation-list {
-    @apply relative w-full min-h-[460px] h-3/4;
+.reserve-view {
+    @apply flex flex-row items-start w-2/3 p-2 justify-items-start gap-x-10;
+}
+
+.reserve-list-navigation {
+    @apply flex flex-row items-center justify-center w-2/3 p-2 gap-x-4;
+}
+
+.reservation-item {
+    @apply absolute flex flex-col items-start w-full min-h-[400px] p-4;
+    @apply bg-[#364156] gap-x-4 text-white font-grotesk rounded-2xl;
+}
+
+.reservation-item.empty-state {
+    @apply items-center justify-center text-[48px] text-white font-grotesk gap-0;
 }
 
 /* Filter Modal Styles */
@@ -19,81 +40,57 @@
 }
 
 #filter-area {
-    @apply  bg-[#212D40] rounded-2xl flex flex-col justify-center gap-y-4 max-w-md;
+    @apply flex flex-col justify-center max-w-md p-4 bg-[#212D40] rounded-2xl gap-y-4;
 }
 
 #text-filter {
-    @apply p-2 text-white text-2xl font-bold font-grotesk;
+    @apply p-2 text-2xl font-bold text-white font-grotesk;
 }
 
 #filter-save-close {
-    @apply p-4 ml-auto mb-2 mr-2 flex gap-x-4 justify-center items-center;
+    @apply flex items-center justify-center p-4 mb-2 ml-auto mr-2 gap-x-4;
 }
 
-#filter-user-search {
-    @apply p-3 bg-white mr-auto text-[16px] w-1/2 text-[#364156] font-bold font-dmsans rounded-xl;
+.filter-options {
+    @apply flex flex-row items-center justify-start p-4 m-4 text-white bg-[#364156] rounded-2xl gap-x-4 font-grotesk;
+}
+
+/* Button Base Styles */
+.btn-standard {
+    @apply p-3 bg-white text-[16px] text-[#364156] font-bold font-dmsans rounded-xl cursor-pointer transition-colors;
     @apply hover:bg-[#212D40] hover:text-white;
+    @apply focus:outline-5 focus:outline-[#212D40];
+}
+
+/* Input Base Styles */
+.input-standard {
+    @apply p-2 ml-auto font-bold bg-white text-[#364156] rounded-xl font-dmsans focus:outline-none;
+}
+
+/* Search Input */
+#filter-user-search {
+    @apply hidden w-1/2 p-3 mr-auto ml-0 text-[16px] font-bold bg-white text-[#364156] rounded-xl font-dmsans focus:outline-none;
+}
+
+/* Miscellaneous Elements */
+.right-most-btn {
+    @apply flex p-2 mt-auto ml-auto mr-5 gap-x-4;
 }
 
 #seat-name {
     @apply ml-4 mr-auto;
 }
 
-#no-reservation {
-    @apply bg-[#364156] p-4 w-full min-h-[400px] h-2/3 text-[48px] flex items-center justify-center text-white font-grotesk rounded-2xl;
-}
-
-/* Reservation List Styles */
-.reserve-list-main {
-    @apply text-white text-2xl font-bold font-grotesk;
-}
-.reserve-list-card {
-    @apply static p-2 w-2/3 min-h-[400px] h-2/3 flex-col justify-center items-center;
-}
-
-.right-most-btn {
-    @apply p-2 mr-5 flex gap-x-4 ml-auto;
-}
-
-.filter-options {
-    @apply p-4 m-4 bg-[#364156ff] flex flex-row gap-x-4 justify-start items-center rounded-2xl;
-    @apply text-white font-grotesk;
-}
-
-.filter-options-select {
-    @apply p-2 ml-auto bg-white text-[#364156ff] font-bold font-dmsans rounded-xl;
-}
-
-.reserve-view {
-    @apply p-2 w-2/3 gap-x-10 flex flex-row justify-items-start items-start;
-}
-
-.reserve-list-navigation {
-    @apply p-2 w-2/3 gap-x-4 flex flex-row justify-center items-center;
-}
-
-.reserve-list-btn {
-    @apply p-3 bg-white text-[16px] text-[#364156] font-bold font-dmsans rounded-xl;
-    @apply hover:bg-[#212D40] hover:text-white hover:cursor-pointer;
-    @apply focus:outline-5 focus:outline-[#212D40];
-}
-
-.reservation-item {
-    @apply absolute bg-[#364156] p-4 w-full  flex flex-col gap-x-4 items-start text-white font-grotesk rounded-2xl;
-}
-
 .seat-list {
-    @apply p-2 w-full flex flex-col gap-y-2;
-}
-.seat-item {
-    @apply p-2 bg-[#212D40] w-full flex flex-row gap-x-4 rounded-2xl;
-    @apply text-white font-grotesk;
-    @apply hover:bg-white hover:text-[#364156];
+    @apply flex flex-col w-full p-2 gap-y-2;
 }
 
-.edit-btn {
-    @apply p-2 bg-white text-[#212D40] font-bold font-dmsans rounded-2xl;
-    @apply hover:bg-[#212D40] hover:text-white;
+.seat-item {
+    @apply flex flex-row w-full p-2 text-white bg-[#212D40] rounded-2xl gap-x-4 font-grotesk hover:bg-white hover:text-[#364156] transition-colors;
+}
+
+.reserve-list-main {
+    @apply text-2xl font-bold text-white font-grotesk;
 }
 
 /* Edit Reservation Dialog Positioning */

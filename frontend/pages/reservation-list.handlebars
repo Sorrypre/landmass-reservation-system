@@ -4,7 +4,7 @@
 
         <div class="filter-options">
             <label for="filter-building-select">Building</label>
-            <select class="filter-options-select" id="filter-building-select" name="filter-building-select">
+            <select class="input-standard" id="filter-building-select" name="filter-building-select">
                 <option selected hidden disabled>Pick Building</option>
                 <option>Gokongwei Wing</option>
                 <option>Henry Sy Star</option>
@@ -14,21 +14,21 @@
 
         <div class="filter-options">
             <label for="filter-room-select">Room</label>
-            <select class="filter-options-select" id="filter-room-select" name="filter-room-select">
+            <select class="input-standard" id="filter-room-select" name="filter-room-select">
                 <option selected hidden disabled>Pick Room</option>
                 <!--options are dynamic since it depends on the building-->
             </select>
         </div>
 
         <div class="filter-options">
-            <button class="reserve-list-btn" id="filter-all">All</button>
-            <button class="reserve-list-btn" id="filter-today">Today</button>
-            <button class="reserve-list-btn" id="filter-tomo">Tomorrow</button>
+            <button class="btn-standard" id="filter-all">All</button>
+            <button class="btn-standard" id="filter-today">Today</button>
+            <button class="btn-standard" id="filter-tomo">Tomorrow</button>
         </div>
 
         <div class="filter-options">
             <label for="filter-time-select">Starting from </label>
-            <select class="filter-options-select" id="filter-time-select" name="filter-time-select">
+            <select class="input-standard" id="filter-time-select" name="filter-time-select">
                 <option selected hidden disabled>Pick Time</option>
                 <option>0730</option>
                 <option>0800</option>
@@ -53,20 +53,20 @@
         </div>
 
         <div id="filter-save-close">
-            <button class="reserve-list-btn" id="filter-close-btn">Close</button>
-            <button class="reserve-list-btn" id="filter-clear-btn">Clear</button>
-            <button class="reserve-list-btn" id="filter-save-btn">Save</button>
+            <button class="btn-standard" id="filter-close-btn">Close</button>
+            <button class="btn-standard" id="filter-clear-btn">Clear</button>
+            <button class="btn-standard" id="filter-save-btn">Save</button>
         </div>
     </div>
 </div>
 
 <div id="reserve-list-content"> <!--flexbox col-->
 	<div class="right-most-btn"> <!--fb col 1-->
-		<button class="reserve-list-btn" id="back-to-dashboard">Back</button>
+		<button class="btn-standard" id="back-to-dashboard">Back</button>
 	</div>
 
 	<div class="reserve-view">  <!--fb col 2-->
-	    <button class="reserve-list-btn" id="filter-btn">Filter</button>
+	    <button class="btn-standard" id="filter-btn">Filter</button>
         <input type="text" id="filter-user-search" name="user-search" placeholder="Search User...">
 	</div>
 
@@ -77,9 +77,9 @@
 	</div>
 
 	<div class="reserve-list-navigation">  <!--fb col 4-->
-		<button class="reserve-list-btn" id="prev-btn">&#9664;</button>
+		<button class="btn-standard" id="prev-btn">&#9664;</button>
 		<p id="reserve-no"></p>
-		<button class="reserve-list-btn" id="next-btn">&#9654;</button>
+		<button class="btn-standard" id="next-btn">&#9654;</button>
 	</div>
 
 	<div> <!--fb col 5-->
