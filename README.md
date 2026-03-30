@@ -30,7 +30,7 @@
 * [![JavaScript][JavaScript-button]][JavaScript=docu]
 <!--- How to start --->
 ## How to Run
-For this project, all NPM packages and libraries are already installed in the server for local. Environment variable API must be asked from one of the developers. If the wish to make your own API keys you have to fill up <ins>MDB_URI</ins>, <ins>MDB_URI_SRV</ins>, and <ins>SESSION_SIGNATURE</ins>.
+For this project, all NPM packages and libraries are already installed in the server for local. Environment variable API must be asked from one of the developers. If you wish to make your own API keys you have to fill up <ins>MDB_URI</ins>, <ins>MDB_URI_SRV</ins>, and <ins>SESSION_SIGNATURE</ins>.
 
 In command prompt:
 ```sh
