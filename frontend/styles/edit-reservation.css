@@ -48,16 +48,16 @@
 }
 
 /* Seat Styling */
-.seat {
+.edit-seat {
     @apply h-8 w-8 rounded-t-sm m-1 bg-gray-400;
     @apply transition duration-200;
 }
 
-.seat.selected {
+.edit-seat.selected {
     @apply bg-[#E55B2E];
 }
 
-.seat.taken {
+.edit-seat.taken {
     @apply bg-[#2a4252] cursor-not-allowed;
 }
 
@@ -70,7 +70,7 @@
 }
 
 @media (hover:hover) and (pointer:fine) {
-    .seats-container .seat:not(.taken):hover {
+    .seats-container .edit-seat:not(.edit-seat-taken):hover {
         @apply bg-[#5d5d81] cursor-pointer scale-110;
     }
 }

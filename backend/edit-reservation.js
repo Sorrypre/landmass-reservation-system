@@ -61,9 +61,9 @@ async function createEditReservationDialog(res) {
 
             <div class="edit-seat-selection">
                 <div class="seat-legend">
-                    <div class="seat"></div> <span>Available</span>
-                    <div class="seat taken"></div> <span>Taken</span>
-                    <div class="seat selected"></div> <span>Selected</span>
+                    <div class="edit-seat"></div> <span>Available</span>
+                    <div class="edit-seat taken"></div> <span>Taken</span>
+                    <div class="edit-seat selected"></div> <span>Selected</span>
                 </div>
                 <div id="edit-seats-container-${res_id}" class="seats-container">
                     <!-- seats filled by generateSeats -->
@@ -206,7 +206,7 @@ function generateSeats(container) {
 
 function generateSeat(seat) {
     const seat_div = document.createElement('div');
-    seat_div.className = 'seat';
+    seat_div.className = 'edit-seat';
     seat_div.dataset.pc = seat;
 
     if (selected_seat === seat) {
@@ -219,7 +219,7 @@ function generateSeat(seat) {
         const dialog_root = document.getElementById(`mlcndlg-edit-reservation-dialog-${current_edit_res_id}`);
         if (!dialog_root) return;
 
-        dialog_root.querySelectorAll('.seats-container .seat.selected').forEach(s => {
+        dialog_root.querySelectorAll('.seats-container .edit-seat.selected').forEach(s => {
             if (s !== seat_div) s.classList.remove('selected');
         });
 
@@ -239,7 +239,7 @@ function updateEditSeatUI(taken_seats) {
 
     if (!dialog_root) return;
 
-    const seats = dialog_root.querySelectorAll('.seats-container .seat');
+    const seats = dialog_root.querySelectorAll('.seats-container .edit-seat');
 
     seats.forEach(s => {
         const num = Number(s.dataset.pc);
