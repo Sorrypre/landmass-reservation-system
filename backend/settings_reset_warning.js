@@ -18,7 +18,7 @@ const msg = `
     <p class="pd-text-preset">Click 'OK' to continue</p>
 `;
 const res = `
-    <button type="reset" for="change-info" target-dialog-command="closedel" target-dialog-id="profile-info-reset-warning" class="page-dialog-message-button after:content-['OK'] text-black"></button>
+    <button type="reset" for="change-info" target-dialog-command="close" target-dialog-id="profile-info-reset-warning" class="page-dialog-message-button after:content-['OK'] text-black"></button>
 `;
 make_dialog('reset-button-container', 'change-profile-reset-btn', 'profile-info-reset-warning', 'typical', 'Reset Button Pressed!', false, false, msg, res);
 };
@@ -44,7 +44,7 @@ const msg = `
     <p class="pd-text-preset">Click 'OK' to continue</p>
 `;
 const res = `
-    <button type="button" id="delete-account-button" target-dialog-command="closedel" target-dialog-id="profile-deletion-warning" class="page-dialog-message-button after:content-['OK'] text-black"></button>
+    <button type="button" id="delete-account-button" target-dialog-command="close" target-dialog-id="profile-deletion-warning" class="page-dialog-message-button after:content-['OK'] text-black"></button>
 `;
 make_dialog('delete-account-button-container', 'delete-account-btn', 'profile-deletion-warning', 'typical', 'WARNING! ACCOUNT DELETION', false, false, msg, res);
 };

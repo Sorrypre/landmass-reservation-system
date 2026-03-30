@@ -1,0 +1,36 @@
+#profile-info-content-dialog {
+    @apply text-white font-grotesk;
+	@apply flex flex-col w-full;
+}
+
+#profile-card-dialog {
+	@apply bg-[#7070a1] mb-2 p-4 w-full;
+	@apply rounded-md;
+}
+#photo-holder-dialog{
+	@apply flex items-center justify-center pb-5
+}
+#profilepic-dialog{
+	@apply md:w-[150px] md:h-[150px];
+	@apply rounded-full border-solid border-8 border-amber-50;
+}
+#profile-content-dialog{
+	@apply bg-gray-800 rounded-md p-3
+}
+#profile-name-container-dialog{
+	@apply text-2xl text-center font-bold;
+	@apply pb-5 overflow-hidden;
+}
+#profile-info-dialog{
+	@apply p-2 overflow-x-auto;
+}
+.text-info-title-dialog{
+	@apply text-lg font-bold
+}
+.text-info-content-dialog{
+	@apply text-wrap md:whitespace-normal text-justify;
+}
+
+#mlcndlg-view-profile-dialog {
+    @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100];
+}

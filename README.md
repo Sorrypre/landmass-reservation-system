@@ -28,9 +28,21 @@
 * [![HTML][HTML-button]][HTML-docu]
 * [![CSS][CSS-button]][CSS-docu]
 * [![JavaScript][JavaScript-button]][JavaScript=docu]
+<!--- How to start --->
+## How to Run
+For this project, all NPM packages and libraries are already installed in the server for local. Environment variable API must be asked from one of the developers. If the wish to make your own API keys you have to fill up <ins>MDB_URI</ins>, <ins>MDB_URI_SRV</ins>, and <ins>SESSION_SIGNATURE</ins>.
 
+In command prompt:
+```sh
+run_all.bat
+```
 <!-- Getting started-->
-## Getting Started
+
+While making CSS changes (don't forget to run this in order to track changes):
+```sh
+tailwind.run_env.bat
+```
+## Developer Guide
 For this project, `git clone` will be utilized for co-contributors to make changes seamlessly. Constantly, changes are made in the repository by pushing and pulling local commits into the remote. [Git Fork vs. Git Clone](https://youtu.be/6YQxkxw8nhE?si=jdcuqwRFyS532LMA)
 
 ### Prerequisites
