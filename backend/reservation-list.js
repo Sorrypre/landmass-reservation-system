@@ -92,19 +92,22 @@ async function writeReservations() {
         const right_most_btn = document.createElement("div");
         right_most_btn.classList.add('right-most-btn');
 
-        const edit_btn = document.createElement("button");
-        edit_btn.classList.add('edit-btn');
-        edit_btn.innerHTML = `Edit Reservation`;
-        edit_btn.addEventListener('click', () => {
-            createEditReservationDialog(reservation)
-        });
+        //reservations can only be edited if its from today or the future
+        if (reservation.reserve_date >= formatDateString(new Date())) {
+            const edit_btn = document.createElement("button");
+            edit_btn.classList.add('edit-btn');
+            edit_btn.innerHTML = `Edit Reservation`;
+            edit_btn.addEventListener('click', () => {
+                createEditReservationDialog(reservation)
+            });
+            right_most_btn.appendChild(edit_btn);
+        }
 
         const delete_edit_btn = document.createElement("button");
         delete_edit_btn.classList.add('edit-btn');
         delete_edit_btn.innerHTML = `Delete Reservation`;
         //confirm delete
         createDeleteDialog(res_index, delete_edit_btn);
-        right_most_btn.appendChild(edit_btn);
         right_most_btn.appendChild(delete_edit_btn);
         reservation_item.appendChild(right_most_btn);
         fragment.appendChild(reservation_item);
@@ -242,6 +245,14 @@ async function loadReservations() {
                     res.user_email
                 );
             });
+
+            //sort by reservation date then start time
+            reservations.sort((a, b) => {
+                const dateA = new Date(`${a.reserve_date} ${a.startTime}`);
+                const dateB = new Date(`${b.reserve_date} ${b.startTime}`);
+                return dateA - dateB;
+            });
+
             writeReservations();
         } else {
             reservation_list.innerHTML = '<p id="no-reservation">No Reservations</p>';
