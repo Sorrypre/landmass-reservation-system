@@ -4904,11 +4904,29 @@
     line-height: var(--tw-leading, var(--text-7xl--line-height));
   }
 }
-.profile-bubble {
+#nav-pfp-holder {
+  padding-right: calc(var(--spacing) * 2);
+}
+#nav-pfp {
   height: calc(var(--spacing) * 16);
   width: calc(var(--spacing) * 16);
+  @media (width >= 48rem) {
+    height: calc(var(--spacing) * 24);
+  }
+  @media (width >= 48rem) {
+    width: calc(var(--spacing) * 24);
+  }
   border-radius: calc(infinity * 1px);
-  background-color: var(--color-white);
+  border-style: var(--tw-border-style);
+  border-width: 5px;
+  --tw-border-style: solid;
+  border-style: solid;
+  border-color: var(--color-amber-50);
+  object-fit: cover;
+}
+#nav-pfp-empty-holder {
+  height: calc(var(--spacing) * 16);
+  width: calc(var(--spacing) * 16);
   @media (width >= 48rem) {
     height: calc(var(--spacing) * 24);
   }

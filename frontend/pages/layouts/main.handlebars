@@ -12,10 +12,13 @@
 				<span class="landmass"></span>
 				<span class="landmass-subtext"></span>
 			</div>
+			<!--- Insert pfp bubble here--->
 			{{#if user}}
-				<div class="user-profile" id="user-id-{{user.id}}"></div>
+				<div id="nav-pfp-holder">
+					<img id="nav-pfp" class="small-pfp" src={{photo}}>
+				</div>
 			{{else}}
-				<div class="user-profile"></div>
+				<div id="nav-pfp-empty-holder"></div>
 			{{/if}}
 		</div>
 		<div class="content-area">

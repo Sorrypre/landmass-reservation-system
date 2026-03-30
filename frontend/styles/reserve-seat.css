@@ -4,7 +4,7 @@
     @apply overflow-hidden;
 }
 /*dropdown related*/
-    .reservation-room #reserve-bldg-text, 
+    .reservation-seat #reserve-bldg-text, 
     .go-back-text, 
     #reserve-bldg-text, 
     #available-text-container p, 
@@ -115,23 +115,23 @@
   @apply flex flex-col items-center overflow-y-auto max-h-[400px];
 }
 
-.seat, .cis{
+.seat-legend .seat, #slots-container .seat, #slots-container .cis{
     @apply h-6 w-6 rounded-t-sm m-[8px] bg-gray-400;
     @apply md:h-10 md:w-10 rounded-t-lg md:m-[10px] bg-gray-400;
 }
 
-.cis{
+#slots-container .cis{
     @apply bg-transparent;
 }
-.space{
+#slots-container .space{
     @apply h-[12px] w-[12px]
 }
 
-.seat.selected{
+.seat-legend .seat.selected, #slots-container .seat.selected{
     @apply bg-[#E55B2E]
 }
 
-.seat.taken{
+.seat-legend .seat.taken, #slots-container .seat.taken{
   @apply bg-[#2a4252]
 }
 
@@ -159,12 +159,12 @@
     @apply border-solid flex flex-row items-center p-0 m-0 bg-transparent;
 }
 
-.whiteboard{
+#slots-container .whiteboard{
     @apply bg-white h-4 w-2xs m-2 items-center justify-center flex flex-row;
     @apply text-black;
 }
 
-.row{
+#slots-container .row{
   @apply flex flex-row items-center; 
 }
 
