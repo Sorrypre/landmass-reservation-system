@@ -237,24 +237,6 @@ async function getAllReservations() {
 	return reservations;
 }
 
-async function getUserReservations(username) {
-	const u = await User.findOne({ 'settings.isActive': true, 'settings.username': username });
-	if (!u) return [];
-
-	return targetUser.reservations.map(r => ({
-		_id: r._id.toString(),
-		dt_request: r.dt_request,
-		requestor: r.details.requestor || 'Anonymous',
-		building: r.details.building,
-		room: r.details.room,
-		startTime: r.details.startTime,
-		endTime: r.details.endTime,
-		seat: r.details.seat,
-		user_email: u.settings.email,
-		username: u.settings.username,
-	}));
-}
-
 function applyFilters(res, building, room, startTime, date) {
 	if (building && res.building !== building) return false;
 	if (room && res.room !== room) return false;
@@ -357,7 +339,6 @@ module.exports.login = login;
 module.exports.getReservations = getReservations;
 module.exports.addReservations = addReservations;
 module.exports.getAllReservations = getAllReservations;
-module.exports.getUserReservations = getUserReservations;
 module.exports.removeReservation = removeReservation;
 module.exports.applyFilters = applyFilters;
 module.exports.updateReservation = updateReservation;

@@ -163,17 +163,20 @@ xj.get('/query-get-reservations', async function(q, r) {
 
 		let reservations = [];
 
-		if (isLabTech && username) {
-			reservations = await db.getUserReservations(username);
-		} else if (isLabTech) {
+		if (isLabTech) {
 			reservations = await db.getAllReservations();
 		} else {
 			reservations = await db.getReservations(email);
 		}
 
-		reservations = reservations.filter(res =>
-			db.applyFilters(res, building, room, startTime, date)
-		);
+		reservations = reservations.filter(res => {
+			const db_filter = db.applyFilters(res, building, room, startTime, date);
+
+			//if username filter then check reservations if it includes the username
+			const user_filter = username ?
+				(res.requestor && res.requestor.toLowerCase().includes(username.toLowerCase())) : true;
+			return db_filter && user_filter;
+		});
 
 		r.status(200).json({
 			success: true,
