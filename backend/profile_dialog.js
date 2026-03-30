@@ -42,9 +42,9 @@ async function createProfileDialog(email) {
 
         const res = ``
             
-        make_dialog('reservation-list', '', 'view-profile-dialog', 'typical', 'Profile', false, false, htmlbody, res);
+        make_dialog('reservation-list', '', 'view-profile-dialog', 'typical', 'Profile', false, false, htmlbody, res, true);
 
-        await open_dialog('view-profile-dialog');
+        await open_dialog('view-profile-dialog', false);
     } else {
         console.log('User not found');
     }

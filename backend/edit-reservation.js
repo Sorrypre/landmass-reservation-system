@@ -79,7 +79,7 @@ async function createEditReservationDialog(res) {
     `;
 
     make_dialog("reservation-list", "", dialog_name, "typical",
-        "Edit Reservation", true, false, html, responses);
+        "Edit Reservation", true, false, html, responses, true);
 
     const dialog_root = document.getElementById(dialog_id);
     if (!dialog_root) {
@@ -128,7 +128,7 @@ async function createEditReservationDialog(res) {
 
     await checkEditAvailability();
 
-    await open_dialog(dialog_name, true);
+    await open_dialog(dialog_name, false);
 }
 
 function updateEditRoomOptions() {

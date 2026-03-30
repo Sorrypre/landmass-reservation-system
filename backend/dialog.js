@@ -17,7 +17,7 @@ function playAlert(){
     alertAudio.play();
 }
 
-function make_dialog(parent_id, button_handler_id_if_any, dialog_name, dialog_size, dialog_title, is_content_flex_col, is_content_nogap, content_html, responses_html) {
+function make_dialog(parent_id, button_handler_id_if_any, dialog_name, dialog_size, dialog_title, is_content_flex_col, is_content_nogap, content_html, responses_html, cb_closedel = false) {
 	if (typeof parent_id !== 'string' || typeof button_handler_id_if_any !== 'string' ||
 		typeof dialog_name !== 'string' || typeof dialog_size !== 'string' ||
 		typeof is_content_flex_col !== 'boolean' || typeof is_content_nogap !== 'boolean' || 
@@ -72,8 +72,10 @@ function make_dialog(parent_id, button_handler_id_if_any, dialog_name, dialog_si
 	dialog_res.insertAdjacentHTML('beforeend', responses_html);
 	close_button.addEventListener('click', async function(e) { 
 		await close_dialog(dialog_name);
-		await sleep(150);	
-		document.getElementById(DIALOG_ID_PREFIX + '' + dialog_name).remove();
+		if (cb_closedel) {
+			await sleep(150);	
+			document.getElementById(DIALOG_ID_PREFIX + '' + dialog_name).remove();
+		}
 	});
 	if (button_handler_id_if_any != null && !whitespaced(button_handler_id_if_any) && button_handler_id_if_any.trim().length > 0) {
 		const button_handler = document.getElementById(button_handler_id_if_any);
