@@ -418,6 +418,7 @@ async function addSearchUserInput() {
             const user = JSON.parse(data.user)
             if (user.admin) {
                 is_lab_tech = true;
+                filter_user_search.classList.remove('hidden');
                 filter_user_search.classList.add('flex');
                 return true;
             }
