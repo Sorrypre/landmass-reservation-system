@@ -132,6 +132,11 @@ xj.get('/settings', async function(q,r) {
 	r.render('settings', template);
 });
 
+xj.get('/about', async function(q, r) {
+	const template = await hbs.getTemplate('about', q.session.email);
+	r.render('about', template);
+});
+
 /* QUERY POST/GET */
 
 xj.get('/query-current-user', async function(q, r) {

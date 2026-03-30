@@ -70,6 +70,12 @@ async function getTemplate(id, email) {
 			description: description,
 			email: email,
 			photo: pfp_photo,
+		},
+		'about': {
+			user: result,
+			scripts: [],
+			bg: 'dashboard',
+			photo: pfp_photo,
 		}
 		/*	add more keys here with the corresponding Handlebars arguments as value
 			depende kung anong page ang irerender */
