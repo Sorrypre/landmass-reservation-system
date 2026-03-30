@@ -127,12 +127,12 @@ btn_confirm_pfp_pic.addEventListener('click', async (e) => {
         const new_pfp_json = await user.json();
         const new_pfp_user = JSON.parse(new_pfp_json.user);
         const new_photo = new_pfp_user.settings.photo;
-        profilePic.src = new_photo;
         if (profile_change.status === 413) {
             alert_file_type_pfp(1);
             console.log('an size error has occured and it will show the alert');
             return false;
         }
+        window.location.reload();
         return true;
     } else {
         alert_file_type_pfp(0);

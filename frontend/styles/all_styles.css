@@ -48,7 +48,6 @@
 @import './collapse.css';
 @import './dialog.css';
 @import './dialog_test.css';
-@import './edit-reservation.css';
 
 /* BACKGROUNDS */
 
@@ -91,11 +90,16 @@
 .hamburger-icon {
 	@apply font-bold text-white m-4 pb-4 text-4xl md:text-5xl xl:text-7xl after:content-['\2630'];
 }
-
-.profile-bubble {
-	@apply w-16 h-16 md:w-24 md:h-24 rounded-full bg-white;
+#nav-pfp-holder{
+	@apply pr-2;
 }
-
+#nav-pfp{
+	@apply w-16 h-16 md:w-24 md:h-24;
+	@apply rounded-full border-solid border-5 border-amber-50 object-cover;
+}
+#nav-pfp-empty-holder{
+	@apply w-16 h-16 md:w-24 md:h-24;
+}
 .trademark {
 	@apply flex flex-col items-center;
 }
