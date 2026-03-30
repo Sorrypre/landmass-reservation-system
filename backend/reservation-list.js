@@ -241,8 +241,6 @@ async function loadReservations() {
         if (data.success && data.reservations.length > 0) {
             data.reservations.forEach(res => {
                 const reqDate = new Date(res.dt_request);
-                const startTime = new Date(res.startTime);
-                const endTime = new Date(res.endTime);
 
                 addReservation(
                     res._id,
@@ -250,7 +248,7 @@ async function loadReservations() {
                     res.building,
                     res.room,
                     formatDateString(res.dt_request),
-                    formatTimeString(res.dt_request),
+                    reqDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
                     formatDateString(res.startTime),
                     res.seat,
                     formatTimeString(res.startTime),
