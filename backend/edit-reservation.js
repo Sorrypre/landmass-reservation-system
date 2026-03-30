@@ -177,22 +177,22 @@ function generateSeats(container) {
     ];
 
     const whiteboard = document.createElement('div');
-    whiteboard.className = 'whiteboard';
+    whiteboard.className = 'edit-whiteboard';
     whiteboard.textContent = 'Whiteboard';
     container.appendChild(whiteboard);
 
     layout.forEach(rowData => {
         const row = document.createElement('div');
-        row.className = 'row';
+        row.className = 'edit-row';
 
         rowData.forEach(cell => {
             if (cell === null) {
                 const space = document.createElement('div');
-                space.className = 'space';
+                space.className = 'edit-space';
                 row.appendChild(space);
             } else if (cell === 'cis') {
                 const cis = document.createElement('div');
-                cis.className = 'cis';
+                cis.className = 'edit-cis';
                 row.appendChild(cis);
             } else {
                 const seat = generateSeat(cell);

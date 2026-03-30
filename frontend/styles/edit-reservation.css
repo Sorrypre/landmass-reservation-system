@@ -38,12 +38,12 @@
     @apply flex flex-col items-center gap-y-2 max-h-[350px] overflow-y-auto;
 }
 
-.whiteboard {
+.edit-whiteboard {
     @apply bg-white h-4 w-2xs flex items-center justify-center rounded-sm;
     @apply text-black text-xs font-bold;
 }
 
-.row {
+.edit-row {
     @apply flex flex-row items-center;
 }
 
@@ -61,11 +61,11 @@
     @apply bg-[#2a4252] cursor-not-allowed;
 }
 
-.space {
+.edit-space {
     @apply h-2 w-2;
 }
 
-.cis {
+.edit-cis {
     @apply h-8 w-8 m-1 bg-transparent;
 }
 
