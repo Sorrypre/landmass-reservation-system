@@ -305,15 +305,14 @@ async function removeReservation(reservation_index) {
 
 function createDeleteDialog(reservation_index, delete_btn) {
     const dialog = `delete-confirm-reservation-${reservation_index}`;
-    const msg = `Are you sure you want to delete this reservation?`;
+    const msg = `<p class="pd-text-preset">Are you sure you want to delete this reservation?</p>`;
     const res = `
         <button type="button" class="page-dialog-message-button after:content-['Yes'] text-black" onclick="removeReservation(${reservation_index})"></button>
     `;
-
+	
     make_dialog('reservation-list', ``, dialog, 'typical', 'Confirm Delete', false, false, msg, res);
 
     delete_btn.addEventListener('click', async() => {
-        playAlert(); //temporary fix, must call button handler in make dialog
         await open_dialog(dialog);
     });
 }
