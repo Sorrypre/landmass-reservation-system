@@ -20,8 +20,7 @@
 }
 #profilepic{
 	@apply md:w-[150px] md:h-[150px];
-	@apply rounded-full border-solid border-8 border-amber-50
-
+	@apply rounded-full border-solid border-8 border-amber-50;
 }
 #profile-content{
 	@apply bg-gray-800 rounded-md p-3

@@ -35,27 +35,32 @@ async function getTemplate(id, email) {
 			user: false,
 			scripts: ['dialog.js', 'index.js'],
 			bg: 'dashboard',
+			photo: pfp_photo,
 		},
 		'dashboard': {
 			user: result,
 			scripts: ['dashboard.js'],
 			bg: 'dashboard',
+			photo: pfp_photo,
 		},
 		'buildings': {
 			user: result,
 			scripts: ['buildings.js'],
 			bg: 'dlsuBuildings',
+			photo: pfp_photo,
 		},
 		'reservation-list': {
 			user: result,
 			scripts: ['main.js', 'alert_sound.js','dialog.js', 'edit-reservation.js','reservation-list.js'],
 			bg: 'reservation-list',
+			photo: pfp_photo,
 		},
 		'reserve-seat': {
 			user: result,
 			scripts: ['reserve-seat.js'],
 			bg: 'dashboard',
 			page_classes: 'reservation-seat',
+			photo: pfp_photo,
 		},
 		'settings': {
 			user: result,
