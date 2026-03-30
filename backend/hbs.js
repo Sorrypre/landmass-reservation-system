@@ -51,7 +51,7 @@ async function getTemplate(id, email) {
 		},
 		'reservation-list': {
 			user: result,
-			scripts: ['main.js', 'alert_sound.js','dialog.js', 'profile_dialog.js', 'edit-reservation.js','reservation-list.js'],
+			scripts: ['main.js','dialog.js', 'profile_dialog.js', 'edit-reservation.js','reservation-list.js'],
 			bg: 'reservation-list',
 			photo: pfp_photo,
 		},
@@ -64,7 +64,7 @@ async function getTemplate(id, email) {
 		},
 		'settings': {
 			user: result,
-			scripts: ['settings_collapse.js', 'eyeTool.js','alert_sound.js','dialog.js','settings_reset_warning.js', 'settingsDataValidation.js'],
+			scripts: ['settings_collapse.js', 'eyeTool.js','dialog.js','settings_reset_warning.js', 'settingsDataValidation.js'],
 			bg: 'dlsuBuildings',
 			username: username,
 			description: description,
