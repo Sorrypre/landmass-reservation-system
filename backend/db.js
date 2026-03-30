@@ -281,8 +281,11 @@ function applyFilters(res, building, room, startTime, date) {
 		const tomo = new Date(today);
 		tomo.setDate(tomo.getDate() + 1);
 
+		const week = new Date(today);
+		week.setDate(week.getDate() + 7);
+
 		if (date === 'default') {
-			if (res_date < today || res_date > tomo)
+			if (res_date < today || res_date > week)
 				return false;
 		}
 		else if (date === 'today') {
