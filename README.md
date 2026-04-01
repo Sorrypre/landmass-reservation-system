@@ -10,7 +10,7 @@
 </div>
 <div align="center">
   <!--- Main Description --->
-<img src="https://www.dlsu.edu.ph/wp-content/uploads/2025/02/exemplars-of-excellence-dlsu-logo.png"alt="DLSU LOGO" width="120" height="120">
+<img src="../frontend/assets/images/DLSU-logo"alt="DLSU LOGO" width="120" height="120">
 
   <h2>LANDMASS RESERVATION SYSTEM</h2>
   <p> The official repository for creating a computer laboratory slot (seat) reservation web application. In this project, various web application technologies are going to be used, such as HTML, CSS, and JavaScript. Frameworks (Jquery, Bootstrap, React) will also be explored in order to achieve the necessary features intended of the program.</p>
