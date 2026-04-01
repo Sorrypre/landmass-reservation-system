@@ -10,11 +10,12 @@
 </div>
 <div align="center">
   <!--- Main Description --->
-<img src="../frontend/assets/images/DLSU-logo"alt="DLSU LOGO" width="120" height="120">
-
+<img src="frontend/assets/images/favicon-landmass.png"alt="LANDMASS Logo" width="200" height="200">
   <h2>LANDMASS RESERVATION SYSTEM</h2>
   <p> The official repository for creating a computer laboratory slot (seat) reservation web application. In this project, various web application technologies are going to be used, such as HTML, CSS, and JavaScript. Frameworks (Jquery, Bootstrap, React) will also be explored in order to achieve the necessary features intended of the program.</p>
-  <br>
+  <br><br>
+  <img src="frontend/assets/images/DLSU-logo.png"alt="DLSU LOGO" width="130" height="130">
+  <br><br>
   <p> This machine project is created by the following goated&#x1F410 programmers: </p>
   <p>
     <a href="https://www.linkedin.com/in/joramm-dela-torre-1250b9369/">Joramm Dela Torre</a><br>
